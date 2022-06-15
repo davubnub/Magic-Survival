@@ -78,7 +78,7 @@ MonoBehaviour:
   health: 15
   damage: -10
   speed: 3.5
-  range: 1.8
+  range: 1.83
   attackWait: 0.5
   xpPellet: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
 --- !u!1 &1878159798645061628

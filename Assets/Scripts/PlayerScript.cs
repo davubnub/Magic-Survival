@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -11,31 +12,69 @@ public class PlayerScript : MonoBehaviour
     public InGameUIManager inGameUI;
     public MenuUIManager menuUI;
     public UpgradeManager upgradeManager;
-
-    public int maxHealth;
+    public UIManager uiManager;
+    public UpgradeStats upgradeStats;
     public int maxXp;
-    public int healingAmount;
-    public float fireRate;
-    int health;
+    public float xpIncr;
+
     int xp;
     int level;
+    int health;
     float fireRateTimer;
 
-    private void Start()
+    [System.Serializable]
+    public struct UpgradableStats
+    {
+        [Header("Player stats")]
+        public int playerSpeed; 
+
+        [Header("Health stats")]
+        public int maxHealth;
+        public int healingAmount;
+
+        [Header("Projectile stats")]
+        public int projectileDamage;
+        public int projectileSpeed;
+        public float projectileSize;
+        public float projectileRange;
+        public int projectilePhaseThrough;
+
+        public float fireRate;
+        public float accuracy;
+
+        [Header("Projectile special stats")]
+        public float homingStrength;
+        public float spinStrength;
+        public float explosionSize;
+        public float webStrength;
+        public float trailLength;
+    }
+
+    public UpgradableStats upgradableStats;
+
+    public enum UPGRADES
+    {
+        playerSpeed,
+        maxHealth,
+        projectileSpeed,
+        fireRate,
+    };
+
+private void Start()
     {
         Time.timeScale = 1;
-        health = maxHealth;
+        health = upgradableStats.maxHealth;
         xp = 0;
         level = 0;
-        fireRateTimer = fireRate;
+        fireRateTimer = upgradableStats.fireRate;
 
-        inGameUI.UpdateHealthBar(health, maxHealth);
+        inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
         inGameUI.UpdateXPBar(xp, maxXp);
         inGameUI.UpdateLevelText(level);
 
-        menuUI.ShowGameOverScreen(false);
-        inGameUI.ShowInGameUI(true);
-        upgradeManager.ShowUpgradeUI(false);
+        uiManager.ShowGameOverScreen(false);
+        uiManager.ShowInGameUI(true);
+        uiManager.ShowUpgradeUI(false);
     }
 
     private void Update()
@@ -56,7 +95,7 @@ public class PlayerScript : MonoBehaviour
             if (fireRateTimer <= 0)
             {
                 FireProjectile(playerModel.transform.rotation);
-                fireRateTimer = fireRate;
+                fireRateTimer = upgradableStats.fireRate;
             }
         }
     }
@@ -73,12 +112,12 @@ public class PlayerScript : MonoBehaviour
     public void UpdateHealth(int _damage)
     {
         health += _damage;
-        inGameUI.UpdateHealthBar(health, maxHealth);
+        inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
 
         if(health <= 0)
         {
-            menuUI.ShowGameOverScreen(true);
-            inGameUI.ShowInGameUI(true);
+            uiManager.ShowGameOverScreen(true);
+            uiManager.ShowInGameUI(true);
             Time.timeScale = 0;
         }
     }
@@ -99,22 +138,44 @@ public class PlayerScript : MonoBehaviour
     {
         xp = 0;
         level++;
-        UpdateHealth(healingAmount);
-        upgradeManager.ShowUpgradeUI(true);
+        maxXp = (int)(maxXp * xpIncr);
+        UpdateHealth(upgradableStats.healingAmount);
+        uiManager.ShowUpgradeUI(true);
         upgradeManager.SelectOptions();
         Time.timeScale = 0; //pause instead
-    }
-
-    public void Upgrade()
-    {
-        Time.timeScale = 1;
-        upgradeManager.ShowUpgradeUI(false);
     }
 
     void FireProjectile(Quaternion _direction)
     {
         GameObject projectileObj = Instantiate(projectile, transform.position, _direction);
         projectileObj.transform.localEulerAngles = _direction.eulerAngles;
-        projectileObj.GetComponent<ProjectileScript>().FireProjectile();
+        projectileObj.GetComponent<ProjectileScript>().FireProjectile(upgradableStats.projectileSpeed, upgradableStats.projectileRange, upgradableStats.projectileDamage);
+    }
+
+    public void Upgrade(UPGRADES _upgrade, float _upgradeValue)
+    {
+        Time.timeScale = 1;
+        uiManager.ShowUpgradeUI(false);
+
+        switch (_upgrade)
+        {
+            case UPGRADES.playerSpeed:
+                upgradableStats.playerSpeed = (int)_upgradeValue;
+                break;
+
+            case UPGRADES.maxHealth:
+                upgradableStats.maxHealth = (int)_upgradeValue;
+                inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
+                break;
+
+            case UPGRADES.projectileSpeed:
+                upgradableStats.projectileSpeed = (int)_upgradeValue;
+                break;
+
+            case UPGRADES.fireRate:
+                upgradableStats.fireRate = _upgradeValue;
+                break;
+
+        }
     }
 }

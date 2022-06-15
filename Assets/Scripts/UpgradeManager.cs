@@ -7,6 +7,7 @@ using TMPro;
 public class UpgradeManager : MonoBehaviour
 {
     public PlayerScript player;
+    public UpgradeStats upgradeStats;
 
     public GameObject[] optionButtons;
     public TextMeshProUGUI[] upgradeNameText;
@@ -15,23 +16,19 @@ public class UpgradeManager : MonoBehaviour
 
     const int amountOfOptions = 3;
 
-    string[] upgradeNames           = { "Bigger benis", "Chonky", "Thicc ass", "Become gay" };
-    string[] upgradeDescriptions    = { "very long yes", "chonk", "this is a description", "gay" };
-
-    public void ShowUpgradeUI(bool _active)
-    {
-        print("active");
-        gameObject.SetActive(_active);
-    }
+    int[] options = { 0, 0, 0 };
 
     public void SelectOptions()
     {
-        int[] options        = { 0, 0, 0, 0 };
-        int[] listOfUpgrades = { 0, 1, 2, 3 };
+        int[] listOfUpgrades = new int[upgradeStats.GetUpgradeStats().Count];
+
+        for (int i = 0; i < upgradeStats.GetUpgradeStats().Count; i++)
+        {
+            listOfUpgrades[i] = i;
+        }
 
         for(int i = 0; i < amountOfOptions; i++)
         {
-            print("listOfUpgrades " + listOfUpgrades.Length);
             //pick random upgrade
             int num = listOfUpgrades[Random.Range(0, listOfUpgrades.Length)];
             //remove that upgrade from the list of upgrades to choose from
@@ -40,13 +37,18 @@ public class UpgradeManager : MonoBehaviour
 
             options[i] = num;
 
-            upgradeNameText[i].text = upgradeNames[options[i]];
-            upgradeDescriptionText[i].text = upgradeDescriptions[options[i]];
+            upgradeNameText[i].text = upgradeStats.GetUpgradeStats()[options[i]].upgradeName;
+            upgradeDescriptionText[i].text = upgradeStats.GetUpgradeStats()[options[i]].upgradeDescription;
         }
     }
 
     public void OptionButtonPressed(int _number)
     {
-        player.Upgrade();
+        UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[_number]];
+
+        player.Upgrade(upgradeTier.upgrade, upgradeTier.tiers[upgradeTier.tierLevel]);
+
+        int i = Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
+        upgradeStats.GetUpgradeStats()[options[_number]].SetUpgradeTier(i);
     }
 }

@@ -10,8 +10,6 @@ public class InGameUIManager : MonoBehaviour
     public Slider healthBar;
     public TextMeshProUGUI levelText;
 
-    public GameObject inGameUI;
-
     public void UpdateLevelText(int _level)
     {
         levelText.text = "Level " + _level;
@@ -25,9 +23,5 @@ public class InGameUIManager : MonoBehaviour
     {
         healthBar.maxValue = _maxHealth;
         healthBar.value = _health;
-    }
-    public void ShowInGameUI(bool _active)
-    {
-        inGameUI.SetActive(_active);
     }
 }

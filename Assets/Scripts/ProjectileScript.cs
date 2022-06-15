@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour
 {
-    public float projectileSpeed;
-    public int damage;
-    public float destroyTimer;
+    float projectileSpeed;
+    float destroyTimer;
+    int damage;
 
-    public void FireProjectile()
+    public void FireProjectile(float _projectileSpeed, float _destroyTimer, int _damage)
     {
+        projectileSpeed = _projectileSpeed;
+        destroyTimer = _destroyTimer;
+        damage = _damage;
         StartCoroutine(DestroyWait());
     }
 
