@@ -14,30 +14,35 @@ public class PlayerScript : MonoBehaviour
     public UpgradeManager upgradeManager;
     public UIManager uiManager;
     public UpgradeStats upgradeStats;
+    public PlayerMovement playerMovement;
     public int maxXp;
     public float xpIncr;
 
     int xp;
     int level;
-    int health;
+    int coins;
+    int score;
+    float health;
     float fireRateTimer;
 
     [System.Serializable]
     public struct UpgradableStats
     {
         [Header("Player stats")]
-        public int playerSpeed; 
+        public float playerSpeed; 
+        public float magnetStrength; 
 
         [Header("Health stats")]
-        public int maxHealth;
+        public float maxHealth;
         public int healingAmount;
 
         [Header("Projectile stats")]
-        public int projectileDamage;
         public int projectileSpeed;
+        public int projectilePierce;
+        public float projectileDamage;
         public float projectileSize;
         public float projectileRange;
-        public int projectilePhaseThrough;
+        public float projectileKnockback;
 
         public float fireRate;
         public float accuracy;
@@ -46,7 +51,7 @@ public class PlayerScript : MonoBehaviour
         public float homingStrength;
         public float spinStrength;
         public float explosionSize;
-        public float webStrength;
+        public float stunAmount;
         public float trailLength;
     }
 
@@ -58,23 +63,35 @@ public class PlayerScript : MonoBehaviour
         maxHealth,
         projectileSpeed,
         fireRate,
+        piercing,
+        spread,
+        magnet,
+        knockback,
+        glassCannon,
     };
 
-private void Start()
+    private void Start()
     {
         Time.timeScale = 1;
         health = upgradableStats.maxHealth;
         xp = 0;
         level = 0;
+        score = 0;
+        coins = PlayerPrefs.GetInt("Coins", 0);
         fireRateTimer = upgradableStats.fireRate;
 
+        //update UI
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
         inGameUI.UpdateXPBar(xp, maxXp);
         inGameUI.UpdateLevelText(level);
+        inGameUI.UpdateCoinText(coins);
+        inGameUI.UpdateScoreText(score);
 
         uiManager.ShowGameOverScreen(false);
         uiManager.ShowInGameUI(true);
         uiManager.ShowUpgradeUI(false);
+
+        playerMovement.UpdateMovemnentSpeed(upgradableStats.playerSpeed);
     }
 
     private void Update()
@@ -107,19 +124,36 @@ private void Start()
             IncreaseXP(1);
             Destroy(other.gameObject);
         }
+        if(other.CompareTag("Coin"))
+        {
+            IncreaseCoins(1);
+            Destroy(other.gameObject);
+        }
     }
 
-    public void UpdateHealth(int _damage)
+    public void UpdateHealth(float _damage)
     {
         health += _damage;
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
 
         if(health <= 0)
         {
-            uiManager.ShowGameOverScreen(true);
-            uiManager.ShowInGameUI(true);
-            Time.timeScale = 0;
+            PlayerDied();
         }
+    }
+
+    void PlayerDied()
+    {
+        if(level > PlayerPrefs.GetInt("HighScore"))
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+        }        
+
+        uiManager.ShowGameOverScreen(true);
+        uiManager.ShowInGameUI(true);
+        menuUI.UpdateScoreText(score);
+        menuUI.UpdateHighScoreText(PlayerPrefs.GetInt("HighScore"));
+        Time.timeScale = 0;
     }
 
     void IncreaseXP(int _xp)
@@ -132,6 +166,20 @@ private void Start()
         }
         inGameUI.UpdateXPBar(xp, maxXp);
         inGameUI.UpdateLevelText(level);
+    }
+    public void IncreaseCoins(int _coin)
+    {
+        coins += _coin;
+
+        PlayerPrefs.SetInt("Coins", coins);
+
+        inGameUI.UpdateCoinText(coins);
+    }
+
+    public void IncreaseScore(int _score)
+    {
+        score += _score;
+        inGameUI.UpdateScoreText(score);
     }
 
     void LeveledUp()
@@ -149,33 +197,65 @@ private void Start()
     {
         GameObject projectileObj = Instantiate(projectile, transform.position, _direction);
         projectileObj.transform.localEulerAngles = _direction.eulerAngles;
-        projectileObj.GetComponent<ProjectileScript>().FireProjectile(upgradableStats.projectileSpeed, upgradableStats.projectileRange, upgradableStats.projectileDamage);
+        projectileObj.GetComponent<ProjectileScript>().FireProjectile(upgradableStats.projectileSpeed, upgradableStats.projectileRange, upgradableStats.projectileDamage, upgradableStats.projectilePierce, upgradableStats.accuracy);
     }
 
-    public void Upgrade(UPGRADES _upgrade, float _upgradeValue)
+    public UpgradableStats GetUpgradableStats()
+    {
+        return upgradableStats;
+    }
+    public void UnPause()
     {
         Time.timeScale = 1;
         uiManager.ShowUpgradeUI(false);
+    }
+
+    public void Upgrade(UPGRADES _upgrade, float _positiveUpgrade, float _negativeUpgrade)
+    {
+        UnPause();
 
         switch (_upgrade)
         {
             case UPGRADES.playerSpeed:
-                upgradableStats.playerSpeed = (int)_upgradeValue;
+                upgradableStats.playerSpeed += _positiveUpgrade;
+                playerMovement.UpdateMovemnentSpeed(upgradableStats.playerSpeed);
                 break;
 
             case UPGRADES.maxHealth:
-                upgradableStats.maxHealth = (int)_upgradeValue;
+                upgradableStats.maxHealth += (int)_positiveUpgrade;
                 inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
                 break;
 
             case UPGRADES.projectileSpeed:
-                upgradableStats.projectileSpeed = (int)_upgradeValue;
+                upgradableStats.projectileSpeed += (int)_positiveUpgrade;
                 break;
 
             case UPGRADES.fireRate:
-                upgradableStats.fireRate = _upgradeValue;
+                upgradableStats.fireRate += _positiveUpgrade;
                 break;
 
+            case UPGRADES.piercing:
+                upgradableStats.projectilePierce += (int)_positiveUpgrade;
+                break;
+
+            case UPGRADES.spread:
+                upgradableStats.accuracy += _positiveUpgrade;
+                upgradableStats.projectileDamage *= _negativeUpgrade;
+                break;
+
+            case UPGRADES.magnet:
+                upgradableStats.magnetStrength += _positiveUpgrade;
+                break;
+
+            case UPGRADES.knockback:
+                upgradableStats.projectileKnockback += _positiveUpgrade;
+                break;
+
+            case UPGRADES.glassCannon:
+                upgradableStats.projectileDamage *= _positiveUpgrade;
+                upgradableStats.maxHealth /= _negativeUpgrade;
+                inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
+                break;
         }
     }
 }

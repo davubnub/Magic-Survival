@@ -6,13 +6,16 @@ public class ProjectileScript : MonoBehaviour
 {
     float projectileSpeed;
     float destroyTimer;
-    int damage;
+    float damage;
+    int piercing;
 
-    public void FireProjectile(float _projectileSpeed, float _destroyTimer, int _damage)
+    public void FireProjectile(float _projectileSpeed, float _destroyTimer, float _damage, int _piercing, float _accuracy)
     {
         projectileSpeed = _projectileSpeed;
         destroyTimer = _destroyTimer;
         damage = _damage;
+        piercing = _piercing;
+        transform.forward += new Vector3(Random.Range(-_accuracy, _accuracy), 0, 0);
         StartCoroutine(DestroyWait());
     }
 
@@ -21,9 +24,19 @@ public class ProjectileScript : MonoBehaviour
         transform.position += transform.forward * Time.deltaTime * projectileSpeed;
     }
 
-    public int GetDamage()
+    public float GetDamage()
     {
         return damage;
+    }
+
+    public int GetPiercing()
+    {
+        return piercing;
+    }
+    public void SetPiercing()
+    {
+        piercing--;
+        damage /= 2;
     }
 
     private IEnumerator DestroyWait()

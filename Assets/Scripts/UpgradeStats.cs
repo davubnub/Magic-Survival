@@ -10,7 +10,8 @@ public class UpgradeStats : MonoBehaviour
         public string upgradeName;
         public PlayerScript.UPGRADES upgrade;
         public string upgradeDescription;
-        public float[] tiers;
+        public float positiveUpgrade;
+        public float negativeUpgrade;
         [System.NonSerialized]
         public int tierLevel;
 

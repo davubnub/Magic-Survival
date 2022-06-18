@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1878159797469750287}
   - component: {fileID: 1878159797469750273}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1878159797469750284}
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: -1.7, y: 0.5, z: -1.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 1878159798645061629}
   m_Father: {fileID: 0}
@@ -56,10 +56,10 @@ Rigidbody:
   m_GameObject: {fileID: 1878159797469750284}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 5
+  m_AngularDrag: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -75,11 +75,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4025b790f977d4e4d8d5dae253f2c5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
-  damage: -10
-  speed: 3.5
-  range: 1.83
-  attackWait: 0.5
+  health: 3
+  damage: -4
+  speed: 1300
+  range: 1.8
+  attackWait: 0.25
+  scoreIncrease: 1
   xpPellet: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
 --- !u!1 &1878159798645061628
 GameObject:
@@ -140,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 616c37f229dfb5d4d8cbddad2fbe9246, type: 2}
+  - {fileID: 2100000, guid: 59a30fb6ce67a8541be54d81d20816ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

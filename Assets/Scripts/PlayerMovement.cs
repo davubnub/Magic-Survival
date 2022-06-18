@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float playerSpeed;
+    float playerSpeed;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -13,5 +13,10 @@ public class PlayerMovement : MonoBehaviour
         float vertical   = Input.GetAxis("Vertical")   * Time.deltaTime * playerSpeed;
 
         transform.position += new Vector3(horizontal, 0, vertical);
+    }
+
+    public void UpdateMovemnentSpeed(float _playerSpeed)
+    {
+        playerSpeed = _playerSpeed;
     }
 }
