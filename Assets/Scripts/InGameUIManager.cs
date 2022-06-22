@@ -14,7 +14,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void UpdateLevelText(int _level)
     {
-        levelText.text = "Level " + _level;
+        levelText.text = "" + _level;
     }
     public void UpdateScoreText(int _score)
     {

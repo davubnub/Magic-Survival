@@ -7,7 +7,11 @@ using TMPro;
 public class MenuUIManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText; 
-    public TextMeshProUGUI highScoreText; 
+    public TextMeshProUGUI highScoreText;
+    public PlayerScript player;
+    public UIManager uiManager;
+    public EnemySpawner enemySpawner;
+    public CoinSpawner coinSpawner;
 
     public void RestartPressed()
     {
@@ -21,5 +25,28 @@ public class MenuUIManager : MonoBehaviour
     public void UpdateHighScoreText(int _highScore)
     {
         highScoreText.text = "HighScore: " + _highScore;
+    }
+    public void StartPressed()
+    {
+        player.StartPressed();
+        enemySpawner.StartPressed();
+        coinSpawner.StartPressed();
+    }
+    public void CustomizePressed()
+    {
+        uiManager.ShowCustomizeUI(true);
+        uiManager.ShowPlayScreen(false);
+    }
+    public void SettingsPressed()
+    {
+        uiManager.ShowSettingUI(true);
+        uiManager.ShowPlayScreen(false);
+    }
+    public void BackPressed()
+    {
+        uiManager.ShowPlayScreen(true);
+        uiManager.ShowCustomizeUI(false);
+        uiManager.ShowPurchaseUI(false);
+        uiManager.ShowSettingUI(false);
     }
 }

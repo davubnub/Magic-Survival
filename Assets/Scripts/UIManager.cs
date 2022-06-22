@@ -9,10 +9,27 @@ public class UIManager : MonoBehaviour
     public GameObject upgradeScreen;
     public GameObject customizeScreen;
     public GameObject purchaseScreen;
+    public GameObject settingsButton;
+    public GameObject playScreen;
+
+    private void Start()
+    {
+        ShowPlayScreen(true);
+        ShowGameOverScreen(false);
+        ShowInGameUI(false);
+        ShowUpgradeUI(false);
+        ShowCustomizeUI(false);
+        ShowPurchaseUI(false);
+        ShowSettingUI(false);
+    }
 
     public void ShowGameOverScreen(bool _active)
     {
         gameOverScreen.SetActive(_active);
+    }
+    public void ShowPlayScreen(bool _active)
+    {
+        playScreen.SetActive(_active);
     }
     public void ShowInGameUI(bool _active)
     {
@@ -29,5 +46,9 @@ public class UIManager : MonoBehaviour
     public void ShowPurchaseUI(bool _active)
     {
         purchaseScreen.SetActive(_active);
+    }
+    public void ShowSettingUI(bool _active)
+    {
+        settingsButton.SetActive(_active);
     }
 }

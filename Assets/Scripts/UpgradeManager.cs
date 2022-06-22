@@ -12,6 +12,8 @@ public class UpgradeManager : MonoBehaviour
     public GameObject[] optionButtons;
     public TextMeshProUGUI[] upgradeNameText;
     public TextMeshProUGUI[] upgradeDescriptionText;
+    public TextMeshProUGUI[] positiveEffectText;
+    public TextMeshProUGUI[] negativeEffectText;
     public Image[] upgradeIcons;
     public TextMeshProUGUI skipText;
 
@@ -52,6 +54,9 @@ public class UpgradeManager : MonoBehaviour
 
             upgradeNameText[i].text = upgradeTier.upgradeName + " " + Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
             upgradeDescriptionText[i].text = upgradeTier.upgradeDescription;
+
+            positiveEffectText[i].gameObject.SetActive(false);
+            negativeEffectText[i].gameObject.SetActive(false);
         }
     }
 
@@ -68,6 +73,6 @@ public class UpgradeManager : MonoBehaviour
     public void SkipPressed()
     {
         player.IncreaseCoins(skipCoin);
-        player.UnPause();
+        player.SetPaused(false);
     }
 }

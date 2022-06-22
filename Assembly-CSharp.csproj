@@ -60,15 +60,17 @@
     <Compile Include="Assets\Scripts\MenuUIManager.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\CoinScript.cs" />
+    <Compile Include="Assets\Scripts\CustomizeMenuManager.cs" />
     <Compile Include="Assets\Scripts\InGameUIManager.cs" />
     <Compile Include="Assets\Scripts\XPScript.cs" />
     <Compile Include="Assets\Scripts\UpgradeManager.cs" />
     <Compile Include="Assets\Scripts\ProjectileScript.cs" />
     <Compile Include="Assets\Scripts\UpgradeStats.cs" />
     <Compile Include="Assets\Scripts\EnemySpawner.cs" />
+    <Compile Include="Assets\Scripts\CoinSpawner.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\EnemyScript.cs" />
-    <Compile Include="Assets\Scripts\CoinSpawner.cs" />
+    <Compile Include="Assets\Scripts\CharacterSelectScript.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

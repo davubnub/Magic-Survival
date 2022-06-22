@@ -12,7 +12,7 @@ public class CoinSpawner : MonoBehaviour
 
     GameObject player;
 
-    private void Start()
+    public void StartPressed()
     {
         StartCoroutine(WaitToSpawn());
         player = GameObject.FindGameObjectWithTag("Player");

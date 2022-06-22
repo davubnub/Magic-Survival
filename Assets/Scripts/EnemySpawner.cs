@@ -6,26 +6,38 @@ public class EnemySpawner : MonoBehaviour
 {
     public float spawnRate;
     public float radius;
+    [Tooltip("Amount to spawn in a group")]
     public int spawnGroupAmount;
-    public int difficultIncrTime;
+    [Tooltip("Wait this amount of spawns before increasing amount of enemies that spawn in a group")]
+    public int groupSpawnIncrModulus;
+    [Tooltip("Wait this amount of spawns before increases the addition of adding difficult enemies to the enemiesToSpawn list")]
+    public int addHarderEnemyAmountModulus;
+    [Tooltip("Wait this amount of spawns before adding enemies to list")]
+    public int harderEnemyAddModulus;
+    [Tooltip("Amount of items in enemiesToSpawn list that will be replaced")]
+    public int harderEnemyReplaceAmount;
+    [Tooltip("Length of enemiesToSpawn list")]
+    public int enemiesToSpawnLength;
+
+    int spawnTracker = 0;
+    int enemyToAdd = 1;
 
     public GameObject[] enemies;
 
+    List<GameObject> enemiesToSpawn = new List<GameObject>();
+
     GameObject player;
 
-    private void Start()
+    public void StartPressed()
     {
         StartCoroutine(WaitToSpawn());
-        StartCoroutine(DifficultIncreaseWait());
         player = GameObject.FindGameObjectWithTag("Player");
-    }
 
-    private IEnumerator DifficultIncreaseWait()
-    {
-        yield return new WaitForSeconds(difficultIncrTime);
-        spawnGroupAmount++;
-
-        StartCoroutine(DifficultIncreaseWait());
+        for(int i = 0; i < enemiesToSpawnLength; i++)
+        {
+            //add first enemy type to the list
+            enemiesToSpawn.Add(enemies[0]);
+        }
     }
 
     private IEnumerator WaitToSpawn()
@@ -42,16 +54,29 @@ public class EnemySpawner : MonoBehaviour
         {
             float angle = Random.Range(0, 2f * Mathf.PI);
             Vector3 pos = player.transform.position + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+            pos = new Vector3(pos.x, 0.5f, pos.z);
 
-            int pick = Random.Range(0, 100);
-            if(pick <= 95)
+            Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)], pos, Quaternion.identity);
+        }
+
+        spawnTracker++;
+
+        if(spawnTracker % groupSpawnIncrModulus == 0)
+        {
+            spawnGroupAmount++;
+        }
+        if (spawnTracker % harderEnemyAddModulus == 0)
+        {
+            for (int i = 0; i < harderEnemyReplaceAmount; i++)
             {
-                Instantiate(enemies[0], pos, Quaternion.identity);
+                //add first enemy type to the list
+                enemiesToSpawn.RemoveAt(0);
+                enemiesToSpawn.Add(enemies[enemyToAdd]);
             }
-            else
-            {
-                Instantiate(enemies[Random.Range(1, 3)], pos, Quaternion.identity);
-            }
+        }
+        if (spawnTracker % addHarderEnemyAmountModulus == 0)
+        {
+            enemyToAdd++;
         }
     }
 }

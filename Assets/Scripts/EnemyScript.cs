@@ -11,48 +11,56 @@ public class EnemyScript : MonoBehaviour
     public float attackWait;
     public int scoreIncrease;
 
+    bool paused = false;
+
+    const float critcalTimer = 1.5f;
+
     float t;
 
     GameObject player;
     PlayerScript playerScript;
     Rigidbody rb;
     public GameObject xpPellet;
+    public GameObject criticalText;
 
     private void Start()
     {
-        player          = GameObject.FindGameObjectWithTag("Player");
-        playerScript    = player.GetComponent<PlayerScript>();
-        rb              = GetComponent<Rigidbody>();
-        t               = attackWait;
+        player       = GameObject.FindGameObjectWithTag("Player");
+        playerScript = player.GetComponent<PlayerScript>();
+        rb           = GetComponent<Rigidbody>();
+        t            = attackWait;
     }
 
     private void FixedUpdate()
     {
-        //rotate to look at player
-        transform.LookAt(player.transform);
-        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
-
-        //move towards player
-        //transform.position += transform.forward * Time.deltaTime * speed;
-
-        rb.AddForce(transform.forward * Time.deltaTime * speed, ForceMode.Force);
-
-        t -= Time.deltaTime;
-
-        if (t <= 0)
+        if (!paused)
         {
-            RaycastHit hit;
-            Debug.DrawRay(transform.position, transform.forward, Color.green, 1);
+            //rotate to look at player
+            transform.LookAt(player.transform);
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
 
-            if (Physics.Raycast(transform.position, transform.forward, out hit, range))
+            //move towards player
+            //transform.position += transform.forward * Time.deltaTime * speed;
+
+            rb.AddForce(transform.forward * Time.deltaTime * speed, ForceMode.Force);
+
+            t -= Time.deltaTime;
+
+            if (t <= 0)
             {
-                if (hit.transform.CompareTag("Player"))
-                {
-                    playerScript.UpdateHealth(damage);
-                }
-            }
+                RaycastHit hit;
+                Debug.DrawRay(transform.position, transform.forward, Color.green, 1);
 
-            t = attackWait + Random.Range(0.00f, 0.15f);
+                if (Physics.Raycast(transform.position, transform.forward, out hit, range))
+                {
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        playerScript.UpdateHealth(damage);
+                    }
+                }
+
+                t = attackWait + Random.Range(0.00f, 0.15f);
+            }
         }
     }
 
@@ -82,12 +90,24 @@ public class EnemyScript : MonoBehaviour
 
     void Knockback()
     {
-        //transform.position -= transform.forward * playerScript.GetUpgradableStats().projectileKnockback;
         rb.AddForce(-transform.forward * playerScript.GetUpgradableStats().projectileKnockback, ForceMode.Force);
+    }
+
+    public void SetPaused(bool _pause)
+    {
+        paused = _pause;
     }
 
     public void DamageEnemy(float _damage)
     {
+        int rand = Random.Range(0, 100);
+
+        if(rand < playerScript.GetUpgradableStats().criticalChance)
+        {
+            _damage *= 2;
+            Destroy(Instantiate(criticalText, transform.position, Quaternion.identity), critcalTimer);
+        }
+
         health -= _damage;
 
         if(health <= 0)

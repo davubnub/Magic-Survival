@@ -5,18 +5,26 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     float playerSpeed;
+    bool paused = false;
+    Vector3 movement;
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime * playerSpeed;
-        float vertical   = Input.GetAxis("Vertical")   * Time.deltaTime * playerSpeed;
-
-        transform.position += new Vector3(horizontal, 0, vertical);
+        if (!paused)
+        {
+            movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            transform.position += movement.normalized * Time.deltaTime * playerSpeed;
+        }
     }
 
     public void UpdateMovemnentSpeed(float _playerSpeed)
     {
         playerSpeed = _playerSpeed;
+    }
+
+    public void SetPaused(bool _pause)
+    {
+        paused = _pause;
     }
 }
