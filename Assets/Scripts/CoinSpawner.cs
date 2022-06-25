@@ -31,7 +31,7 @@ public class CoinSpawner : MonoBehaviour
 
     void SpawnCoin()
     {
-        float angle = 0;
+        float angle;
         Vector3 pos;
         bool foundSpot = false;
 
@@ -51,6 +51,6 @@ public class CoinSpawner : MonoBehaviour
             }
         } while (!foundSpot);
 
-        Instantiate(coinObj, pos, Quaternion.identity);
+        Instantiate(coinObj, pos, Quaternion.Euler(0, 45, 0));
     }
 }

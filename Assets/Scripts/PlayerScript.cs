@@ -15,8 +15,11 @@ public class PlayerScript : MonoBehaviour
     public UIManager uiManager;
     public UpgradeStats upgradeStats;
     public PlayerMovement playerMovement;
+    public Joystick aimingJoystick;
     public int xpToLevelUp;
     public float xpIncr;
+    public float maxHealthLevelUp;
+    public float speedLevelUp;
 
     int xp;
     int level;
@@ -24,6 +27,7 @@ public class PlayerScript : MonoBehaviour
     int score;
     float health;
     float fireRateTimer;
+    float regenerationTimer;
 
     bool paused = true;
 
@@ -36,16 +40,17 @@ public class PlayerScript : MonoBehaviour
 
         [Header("Health stats")]
         public float maxHealth;
-        public int healingAmount;
+        public int regeneration;
 
         [Header("Projectile stats")]
         public int projectileSpeed;
         public int projectilePierce;
         public int criticalChance;
-        public float projectileDamage;
-        public float projectileSize;
-        public float projectileRange;
-        public float projectileKnockback;
+        public int projectiles;
+        public float bulletDamage;
+        public float bulletsSize;
+        public float bulletRange;
+        public float bulletKnockback;
 
         public float fireRate;
         public float accuracy;
@@ -62,6 +67,7 @@ public class PlayerScript : MonoBehaviour
 
     public enum UPGRADES
     {
+        none,
         playerSpeed,
         maxHealth,
         projectileSpeed,
@@ -73,12 +79,17 @@ public class PlayerScript : MonoBehaviour
         glassCannon,
         homing,
         critical,
+        sniper,
+        extraProjectile,
+        submachineGun,
+        regeneration,
     };
 
     private void Start()
     {
         Time.timeScale = 1;
         health = upgradableStats.maxHealth;
+        regenerationTimer = upgradableStats.regeneration;
         xp = 0;
         level = 0;
         score = 0;
@@ -95,30 +106,70 @@ public class PlayerScript : MonoBehaviour
         playerMovement.UpdateMovemnentSpeed(upgradableStats.playerSpeed);
 
         SetPaused(true);
+
+        #if UNITY_STANDALONE_WIN
+            aimingJoystick.gameObject.SetActive(false);
+        #endif
     }
 
     private void Update()
     {
         if (!paused)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            #if UNITY_STANDALONE_WIN
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                playerModel.transform.LookAt(hit.point);
-                playerModel.transform.localEulerAngles = new Vector3(0, playerModel.transform.localEulerAngles.y, 0);
-            }
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    playerModel.transform.LookAt(hit.point);
+                    playerModel.transform.localEulerAngles = new Vector3(0, playerModel.transform.localEulerAngles.y, 0);
+                }
+            #endif
+            #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
+                playerModel.transform.localEulerAngles = new Vector3(0, Angle(aimingJoystick.Direction) - 45, 0);
+            #endif
 
             fireRateTimer -= Time.deltaTime;
 
-            if (Input.GetMouseButton(0))
+            if (aimingJoystick.Direction.magnitude != 0 || Input.GetMouseButton(0))
             {
                 if (fireRateTimer <= 0)
                 {
-                    FireProjectile(playerModel.transform.rotation);
+                    Vector3 angle = playerModel.transform.rotation.eulerAngles;
+                    for (int i = 0; i < upgradableStats.projectiles; i++)
+                    {
+                        FireProjectile(angle);
+                    }
+                    /*
+                    int amount = upgradableStats.projectiles;
+                    int angleRange = 45;
+                    int newAngle = angleRange / (amount - 1);
+                    for(int i = 0; i < amount; i++)
+                    {
+                        Vector3 angle = playerModel.transform.rotation.eulerAngles;
+                        angle += new Vector3(0, (i - (amount / 2)) * newAngle, 0);
+                        FireProjectile(angle);
+                    }*/
+
                     fireRateTimer = upgradableStats.fireRate;
                 }
+            }
+            if (upgradableStats.regeneration > 0)
+            {
+                regenerationTimer -= Time.deltaTime;
+
+                if(regenerationTimer <= 0)
+                {
+                    regenerationTimer = 1; //every 5 seconds
+                    UpdateHealth(upgradableStats.regeneration);
+                }
+            }
+
+            //DEBUG
+            if (Input.GetKey(KeyCode.Q))
+            {
+                IncreaseXP(xpToLevelUp - xp);
             }
         }
     }
@@ -178,6 +229,7 @@ public class PlayerScript : MonoBehaviour
         uiManager.ShowInGameUI(true);
         menuUI.UpdateScoreText(score);
         menuUI.UpdateHighScoreText(PlayerPrefs.GetInt("HighScore"));
+        menuUI.GameOver(coins);
         Time.timeScale = 0;
     }
 
@@ -211,19 +263,35 @@ public class PlayerScript : MonoBehaviour
     {
         xp = 0;
         level++;
+
+        upgradableStats.maxHealth   += maxHealthLevelUp;
+        upgradableStats.playerSpeed += speedLevelUp;
+        UpdateStats();
+
         xpToLevelUp = (int)(xpToLevelUp * xpIncr);
-        UpdateHealth(upgradableStats.healingAmount);
         uiManager.ShowUpgradeUI(true);
         upgradeManager.SelectOptions();
         SetPaused(true);
         Time.timeScale = 0;
     }
 
-    void FireProjectile(Quaternion _direction)
+    float Angle(Vector2 vector2)
     {
-        GameObject projectileObj = Instantiate(projectile, transform.position, _direction);
-        projectileObj.transform.localEulerAngles = _direction.eulerAngles;
-        projectileObj.GetComponent<ProjectileScript>().FireProjectile(upgradableStats.projectileSpeed, upgradableStats.projectileRange, upgradableStats.projectileDamage, upgradableStats.projectilePierce, upgradableStats.accuracy, upgradableStats.homingStrength);
+        if (vector2.x < 0)
+        {
+            return 360 - (Mathf.Atan2(vector2.x, vector2.y) * Mathf.Rad2Deg * -1);
+        }
+        else
+        {
+            return Mathf.Atan2(vector2.x, vector2.y) * Mathf.Rad2Deg;
+        }
+    }
+
+    void FireProjectile(Vector3 _direction)
+    {
+        GameObject projectileObj = Instantiate(projectile, transform.position, Quaternion.identity);
+        projectileObj.transform.localEulerAngles = _direction;
+        projectileObj.GetComponent<ProjectileScript>().FireProjectile(upgradableStats.projectileSpeed, upgradableStats.bulletRange, upgradableStats.bulletDamage, upgradableStats.projectilePierce, upgradableStats.accuracy, upgradableStats.homingStrength);
     }
 
     public UpgradableStats GetUpgradableStats()
@@ -248,14 +316,12 @@ public class PlayerScript : MonoBehaviour
         switch (_upgrade)
         {
             case UPGRADES.playerSpeed:
-                upgradableStats.playerSpeed += _positiveUpgrade;
-                playerMovement.UpdateMovemnentSpeed(upgradableStats.playerSpeed);
+                upgradableStats.playerSpeed         += _positiveUpgrade;
                 break;
 
             case UPGRADES.maxHealth:
-                upgradableStats.maxHealth += (int)_positiveUpgrade;
-                inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
-                UpdateMaxHealth();
+                upgradableStats.maxHealth       += (int)_positiveUpgrade;
+                upgradableStats.playerSpeed     /= _negativeUpgrade;
                 break;
 
             case UPGRADES.projectileSpeed:
@@ -263,7 +329,7 @@ public class PlayerScript : MonoBehaviour
                 break;
 
             case UPGRADES.fireRate:
-                upgradableStats.fireRate += _positiveUpgrade;
+                upgradableStats.fireRate        += _positiveUpgrade;
                 break;
 
             case UPGRADES.piercing:
@@ -271,32 +337,59 @@ public class PlayerScript : MonoBehaviour
                 break;
 
             case UPGRADES.spread:
-                upgradableStats.accuracy += _positiveUpgrade;
-                upgradableStats.projectileDamage *= _negativeUpgrade;
+                upgradableStats.accuracy        += _positiveUpgrade;
+                upgradableStats.bulletDamage    *= _negativeUpgrade;
                 break;
 
             case UPGRADES.magnet:
-                upgradableStats.magnetStrength += _positiveUpgrade;
+                upgradableStats.magnetStrength  += _positiveUpgrade;
                 break;
 
             case UPGRADES.knockback:
-                upgradableStats.projectileKnockback += _positiveUpgrade;
+                upgradableStats.bulletKnockback += _positiveUpgrade;
                 break;
 
             case UPGRADES.glassCannon:
-                upgradableStats.projectileDamage *= _positiveUpgrade;
-                upgradableStats.maxHealth /= _negativeUpgrade;
-                inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
-                UpdateMaxHealth();
+                upgradableStats.bulletDamage    *= _positiveUpgrade;
+                upgradableStats.maxHealth       /= _negativeUpgrade;
                 break;
 
             case UPGRADES.homing:
-                upgradableStats.homingStrength += _positiveUpgrade;
+                upgradableStats.homingStrength  += _positiveUpgrade;
                 break;
 
             case UPGRADES.critical:
-                upgradableStats.criticalChance += (int)_positiveUpgrade;
+                upgradableStats.criticalChance  += (int)_positiveUpgrade;
+                break;
+
+            case UPGRADES.sniper:
+                upgradableStats.bulletRange     += _positiveUpgrade;
+                upgradableStats.fireRate        += _negativeUpgrade;
+                break;
+
+            case UPGRADES.extraProjectile:
+                upgradableStats.projectiles     += (int)_positiveUpgrade;
+                upgradableStats.bulletDamage    /= _negativeUpgrade;
+                break;
+
+            case UPGRADES.submachineGun:
+                upgradableStats.fireRate        /= _positiveUpgrade;
+                upgradableStats.bulletRange     *= _negativeUpgrade;
+                break;
+
+            case UPGRADES.regeneration:
+                upgradableStats.regeneration    += (int)_positiveUpgrade;
                 break;
         }
+
+        UpdateStats();
+    }
+
+    void UpdateStats()
+    {
+
+        UpdateMaxHealth();
+        inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
+        playerMovement.UpdateMovemnentSpeed(upgradableStats.playerSpeed);
     }
 }

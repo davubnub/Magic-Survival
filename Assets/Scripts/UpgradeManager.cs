@@ -73,6 +73,6 @@ public class UpgradeManager : MonoBehaviour
     public void SkipPressed()
     {
         player.IncreaseCoins(skipCoin);
-        player.SetPaused(false);
+        player.Upgrade(PlayerScript.UPGRADES.none, 0, 0);
     }
 }

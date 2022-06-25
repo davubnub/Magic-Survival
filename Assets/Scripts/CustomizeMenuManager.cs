@@ -76,6 +76,10 @@ public class CustomizeMenuManager : MonoBehaviour
     {
         return customizationSelections[_num];
     }
+    public CustomizationSelections[] GetCustomizationSelectionsArray()
+    {
+        return customizationSelections;
+    }
 
     public void CharacterSelected(int _num)
     {

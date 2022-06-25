@@ -90,7 +90,7 @@ public class EnemyScript : MonoBehaviour
 
     void Knockback()
     {
-        rb.AddForce(-transform.forward * playerScript.GetUpgradableStats().projectileKnockback, ForceMode.Force);
+        rb.AddForce(-transform.forward * playerScript.GetUpgradableStats().bulletKnockback, ForceMode.Force);
     }
 
     public void SetPaused(bool _pause)

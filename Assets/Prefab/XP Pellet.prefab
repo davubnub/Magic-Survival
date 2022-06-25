@@ -110,3 +110,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   despawnDistance: 100
   speed: 5
+  maxSpeed: 10

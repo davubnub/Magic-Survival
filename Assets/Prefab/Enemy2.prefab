@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
-  damage: -20
-  speed: 1200
+  damage: -15
+  speed: 1300
   range: 1.9
   attackWait: 0.5
   scoreIncrease: 3

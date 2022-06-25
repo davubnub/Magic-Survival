@@ -7,6 +7,7 @@ public class XPScript : MonoBehaviour
     Transform player;
     public float despawnDistance;
     public float speed;
+    public float maxSpeed;
     float magnetRange;
 
     private void Start()
@@ -28,7 +29,7 @@ public class XPScript : MonoBehaviour
         {
             Vector3 direction = player.position - transform.position;
 
-            transform.position += direction * Time.deltaTime * (Mathf.Pow(speed, magnetRange - distance) / 10);
+            transform.position += direction * Time.deltaTime * Mathf.Clamp((Mathf.Pow(speed, magnetRange - distance) / 10), 0, maxSpeed);
         }
     }
 }

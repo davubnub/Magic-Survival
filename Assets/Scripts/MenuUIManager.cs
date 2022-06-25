@@ -12,6 +12,10 @@ public class MenuUIManager : MonoBehaviour
     public UIManager uiManager;
     public EnemySpawner enemySpawner;
     public CoinSpawner coinSpawner;
+    public GameObject prizePrompt;
+    public GameObject purchasePrompt;
+
+    public int coinsToPurchase;
 
     public void RestartPressed()
     {
@@ -48,5 +52,15 @@ public class MenuUIManager : MonoBehaviour
         uiManager.ShowCustomizeUI(false);
         uiManager.ShowPurchaseUI(false);
         uiManager.ShowSettingUI(false);
+    }
+    public void PurchasePressed()
+    {
+        uiManager.ShowPurchaseUI(true);
+        PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - coinsToPurchase);
+        purchasePrompt.SetActive(PlayerPrefs.GetInt("Coins") >= coinsToPurchase);
+    }
+    public void GameOver(int _coins)
+    {
+        purchasePrompt.SetActive(_coins >= coinsToPurchase);
     }
 }

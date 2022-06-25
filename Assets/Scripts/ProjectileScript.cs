@@ -11,10 +11,12 @@ public class ProjectileScript : MonoBehaviour
     int piercing;
     bool homing = false;
     Transform closestEnemy;
+    Rigidbody rb;
 
     private void Start()
     {
         homing = (homingStrength != 0);
+        rb = GetComponent<Rigidbody>();
     }
 
     public void FireProjectile(float _projectileSpeed, float _destroyTimer, float _damage, int _piercing, float _accuracy, float _homing)
@@ -48,13 +50,14 @@ public class ProjectileScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position += transform.forward * Time.deltaTime * projectileSpeed;
+        //transform.position += transform.forward * Time.deltaTime * projectileSpeed;
+        rb.velocity = transform.forward * projectileSpeed;
 
-        if(homing)
+        if (homing && closestEnemy != null)
         {
             Vector3 direction = closestEnemy.position - transform.position;
-            Quaternion toRotation = Quaternion.FromToRotation(transform.forward, direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, homingStrength * Time.time);
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, homingStrength * Time.deltaTime));
         }
     }
 
