@@ -55,7 +55,7 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    public void OptionButtonPressed(int _number)
+    public void UpgradeButtonPressed(int _number)
     {
         UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[_number]];
 
