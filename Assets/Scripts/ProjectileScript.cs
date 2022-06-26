@@ -31,10 +31,12 @@ public class ProjectileScript : MonoBehaviour
         if (homing)
         {
             float closestDistance = Mathf.Infinity;
+            float checkForward    = 5;
+            Vector3 newPos        = transform.position + (transform.forward * checkForward);
 
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-                float distance = Vector3.Distance(transform.position, enemy.transform.position);
+                float distance = Vector3.Distance(newPos, enemy.transform.position);
 
                 if (distance < closestDistance)
                 {

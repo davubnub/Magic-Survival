@@ -31,6 +31,9 @@ public class PlayerScript : MonoBehaviour
 
     bool paused = true;
 
+    bool playingOnComputer = false;
+    bool playingOnPhone = false;
+
     [System.Serializable]
     public struct UpgradableStats
     {
@@ -108,7 +111,10 @@ public class PlayerScript : MonoBehaviour
         SetPaused(true);
 
         #if UNITY_STANDALONE_WIN
-            aimingJoystick.gameObject.SetActive(false);
+            playingOnComputer = true;
+        #endif
+        #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
+            playingOnPhone = true;
         #endif
     }
 
@@ -116,7 +122,8 @@ public class PlayerScript : MonoBehaviour
     {
         if (!paused)
         {
-            #if UNITY_STANDALONE_WIN
+            if (playingOnComputer)
+            {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 RaycastHit hit;
@@ -125,32 +132,33 @@ public class PlayerScript : MonoBehaviour
                     playerModel.transform.LookAt(hit.point);
                     playerModel.transform.localEulerAngles = new Vector3(0, playerModel.transform.localEulerAngles.y, 0);
                 }
-            #endif
-            #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
+            }
+            if (playingOnPhone && aimingJoystick.Direction.magnitude != 0)
+            {
                 playerModel.transform.localEulerAngles = new Vector3(0, Angle(aimingJoystick.Direction) - 45, 0);
-            #endif
+            }
 
             fireRateTimer -= Time.deltaTime;
 
-            if (aimingJoystick.Direction.magnitude != 0 || Input.GetMouseButton(0))
+            if ((aimingJoystick.Direction.magnitude != 0 && playingOnPhone) || (Input.GetMouseButton(0) && playingOnComputer))
             {
                 if (fireRateTimer <= 0)
                 {
-                    Vector3 angle = playerModel.transform.rotation.eulerAngles;
+                    /*Vector3 angle = playerModel.transform.rotation.eulerAngles;
                     for (int i = 0; i < upgradableStats.projectiles; i++)
                     {
                         FireProjectile(angle);
-                    }
-                    /*
+                    }*/
+
                     int amount = upgradableStats.projectiles;
-                    int angleRange = 45;
-                    int newAngle = angleRange / (amount - 1);
+                    int angleRange = 5 + ((amount - 1) * 20);
+                    int newAngle = (amount == 1) ? 0 : angleRange / (amount - 1);
                     for(int i = 0; i < amount; i++)
                     {
                         Vector3 angle = playerModel.transform.rotation.eulerAngles;
-                        angle += new Vector3(0, (i - (amount / 2)) * newAngle, 0);
+                        angle += new Vector3(0, (i * newAngle) + (-angleRange / 2), 0);
                         FireProjectile(angle);
-                    }*/
+                    }
 
                     fireRateTimer = upgradableStats.fireRate;
                 }
@@ -272,7 +280,7 @@ public class PlayerScript : MonoBehaviour
         uiManager.ShowUpgradeUI(true);
         upgradeManager.SelectOptions();
         SetPaused(true);
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     float Angle(Vector2 vector2)

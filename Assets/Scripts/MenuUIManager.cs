@@ -14,6 +14,7 @@ public class MenuUIManager : MonoBehaviour
     public CoinSpawner coinSpawner;
     public GameObject prizePrompt;
     public GameObject purchasePrompt;
+    public PrizeScript prizeScript;
 
     public int coinsToPurchase;
 
@@ -58,6 +59,7 @@ public class MenuUIManager : MonoBehaviour
         uiManager.ShowPurchaseUI(true);
         PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - coinsToPurchase);
         purchasePrompt.SetActive(PlayerPrefs.GetInt("Coins") >= coinsToPurchase);
+        prizeScript.UnlockPrize();
     }
     public void GameOver(int _coins)
     {
