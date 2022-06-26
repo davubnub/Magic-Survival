@@ -3761,8 +3761,8 @@ MonoBehaviour:
   - upgradeName: Sniper
     upgrade: 12
     upgradeDescription: Increased range but slower fire rate
-    positiveUpgrade: 0.15
-    negativeUpgrade: 0.05
+    positiveUpgrade: 0.17
+    negativeUpgrade: 0.07
   - upgradeName: Extra Bullet
     upgrade: 13
     upgradeDescription: Extra projectile but reduced damage

@@ -116,6 +116,11 @@ public class PlayerScript : MonoBehaviour
         #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
             playingOnPhone = true;
         #endif
+
+        if(playingOnComputer)
+        {
+            aimingJoystick.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -279,7 +284,7 @@ public class PlayerScript : MonoBehaviour
         xpToLevelUp = (int)(xpToLevelUp * xpIncr);
         uiManager.ShowUpgradeUI(true);
         upgradeManager.SelectOptions();
-        SetPaused(true);
+        //SetPaused(true);
         //Time.timeScale = 0;
     }
 
