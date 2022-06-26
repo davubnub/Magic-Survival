@@ -31,6 +31,9 @@ public class PlayerScript : MonoBehaviour
 
     bool paused = true;
 
+    bool playingOnComputer = false;
+    bool playingOnPhone = false;
+
     [System.Serializable]
     public struct UpgradableStats
     {
@@ -84,9 +87,6 @@ public class PlayerScript : MonoBehaviour
         submachineGun,
         regeneration,
     };
-
-    bool playingOnComputer;
-    bool playingOnPhone;
 
     private void Start()
     {
@@ -144,21 +144,21 @@ public class PlayerScript : MonoBehaviour
             {
                 if (fireRateTimer <= 0)
                 {
-                    Vector3 angle = playerModel.transform.rotation.eulerAngles;
+                    /*Vector3 angle = playerModel.transform.rotation.eulerAngles;
                     for (int i = 0; i < upgradableStats.projectiles; i++)
                     {
                         FireProjectile(angle);
-                    }
-                    /*
+                    }*/
+
                     int amount = upgradableStats.projectiles;
-                    int angleRange = 45;
-                    int newAngle = angleRange / (amount - 1);
+                    int angleRange = 5 + ((amount - 1) * 20);
+                    int newAngle = (amount == 1) ? 0 : angleRange / (amount - 1);
                     for(int i = 0; i < amount; i++)
                     {
                         Vector3 angle = playerModel.transform.rotation.eulerAngles;
-                        angle += new Vector3(0, (i - (amount / 2)) * newAngle, 0);
+                        angle += new Vector3(0, (i * newAngle) + (-angleRange / 2), 0);
                         FireProjectile(angle);
-                    }*/
+                    }
 
                     fireRateTimer = upgradableStats.fireRate;
                 }
