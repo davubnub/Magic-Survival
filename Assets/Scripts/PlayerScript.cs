@@ -43,7 +43,7 @@ public class PlayerScript : MonoBehaviour
 
         [Header("Health stats")]
         public float maxHealth;
-        public int regeneration;
+        public float regeneration;
 
         [Header("Projectile stats")]
         public int projectileSpeed;
@@ -174,7 +174,7 @@ public class PlayerScript : MonoBehaviour
 
                 if(regenerationTimer <= 0)
                 {
-                    regenerationTimer = 1; //every 5 seconds
+                    regenerationTimer = 5; //every 5 seconds
                     UpdateHealth(upgradableStats.regeneration);
                 }
             }
@@ -391,7 +391,7 @@ public class PlayerScript : MonoBehaviour
                 break;
 
             case UPGRADES.regeneration:
-                upgradableStats.regeneration    += (int)_positiveUpgrade;
+                upgradableStats.regeneration    += _positiveUpgrade;
                 break;
         }
 

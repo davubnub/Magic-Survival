@@ -12,8 +12,11 @@ public class UpgradeManager : MonoBehaviour
     public GameObject[] optionButtons;
     public TextMeshProUGUI[] upgradeNameText;
     public TextMeshProUGUI[] upgradeDescriptionText;
+    public TextMeshProUGUI[] tierText;
     public Image[] upgradeIcons;
     public TextMeshProUGUI skipText;
+    public Animator descriptionBox;
+    public TextMeshProUGUI descriptionText;
 
     public int skipCoin;
 
@@ -50,8 +53,9 @@ public class UpgradeManager : MonoBehaviour
 
             UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[i]];
 
-            upgradeNameText[i].text = upgradeTier.upgradeName + " " + Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
-            upgradeDescriptionText[i].text = upgradeTier.upgradeDescription;
+            upgradeNameText[i].text = upgradeTier.upgradeName;
+            tierText[i].text = "" + Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
+            //upgradeDescriptionText[i].text = upgradeTier.upgradeDescription;
         }
     }
 
@@ -63,6 +67,9 @@ public class UpgradeManager : MonoBehaviour
 
         int i = Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
         upgradeStats.GetUpgradeStats()[options[_number]].SetUpgradeTier(i);
+
+        descriptionBox.SetTrigger("Play");
+        descriptionText.text = upgradeTier.upgradeDescription;
     }
 
     public void SkipPressed()
