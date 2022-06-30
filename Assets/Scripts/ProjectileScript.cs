@@ -8,10 +8,15 @@ public class ProjectileScript : MonoBehaviour
     float destroyTimer;
     float damage;
     float homingStrength;
+    float explosionSize;
     int piercing;
     bool homing = false;
+    bool explosion = false;
     Transform closestEnemy;
     Rigidbody rb;
+
+    public GameObject explosionObj;
+    public float explosionWait;
 
     private void Start()
     {
@@ -19,7 +24,7 @@ public class ProjectileScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void FireProjectile(float _projectileSpeed, float _destroyTimer, float _damage, int _piercing, float _accuracy, float _homing)
+    public void FireProjectile(float _projectileSpeed, float _destroyTimer, float _damage, int _piercing, float _accuracy, float _homing, float _explosion)
     {
         projectileSpeed = _projectileSpeed;
         destroyTimer    = _destroyTimer;
@@ -27,6 +32,8 @@ public class ProjectileScript : MonoBehaviour
         piercing        = _piercing;
         homingStrength  = _homing;
         homing          = (homingStrength != 0);
+        explosionSize   = _explosion;
+        explosion       = (explosionSize != 0);
 
         if (homing)
         {
@@ -60,6 +67,17 @@ public class ProjectileScript : MonoBehaviour
             Vector3 direction = closestEnemy.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, homingStrength * Time.deltaTime));
+        }
+    }
+
+    public void StartExplosion(Vector3 _pos)
+    {
+        if(explosion)
+        {
+            GameObject obj = Instantiate(explosionObj, transform.position, Quaternion.identity);
+            obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
+            Destroy(obj, explosionWait);
+            Destroy(obj.GetComponent<SphereCollider>(), 0.1f);
         }
     }
 

@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - Ground
   - Enemy
+  - Explosion
   layers:
   - Default
   - TransparentFX

@@ -3911,7 +3911,7 @@ MonoBehaviour:
     playerSpeed: 3.5
     magnetStrength: 3.5
     maxHealth: 100
-    regeneration: 0.1
+    regeneration: 0.2
     projectileSpeed: 10
     projectilePierce: 0
     criticalChance: 0
@@ -3925,6 +3925,7 @@ MonoBehaviour:
     homingStrength: 0
     spinStrength: 0
     explosionSize: 0
+    explosionDamage: 1
     stunAmount: 0
     trailLength: 0
 --- !u!54 &753105178
@@ -3974,8 +3975,8 @@ MonoBehaviour:
   upgradeStats:
   - upgradeName: Fire Rate
     upgrade: 4
-    upgradeDescription: Increase fire rate of projectile
-    positiveUpgrade: -0.05
+    upgradeDescription: Faster shooting rate
+    positiveUpgrade: -0.07
     negativeUpgrade: 0
   - upgradeName: Tank
     upgrade: 2
@@ -3984,7 +3985,7 @@ MonoBehaviour:
     negativeUpgrade: 1.1
   - upgradeName: Player Speed
     upgrade: 1
-    upgradeDescription: Increase player movement speed
+    upgradeDescription: Increase players movement speed
     positiveUpgrade: 1
     negativeUpgrade: 0
   - upgradeName: Bullet Speed
@@ -3994,7 +3995,7 @@ MonoBehaviour:
     negativeUpgrade: 0
   - upgradeName: Piercing
     upgrade: 5
-    upgradeDescription: Projectile pass through an extra enemy
+    upgradeDescription: Projectiles pass through an extra enemy
     positiveUpgrade: 1
     negativeUpgrade: 0
   - upgradeName: Spread
@@ -4009,7 +4010,7 @@ MonoBehaviour:
     negativeUpgrade: 0
   - upgradeName: Knockback
     upgrade: 8
-    upgradeDescription: Increases knockback to enemies when they are hit
+    upgradeDescription: Knocks enemies back when hit
     positiveUpgrade: 400
     negativeUpgrade: 0
   - upgradeName: Glass Cannon
@@ -4029,7 +4030,7 @@ MonoBehaviour:
     negativeUpgrade: 0
   - upgradeName: Sniper
     upgrade: 12
-    upgradeDescription: Increased range but slower fire rate
+    upgradeDescription: Longer range but slower fire rate
     positiveUpgrade: 0.17
     negativeUpgrade: 0.07
   - upgradeName: Extra Bullet
@@ -4042,10 +4043,15 @@ MonoBehaviour:
     upgradeDescription: Greatly reduces range but increases fire rate
     positiveUpgrade: 1.2
     negativeUpgrade: 0.75
-  - upgradeName: Regeneration
+  - upgradeName: Regen
     upgrade: 15
     upgradeDescription: Regenerates health
-    positiveUpgrade: 0.5
+    positiveUpgrade: 0.8
+    negativeUpgrade: 0
+  - upgradeName: Explosion
+    upgrade: 16
+    upgradeDescription: Creates a big explosion on impact
+    positiveUpgrade: 1
     negativeUpgrade: 0
 --- !u!1 &768700909
 GameObject:
@@ -8682,6 +8688,7 @@ MonoBehaviour:
   descriptionBox: {fileID: 969354096}
   descriptionText: {fileID: 1672978575}
   skipCoin: 3
+  chanceForReappear: 30
 --- !u!1 &1703993628
 GameObject:
   m_ObjectHideFlags: 0

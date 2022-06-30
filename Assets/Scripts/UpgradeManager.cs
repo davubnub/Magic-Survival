@@ -19,11 +19,15 @@ public class UpgradeManager : MonoBehaviour
     public TextMeshProUGUI descriptionText;
 
     public int skipCoin;
+    public int chanceForReappear;
 
     const int amountOfOptions = 3;
     const int maxTiers = 5;
 
+    int previousPick = 0;
+
     int[] options = { 0, 0, 0 };
+    int[] arrayOfUpgrades;
 
     public void SelectOptions()
     {
@@ -39,28 +43,44 @@ public class UpgradeManager : MonoBehaviour
             }
         }
 
-        int[] arrayOfUpgrades = listOfUpgrades.ToArray();
+        arrayOfUpgrades = listOfUpgrades.ToArray();
 
         for (int i = 0; i < amountOfOptions; i++)
         {
             //pick random upgrade
             int num = arrayOfUpgrades[Random.Range(0, arrayOfUpgrades.Length)];
-            //remove that upgrade from the list of upgrades to choose from
-            arrayOfUpgrades[System.Array.IndexOf(arrayOfUpgrades, num)] = arrayOfUpgrades[arrayOfUpgrades.Length - 1];
-            System.Array.Resize(ref arrayOfUpgrades, arrayOfUpgrades.Length - 1);
 
-            options[i] = num;
-
-            UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[i]];
-
-            upgradeNameText[i].text = upgradeTier.upgradeName;
-            tierText[i].text = "" + Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
-            //upgradeDescriptionText[i].text = upgradeTier.upgradeDescription;
+            PickOption(i, num);
         }
+
+        int random = Random.Range(0, 100);
+
+        if(random < chanceForReappear && System.Array.IndexOf(arrayOfUpgrades, previousPick) != -1)
+        {
+            int randOption = Random.Range(0, amountOfOptions);
+            PickOption(randOption, previousPick);
+        }
+    }
+
+    void PickOption(int _i, int _num)
+    {
+        //remove that upgrade from the list of upgrades to choose from
+        int indexOfNum = System.Array.IndexOf(arrayOfUpgrades, _num);
+        arrayOfUpgrades[indexOfNum] = arrayOfUpgrades[arrayOfUpgrades.Length - 1];
+        System.Array.Resize(ref arrayOfUpgrades, arrayOfUpgrades.Length - 1);
+
+        options[_i] = _num;
+
+        UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[_i]];
+
+        upgradeNameText[_i].text = upgradeTier.upgradeName;
+        tierText[_i].text = "" + Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
+        //upgradeDescriptionText[i].text = upgradeTier.upgradeDescription;
     }
 
     public void UpgradeButtonPressed(int _number)
     {
+        previousPick = options[_number];
         UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[_number]];
 
         player.Upgrade(upgradeTier.upgrade, upgradeTier.positiveUpgrade, upgradeTier.negativeUpgrade);

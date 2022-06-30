@@ -70,11 +70,16 @@ public class EnemyScript : MonoBehaviour
         {
             HitByBullet(other.gameObject);
         }
+        if(other.CompareTag("Explosion"))
+        {
+            HitByExplosion();
+        }
     }
 
     void HitByBullet(GameObject _bullet)
     {
         ProjectileScript projectile = _bullet.GetComponent<ProjectileScript>();
+        projectile.StartExplosion(transform.position);
         DamageEnemy(projectile.GetDamage());
         Knockback();
 
@@ -86,6 +91,11 @@ public class EnemyScript : MonoBehaviour
         {
             projectile.SetPiercing();
         }
+    }
+
+    void HitByExplosion()
+    {
+        DamageEnemy(playerScript.GetUpgradableStats().explosionDamage);
     }
 
     void Knockback()

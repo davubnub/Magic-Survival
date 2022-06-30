@@ -62,6 +62,7 @@ public class PlayerScript : MonoBehaviour
         public float homingStrength;
         public float spinStrength;
         public float explosionSize;
+        public float explosionDamage;
         public float stunAmount;
         public float trailLength;
     }
@@ -86,6 +87,7 @@ public class PlayerScript : MonoBehaviour
         extraProjectile,
         submachineGun,
         regeneration,
+        explosion,
     };
 
     private void Start()
@@ -304,7 +306,15 @@ public class PlayerScript : MonoBehaviour
     {
         GameObject projectileObj = Instantiate(projectile, transform.position, Quaternion.identity);
         projectileObj.transform.localEulerAngles = _direction;
-        projectileObj.GetComponent<ProjectileScript>().FireProjectile(upgradableStats.projectileSpeed, upgradableStats.bulletRange, upgradableStats.bulletDamage, upgradableStats.projectilePierce, upgradableStats.accuracy, upgradableStats.homingStrength);
+        projectileObj.GetComponent<ProjectileScript>().FireProjectile(
+            upgradableStats.projectileSpeed,
+            upgradableStats.bulletRange,
+            upgradableStats.bulletDamage,
+            upgradableStats.projectilePierce,
+            upgradableStats.accuracy,
+            upgradableStats.homingStrength,
+            upgradableStats.explosionSize
+            );
     }
 
     public UpgradableStats GetUpgradableStats()
@@ -392,6 +402,10 @@ public class PlayerScript : MonoBehaviour
 
             case UPGRADES.regeneration:
                 upgradableStats.regeneration    += _positiveUpgrade;
+                break;
+
+            case UPGRADES.explosion:
+                upgradableStats.explosionSize   += 1 + (_positiveUpgrade * 0.5f);
                 break;
         }
 
