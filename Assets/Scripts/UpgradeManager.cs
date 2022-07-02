@@ -25,9 +25,20 @@ public class UpgradeManager : MonoBehaviour
     const int maxTiers = 5;
 
     int previousPick = 0;
+    int queueOfUpgrades = 0;
 
     int[] options = { 0, 0, 0 };
     int[] arrayOfUpgrades;
+
+    public void QueueUpgrades()
+    {
+        queueOfUpgrades++;
+
+        if (queueOfUpgrades <= 1)
+        {
+            SelectOptions();
+        }
+    }
 
     public void SelectOptions()
     {
@@ -55,7 +66,7 @@ public class UpgradeManager : MonoBehaviour
 
         int random = Random.Range(0, 100);
 
-        if(random < chanceForReappear && System.Array.IndexOf(arrayOfUpgrades, previousPick) != -1)
+        if (random < chanceForReappear && System.Array.IndexOf(arrayOfUpgrades, previousPick) != -1)
         {
             int randOption = Random.Range(0, amountOfOptions);
             PickOption(randOption, previousPick);
@@ -90,11 +101,18 @@ public class UpgradeManager : MonoBehaviour
 
         descriptionBox.SetTrigger("Play");
         descriptionText.text = upgradeTier.upgradeDescription;
+
+        queueOfUpgrades--;
+        if(queueOfUpgrades > 0)
+        {
+            print("AGAIN");
+            SelectOptions();
+        }
     }
 
     public void SkipPressed()
     {
-        player.IncreaseCoins(skipCoin);
-        player.Upgrade(PlayerScript.UPGRADES.none, 0, 0);
+        //player.IncreaseCoins(skipCoin);
+        //player.Upgrade(PlayerScript.UPGRADES.none, 0, 0);
     }
 }

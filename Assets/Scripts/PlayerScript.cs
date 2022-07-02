@@ -6,6 +6,7 @@ using UnityEditor;
 public class PlayerScript : MonoBehaviour
 {
     public GameObject projectile;
+    public GameObject spinningSawObject;
 
     public GameObject playerModel;
 
@@ -34,12 +35,15 @@ public class PlayerScript : MonoBehaviour
     bool playingOnComputer = false;
     bool playingOnPhone = false;
 
+    List<GameObject> spinningSaws = new List<GameObject>();
+
     [System.Serializable]
     public struct UpgradableStats
     {
         [Header("Player stats")]
         public float playerSpeed; 
         public float magnetStrength; 
+        public float sawSpinSpeed; 
 
         [Header("Health stats")]
         public float maxHealth;
@@ -88,6 +92,7 @@ public class PlayerScript : MonoBehaviour
         submachineGun,
         regeneration,
         explosion,
+        spinningSaw,
     };
 
     private void Start()
@@ -176,9 +181,14 @@ public class PlayerScript : MonoBehaviour
 
                 if(regenerationTimer <= 0)
                 {
-                    regenerationTimer = 5; //every 5 seconds
+                    regenerationTimer = 1; //every 1 seconds
                     UpdateHealth(upgradableStats.regeneration);
                 }
+            }
+
+            for (int i = 0; i < spinningSaws.Count; i++)
+            {
+                spinningSaws[i].transform.localEulerAngles += new Vector3(0, Time.deltaTime * upgradableStats.sawSpinSpeed, 0);
             }
 
             //DEBUG
@@ -193,7 +203,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(other.CompareTag("xp"))
         {
-            IncreaseXP(1);
+            IncreaseXP(other.GetComponent<XPScript>().GetXPGain());
             Destroy(other.gameObject);
         }
         if(other.CompareTag("Coin"))
@@ -283,9 +293,9 @@ public class PlayerScript : MonoBehaviour
         upgradableStats.playerSpeed += speedLevelUp;
         UpdateStats();
 
-        xpToLevelUp = (int)(xpToLevelUp * xpIncr);
+        xpToLevelUp = (int)Mathf.Ceil(xpToLevelUp * xpIncr);
         uiManager.ShowUpgradeUI(true);
-        upgradeManager.SelectOptions();
+        upgradeManager.QueueUpgrades();
         //SetPaused(true);
         //Time.timeScale = 0;
     }
@@ -327,6 +337,21 @@ public class PlayerScript : MonoBehaviour
         if(health > upgradableStats.maxHealth)
         {
             health = upgradableStats.maxHealth;
+        }
+    }
+
+    void AddSpinningSaw()
+    {
+        GameObject sawObj = Instantiate(spinningSawObject, transform.position, Quaternion.identity);
+        sawObj.transform.parent = gameObject.transform;
+        spinningSaws.Add(sawObj);
+
+        float angle = 360 / 5;
+
+        //reset all spinning saws 
+        for(int i = 0; i < spinningSaws.Count; i++)
+        {
+            spinningSaws[i].transform.localEulerAngles = new Vector3(0, angle * i, 0);
         }
     }
 
@@ -407,6 +432,11 @@ public class PlayerScript : MonoBehaviour
             case UPGRADES.explosion:
                 upgradableStats.explosionSize   += 1 + (_positiveUpgrade * 0.5f);
                 break;
+
+            case UPGRADES.spinningSaw:
+                upgradableStats.sawSpinSpeed    += _positiveUpgrade;
+                AddSpinningSaw();
+                break;
         }
 
         UpdateStats();
@@ -414,7 +444,6 @@ public class PlayerScript : MonoBehaviour
 
     void UpdateStats()
     {
-
         UpdateMaxHealth();
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
         playerMovement.UpdateMovemnentSpeed(upgradableStats.playerSpeed);

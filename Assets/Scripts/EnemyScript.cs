@@ -10,10 +10,13 @@ public class EnemyScript : MonoBehaviour
     public float range;
     public float attackWait;
     public int scoreIncrease;
+    public int xp;
 
     bool paused = false;
 
     const float critcalTimer = 1.5f;
+
+    int layerMask = 1 << 8;
 
     float t;
 
@@ -51,7 +54,7 @@ public class EnemyScript : MonoBehaviour
                 RaycastHit hit;
                 Debug.DrawRay(transform.position, transform.forward, Color.green, 1);
 
-                if (Physics.Raycast(transform.position, transform.forward, out hit, range))
+                if (Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask))
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
@@ -69,6 +72,10 @@ public class EnemyScript : MonoBehaviour
         if(other.CompareTag("Projectile"))
         {
             HitByBullet(other.gameObject);
+        }
+        if(other.CompareTag("Saw"))
+        {
+            DamageEnemy(playerScript.GetUpgradableStats().bulletDamage);
         }
         if(other.CompareTag("Explosion"))
         {
@@ -129,7 +136,8 @@ public class EnemyScript : MonoBehaviour
     void EnemyDied()
     {
         playerScript.IncreaseScore(scoreIncrease);
-        Instantiate(xpPellet, transform.position, Quaternion.Euler(0, 45, 0));
+        GameObject xpObj = Instantiate(xpPellet, transform.position, Quaternion.Euler(0, 45, 0));
+        xpObj.GetComponent<XPScript>().SetXPGain(xp);
         Destroy(gameObject);
     }
 }

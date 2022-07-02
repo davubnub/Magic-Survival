@@ -9,6 +9,7 @@ public class XPScript : MonoBehaviour
     public float speed;
     public float maxSpeed;
     float magnetRange;
+    int xpGain = 1;
 
     private void Start()
     {
@@ -31,5 +32,14 @@ public class XPScript : MonoBehaviour
 
             transform.position += direction * Time.deltaTime * Mathf.Clamp((Mathf.Pow(speed, magnetRange - distance) / 10), 0, maxSpeed);
         }
+    }
+
+    public int GetXPGain()
+    {
+        return xpGain;
+    }
+    public void SetXPGain(int _xp)
+    {
+        xpGain = _xp;
     }
 }

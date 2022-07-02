@@ -65,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
         {
             spawnGroupAmount++;
         }
-        if (spawnTracker % harderEnemyAddModulus == 0)
+        if (spawnTracker % harderEnemyAddModulus == 0 && enemyToAdd < enemies.Length)
         {
             for (int i = 0; i < harderEnemyReplaceAmount; i++)
             {

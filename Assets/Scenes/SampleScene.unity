@@ -3848,7 +3848,7 @@ GameObject:
   - component: {fileID: 753105176}
   - component: {fileID: 753105178}
   - component: {fileID: 753105180}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3895,6 +3895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 7348414801056418857, guid: f48798acb8386364998655dfff172125, type: 3}
+  spinningSawObject: {fileID: 7800288334459659184, guid: b1f9feab50d63294fa1917be906d6f40, type: 3}
   playerModel: {fileID: 1995065653}
   inGameUI: {fileID: 614661912}
   menuUI: {fileID: 1869701713}
@@ -3903,13 +3904,14 @@ MonoBehaviour:
   upgradeStats: {fileID: 753105180}
   playerMovement: {fileID: 753105175}
   aimingJoystick: {fileID: 1110123490}
-  xpToLevelUp: 5
-  xpIncr: 1.2
+  xpToLevelUp: 4
+  xpIncr: 1.17
   maxHealthLevelUp: 2
   speedLevelUp: 0.1
   upgradableStats:
     playerSpeed: 3.5
     magnetStrength: 3.5
+    sawSpinSpeed: 0
     maxHealth: 100
     regeneration: 0.2
     projectileSpeed: 10
@@ -4011,12 +4013,12 @@ MonoBehaviour:
   - upgradeName: Knockback
     upgrade: 8
     upgradeDescription: Knocks enemies back when hit
-    positiveUpgrade: 400
+    positiveUpgrade: 350
     negativeUpgrade: 0
   - upgradeName: Glass Cannon
     upgrade: 9
-    upgradeDescription: Doubles Damage but halves your health
-    positiveUpgrade: 2
+    upgradeDescription: Increases damage but halves your health
+    positiveUpgrade: 1.5
     negativeUpgrade: 2
   - upgradeName: Critical
     upgrade: 11
@@ -4046,12 +4048,17 @@ MonoBehaviour:
   - upgradeName: Regen
     upgrade: 15
     upgradeDescription: Regenerates health
-    positiveUpgrade: 0.8
+    positiveUpgrade: 1
     negativeUpgrade: 0
   - upgradeName: Explosion
     upgrade: 16
     upgradeDescription: Creates a big explosion on impact
     positiveUpgrade: 1
+    negativeUpgrade: 0
+  - upgradeName: Spinning Saw
+    upgrade: 17
+    upgradeDescription: Spinning saws that deal damage
+    positiveUpgrade: 25
     negativeUpgrade: 0
 --- !u!1 &768700909
 GameObject:
@@ -5709,16 +5716,16 @@ MonoBehaviour:
     isUnlocked: 1
   - name: Skin 2
     image: {fileID: 0}
-    isUnlocked: 1
+    isUnlocked: 0
   - name: Skin 3
     image: {fileID: 0}
-    isUnlocked: 1
+    isUnlocked: 0
   - name: Skin 4
     image: {fileID: 0}
     isUnlocked: 0
   - name: Skin 5
     image: {fileID: 0}
-    isUnlocked: 1
+    isUnlocked: 0
 --- !u!1 &1105867495
 GameObject:
   m_ObjectHideFlags: 0
