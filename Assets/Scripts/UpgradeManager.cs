@@ -40,6 +40,15 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    public bool CheckQueue()
+    {
+        if (queueOfUpgrades > 0)
+        {
+            SelectOptions();
+        }
+        return queueOfUpgrades > 0;
+    }
+
     public void SelectOptions()
     {
         skipText.text = "Skip +$" + skipCoin;
@@ -91,23 +100,18 @@ public class UpgradeManager : MonoBehaviour
 
     public void UpgradeButtonPressed(int _number)
     {
+        queueOfUpgrades--;
         previousPick = options[_number];
         UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[_number]];
-
-        player.Upgrade(upgradeTier.upgrade, upgradeTier.positiveUpgrade, upgradeTier.negativeUpgrade);
 
         int i = Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
         upgradeStats.GetUpgradeStats()[options[_number]].SetUpgradeTier(i);
 
+        player.Upgrade(upgradeTier.upgrade, upgradeTier.positiveUpgrade, upgradeTier.negativeUpgrade);
+
+
         descriptionBox.SetTrigger("Play");
         descriptionText.text = upgradeTier.upgradeDescription;
-
-        queueOfUpgrades--;
-        if(queueOfUpgrades > 0)
-        {
-            print("AGAIN");
-            SelectOptions();
-        }
     }
 
     public void SkipPressed()

@@ -3896,6 +3896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 7348414801056418857, guid: f48798acb8386364998655dfff172125, type: 3}
   spinningSawObject: {fileID: 7800288334459659184, guid: b1f9feab50d63294fa1917be906d6f40, type: 3}
+  sentryObject: {fileID: 5185208191233231910, guid: 0f583d8d48e920a469e4880e2524714e, type: 3}
   playerModel: {fileID: 1995065653}
   inGameUI: {fileID: 614661912}
   menuUI: {fileID: 1869701713}
@@ -3911,7 +3912,9 @@ MonoBehaviour:
   upgradableStats:
     playerSpeed: 3.5
     magnetStrength: 3.5
-    sawSpinSpeed: 0
+    sawSpinSpeed: 40
+    sentrySpinSpeed: 50
+    sentryFireRate: 0.8
     maxHealth: 100
     regeneration: 0.2
     projectileSpeed: 10
@@ -4058,7 +4061,12 @@ MonoBehaviour:
   - upgradeName: Spinning Saw
     upgrade: 17
     upgradeDescription: Spinning saws that deal damage
-    positiveUpgrade: 25
+    positiveUpgrade: 12
+    negativeUpgrade: 0
+  - upgradeName: Sentry
+    upgrade: 18
+    upgradeDescription: Adds a rotating sentry turret
+    positiveUpgrade: 0
     negativeUpgrade: 0
 --- !u!1 &768700909
 GameObject:
@@ -12230,6 +12238,10 @@ PrefabInstance:
     - target: {fileID: 446677474402143365, guid: a7155a6aa39d2e0409222340471ee017, type: 3}
       propertyPath: m_Name
       value: Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 446677474402143365, guid: a7155a6aa39d2e0409222340471ee017, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 446677474402143481, guid: a7155a6aa39d2e0409222340471ee017, type: 3}
       propertyPath: m_RootOrder

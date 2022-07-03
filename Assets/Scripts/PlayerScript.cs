@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
 {
     public GameObject projectile;
     public GameObject spinningSawObject;
+    public GameObject sentryObject;
 
     public GameObject playerModel;
 
@@ -28,6 +29,7 @@ public class PlayerScript : MonoBehaviour
     int score;
     float health;
     float fireRateTimer;
+    float sentriesFireRateTimer;
     float regenerationTimer;
 
     bool paused = true;
@@ -36,6 +38,7 @@ public class PlayerScript : MonoBehaviour
     bool playingOnPhone = false;
 
     List<GameObject> spinningSaws = new List<GameObject>();
+    List<GameObject> sentries = new List<GameObject>();
 
     [System.Serializable]
     public struct UpgradableStats
@@ -44,6 +47,8 @@ public class PlayerScript : MonoBehaviour
         public float playerSpeed; 
         public float magnetStrength; 
         public float sawSpinSpeed; 
+        public float sentrySpinSpeed;
+        public float sentryFireRate;
 
         [Header("Health stats")]
         public float maxHealth;
@@ -93,6 +98,7 @@ public class PlayerScript : MonoBehaviour
         regeneration,
         explosion,
         spinningSaw,
+        sentry,
     };
 
     private void Start()
@@ -105,6 +111,7 @@ public class PlayerScript : MonoBehaviour
         score = 0;
         coins = PlayerPrefs.GetInt("Coins", 0);
         fireRateTimer = upgradableStats.fireRate;
+        sentriesFireRateTimer = upgradableStats.sentryFireRate;
 
         //update UI
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
@@ -134,6 +141,9 @@ public class PlayerScript : MonoBehaviour
     {
         if (!paused)
         {
+            fireRateTimer -= Time.deltaTime;
+            sentriesFireRateTimer -= Time.deltaTime;
+
             if (playingOnComputer)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -150,18 +160,10 @@ public class PlayerScript : MonoBehaviour
                 playerModel.transform.localEulerAngles = new Vector3(0, Angle(aimingJoystick.Direction) - 45, 0);
             }
 
-            fireRateTimer -= Time.deltaTime;
-
             if ((aimingJoystick.Direction.magnitude != 0 && playingOnPhone) || (Input.GetMouseButton(0) && playingOnComputer))
             {
                 if (fireRateTimer <= 0)
                 {
-                    /*Vector3 angle = playerModel.transform.rotation.eulerAngles;
-                    for (int i = 0; i < upgradableStats.projectiles; i++)
-                    {
-                        FireProjectile(angle);
-                    }*/
-
                     int amount = upgradableStats.projectiles;
                     int angleRange = 5 + ((amount - 1) * 20);
                     int newAngle = (amount == 1) ? 0 : angleRange / (amount - 1);
@@ -169,7 +171,7 @@ public class PlayerScript : MonoBehaviour
                     {
                         Vector3 angle = playerModel.transform.rotation.eulerAngles;
                         angle += new Vector3(0, (i * newAngle) + (-angleRange / 2), 0);
-                        FireProjectile(angle);
+                        FireProjectile(angle, transform.position);
                     }
 
                     fireRateTimer = upgradableStats.fireRate;
@@ -189,6 +191,27 @@ public class PlayerScript : MonoBehaviour
             for (int i = 0; i < spinningSaws.Count; i++)
             {
                 spinningSaws[i].transform.localEulerAngles += new Vector3(0, Time.deltaTime * upgradableStats.sawSpinSpeed, 0);
+            }            
+
+            if(sentries.Count > 0)
+            {
+                for (int i = 0; i < sentries.Count; i++)
+                {
+                    sentries[i].transform.localEulerAngles += new Vector3(0, Time.deltaTime * upgradableStats.sentrySpinSpeed, 0);
+                }
+
+                if (sentriesFireRateTimer <= 0)
+                {
+                    sentriesFireRateTimer = upgradableStats.sentryFireRate;
+                    for (int i = 0; i < sentries.Count; i++)
+                    {
+                        Vector3 newAngle = new Vector3(
+                            sentries[i].transform.localEulerAngles.x,
+                            sentries[i].transform.localEulerAngles.y + 45,
+                            sentries[i].transform.localEulerAngles.z);
+                        FireProjectile(newAngle, sentries[i].transform.GetChild(0).position);
+                    }
+                }
             }
 
             //DEBUG
@@ -312,9 +335,9 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void FireProjectile(Vector3 _direction)
+    void FireProjectile(Vector3 _direction, Vector3 _pos)
     {
-        GameObject projectileObj = Instantiate(projectile, transform.position, Quaternion.identity);
+        GameObject projectileObj = Instantiate(projectile, _pos, Quaternion.identity);
         projectileObj.transform.localEulerAngles = _direction;
         projectileObj.GetComponent<ProjectileScript>().FireProjectile(
             upgradableStats.projectileSpeed,
@@ -354,11 +377,24 @@ public class PlayerScript : MonoBehaviour
             spinningSaws[i].transform.localEulerAngles = new Vector3(0, angle * i, 0);
         }
     }
+    void AddSentry()
+    {
+        GameObject sentryObj = Instantiate(sentryObject, transform.position, Quaternion.identity);
+        sentryObj.transform.parent = gameObject.transform;
+        sentries.Add(sentryObj);
+
+        float angle = 360 / 5;
+
+        //reset all spinning saws 
+        for(int i = 0; i < sentries.Count; i++)
+        {
+            sentries[i].transform.localEulerAngles = new Vector3(0, angle * i, 0);
+        }
+    }
 
     public void Upgrade(UPGRADES _upgrade, float _positiveUpgrade, float _negativeUpgrade)
     {
         SetPaused(false);
-        uiManager.ShowUpgradeUI(false);
         Time.timeScale = 1;
 
         switch (_upgrade)
@@ -437,9 +473,16 @@ public class PlayerScript : MonoBehaviour
                 upgradableStats.sawSpinSpeed    += _positiveUpgrade;
                 AddSpinningSaw();
                 break;
+
+            case UPGRADES.sentry:
+                upgradableStats.sentrySpinSpeed += _positiveUpgrade;
+                AddSentry();
+                break;
         }
 
         UpdateStats();
+
+        uiManager.ShowUpgradeUI(upgradeManager.CheckQueue());
     }
 
     void UpdateStats()
