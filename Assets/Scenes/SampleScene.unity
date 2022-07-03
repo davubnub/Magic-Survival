@@ -3913,7 +3913,7 @@ MonoBehaviour:
     playerSpeed: 3.5
     magnetStrength: 3.5
     sawSpinSpeed: 40
-    sentrySpinSpeed: 50
+    sentrySpinSpeed: 30
     sentryFireRate: 0.8
     maxHealth: 100
     regeneration: 0.2
@@ -4066,7 +4066,7 @@ MonoBehaviour:
   - upgradeName: Sentry
     upgrade: 18
     upgradeDescription: Adds a rotating sentry turret
-    positiveUpgrade: 0
+    positiveUpgrade: 5
     negativeUpgrade: 0
 --- !u!1 &768700909
 GameObject:
