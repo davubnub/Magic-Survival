@@ -22,16 +22,18 @@ public class EnemyScript : MonoBehaviour
 
     GameObject player;
     PlayerScript playerScript;
+    PoolingManager poolingManager;
     Rigidbody rb;
     public GameObject xpPellet;
     public GameObject criticalText;
 
     private void Start()
     {
-        player       = GameObject.FindGameObjectWithTag("Player");
-        playerScript = player.GetComponent<PlayerScript>();
-        rb           = GetComponent<Rigidbody>();
-        t            = attackWait;
+        player         = GameObject.FindGameObjectWithTag("Player");
+        poolingManager = GameObject.Find("PoolingManager").GetComponent<PoolingManager>();
+        playerScript   = player.GetComponent<PlayerScript>();
+        rb             = GetComponent<Rigidbody>();
+        t              = attackWait;
     }
 
     private void FixedUpdate()
@@ -75,11 +77,11 @@ public class EnemyScript : MonoBehaviour
         }
         if(other.CompareTag("Saw"))
         {
-            DamageEnemy(playerScript.GetUpgradableStats().bulletDamage);
+            DamageEnemy(playerScript.GetUpgradableStats().bulletDamage, true);
         }
         if(other.CompareTag("Explosion"))
         {
-            HitByExplosion();
+            DamageEnemy(playerScript.GetUpgradableStats().explosionDamage, true);
         }
     }
 
@@ -87,22 +89,18 @@ public class EnemyScript : MonoBehaviour
     {
         ProjectileScript projectile = _bullet.GetComponent<ProjectileScript>();
         projectile.StartExplosion(transform.position);
-        DamageEnemy(projectile.GetDamage());
+        DamageEnemy(projectile.GetDamage(), false);
         Knockback();
 
         if (projectile.GetPiercing() <= 0)
         {
-            Destroy(_bullet);
+            poolingManager.DespawnObject(_bullet);
+            //Destroy(_bullet);
         }
         else
         {
             projectile.SetPiercing();
         }
-    }
-
-    void HitByExplosion()
-    {
-        DamageEnemy(playerScript.GetUpgradableStats().explosionDamage);
     }
 
     void Knockback()
@@ -115,7 +113,7 @@ public class EnemyScript : MonoBehaviour
         paused = _pause;
     }
 
-    public void DamageEnemy(float _damage)
+    public void DamageEnemy(float _damage, bool _set)
     {
         int rand = Random.Range(0, 100);
 
@@ -125,7 +123,15 @@ public class EnemyScript : MonoBehaviour
             Destroy(Instantiate(criticalText, transform.position, Quaternion.identity), critcalTimer);
         }
 
-        health -= _damage;
+        if(!_set && playerScript.GetUpgradableStats().damageDistance > 0)
+        {
+            float newDamage = _damage * ((Vector3.Distance(player.transform.position, transform.position) * playerScript.GetUpgradableStats().damageDistance));
+            health -= newDamage;
+        }
+        else
+        {
+            health -= _damage;
+        }
 
         if(health <= 0)
         {
@@ -136,7 +142,9 @@ public class EnemyScript : MonoBehaviour
     void EnemyDied()
     {
         playerScript.IncreaseScore(scoreIncrease);
-        GameObject xpObj = Instantiate(xpPellet, transform.position, Quaternion.Euler(0, 45, 0));
+        //GameObject xpObj = Instantiate(xpPellet, transform.position, Quaternion.Euler(0, 45, 0));
+        GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
+        xpObj.GetComponent<XPScript>().Init();
         xpObj.GetComponent<XPScript>().SetXPGain(xp);
         Destroy(gameObject);
     }

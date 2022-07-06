@@ -80,7 +80,7 @@ MonoBehaviour:
   speed: 1300
   range: 2
   attackWait: 0.7
-  scoreIncrease: 5
+  scoreIncrease: 3
   xp: 1
   xpPellet: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
   criticalText: {fileID: 363805296615410397, guid: 8ba59f6d77ddbc3408106ff33991cd17, type: 3}

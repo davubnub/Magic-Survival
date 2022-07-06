@@ -19,7 +19,8 @@ public class UpgradeManager : MonoBehaviour
     public TextMeshProUGUI descriptionText;
 
     public int skipCoin;
-    public int chanceForReappear;
+    public int chanceForLastReappear;
+    public int chanceForPrevReappear;
 
     const int amountOfOptions = 3;
     const int maxTiers = 5;
@@ -54,12 +55,18 @@ public class UpgradeManager : MonoBehaviour
         skipText.text = "Skip +$" + skipCoin;
 
         List<int> listOfUpgrades = new List<int>();
+        List<int> previousUpgrades = new List<int>();
 
         for (int i = 0; i < upgradeStats.GetUpgradeStats().Count; i++)
         {
             if (upgradeStats.GetUpgradeStats()[i].tierLevel <= maxTiers)
             {
                 listOfUpgrades.Add(i);
+
+                if (upgradeStats.GetUpgradeStats()[i].tierLevel > 0)
+                {
+                    previousUpgrades.Add(i);
+                }
             }
         }
 
@@ -75,10 +82,20 @@ public class UpgradeManager : MonoBehaviour
 
         int random = Random.Range(0, 100);
 
-        if (random < chanceForReappear && System.Array.IndexOf(arrayOfUpgrades, previousPick) != -1)
+        if (random < chanceForLastReappear && System.Array.IndexOf(arrayOfUpgrades, previousPick) != -1)
         {
             int randOption = Random.Range(0, amountOfOptions);
             PickOption(randOption, previousPick);
+        }
+        else if (random < chanceForPrevReappear)
+        {
+            int randOption = Random.Range(0, amountOfOptions);
+            int randUpgrade = previousUpgrades[Random.Range(0, previousUpgrades.Count)];
+
+            if (System.Array.IndexOf(arrayOfUpgrades, randUpgrade) != -1)
+            {
+                PickOption(randOption, randUpgrade);
+            }
         }
     }
 

@@ -23,6 +23,7 @@ public class EnemySpawner : MonoBehaviour
     int enemyToAdd = 1;
 
     public GameObject[] enemies;
+    public PoolingManager poolingManager;
 
     List<GameObject> enemiesToSpawn = new List<GameObject>();
 
@@ -57,6 +58,7 @@ public class EnemySpawner : MonoBehaviour
             pos = new Vector3(pos.x, 0.5f, pos.z);
 
             Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)], pos, Quaternion.identity);
+            //poolingManager.SpawnObject(PoolingManager.PoolingEnum.Enemy, pos, Quaternion.identity);
         }
 
         spawnTracker++;

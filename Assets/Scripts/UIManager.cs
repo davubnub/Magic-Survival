@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject purchaseScreen;
     public GameObject settingsButton;
     public GameObject playScreen;
+    public GameObject prizeScreen;
 
     private void Start()
     {
@@ -46,6 +47,10 @@ public class UIManager : MonoBehaviour
     public void ShowPurchaseUI(bool _active)
     {
         purchaseScreen.SetActive(_active);
+    }
+    public void ShowPrizeUI(bool _active)
+    {
+        prizeScreen.SetActive(_active);
     }
     public void ShowSettingUI(bool _active)
     {

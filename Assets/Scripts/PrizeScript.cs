@@ -6,21 +6,15 @@ using TMPro;
 
 public class PrizeScript : MonoBehaviour
 {
-    public CustomizeMenuManager customizeMenuManager;
-    CustomizeMenuManager.CustomizationSelections[] customizationSelections;
+    public int minCoins;
+    public int maxCoins;
+    public TextMeshProUGUI coinText;
 
-    public Image characterImage;
-    public TextMeshProUGUI characterName;
-
-    public void UnlockPrize()
+    public void GivePrize()
     {
-        customizationSelections = customizeMenuManager.GetCustomizationSelectionsArray();
-
-        int picked = Random.Range(1, customizationSelections.Length);
-
-        PlayerPrefs.SetInt("customization" + picked, 1);
-
-        characterImage.sprite = customizationSelections[picked].image;
-        characterName.text    = customizationSelections[picked].name;
+        int coinPrize = Random.Range(minCoins, maxCoins);
+        coinPrize = (int)Mathf.Ceil((coinPrize / 10)) * 10;
+        coinText.text = "" + coinPrize;
+        PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + coinPrize);
     }
 }

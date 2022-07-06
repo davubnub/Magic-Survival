@@ -14,7 +14,9 @@ public class MenuUIManager : MonoBehaviour
     public CoinSpawner coinSpawner;
     public GameObject prizePrompt;
     public GameObject purchasePrompt;
+    public PurchaseScript purchaseScript;
     public PrizeScript prizeScript;
+    public PoolingManager poolingManager;
 
     public int coinsToPurchase;
 
@@ -36,6 +38,7 @@ public class MenuUIManager : MonoBehaviour
         player.StartPressed();
         enemySpawner.StartPressed();
         coinSpawner.StartPressed();
+        poolingManager.SpawnIntialObjects();
     }
     public void CustomizePressed()
     {
@@ -54,15 +57,28 @@ public class MenuUIManager : MonoBehaviour
         uiManager.ShowPurchaseUI(false);
         uiManager.ShowSettingUI(false);
     }
+    public void AcceptPressed()
+    {
+        uiManager.ShowPurchaseUI(false);
+        uiManager.ShowPrizeUI(false);
+    }
     public void PurchasePressed()
     {
         uiManager.ShowPurchaseUI(true);
         PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - coinsToPurchase);
         purchasePrompt.SetActive(PlayerPrefs.GetInt("Coins") >= coinsToPurchase);
-        prizeScript.UnlockPrize();
+        purchaseScript.UnlockPrize();
+    }
+    public void PrizePressed()
+    {
+        uiManager.ShowPrizeUI(true);
+        prizePrompt.SetActive(false);
+        prizeScript.GivePrize();
+        PlayerPrefs.SetInt("Day", System.DateTime.Today.Day);
     }
     public void GameOver(int _coins)
     {
         purchasePrompt.SetActive(_coins >= coinsToPurchase);
+        prizePrompt.SetActive(PlayerPrefs.GetInt("Day", 0) != System.DateTime.Today.Day);
     }
 }

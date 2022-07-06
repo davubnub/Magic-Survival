@@ -7,11 +7,17 @@ public class CoinScript : MonoBehaviour
     Transform player;
     public float despawnDistance;
     public float speed;
+    public float maxSpeed;
     float magnetRange;
 
-    private void Start()
+    void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        Init();
+    }
+
+    public void Init()
+    {
         magnetRange = player.GetComponent<PlayerScript>().GetUpgradableStats().magnetStrength;
     }
 
@@ -21,14 +27,15 @@ public class CoinScript : MonoBehaviour
 
         if (distance > despawnDistance)
         {
-            Destroy(gameObject);
+            player.GetComponent<PlayerScript>().GetPoolingManager().DespawnObject(gameObject);
+            //Destroy(gameObject);
         }
 
         if (distance < magnetRange)
         {
             Vector3 direction = player.position - transform.position;
 
-            transform.position += direction * Time.deltaTime * (Mathf.Pow(speed, magnetRange - distance) / 10);
+            transform.position += direction * Time.deltaTime * Mathf.Clamp(Mathf.Pow(speed, magnetRange - distance) / 10, 0, maxSpeed);
         }
     }
 }

@@ -11,9 +11,13 @@ public class XPScript : MonoBehaviour
     float magnetRange;
     int xpGain = 1;
 
-    private void Start()
+    public void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        Init();
+    }
+    public void Init()
+    {
         magnetRange = player.GetComponent<PlayerScript>().GetUpgradableStats().magnetStrength;
     }
 
@@ -23,7 +27,7 @@ public class XPScript : MonoBehaviour
 
         if (distance > despawnDistance)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         if(distance < magnetRange)

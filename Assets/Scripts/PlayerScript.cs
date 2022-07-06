@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public UpgradeStats upgradeStats;
     public PlayerMovement playerMovement;
     public Joystick aimingJoystick;
+    public PoolingManager poolingManager;
     public int xpToLevelUp;
     public float xpIncr;
     public float maxHealthLevelUp;
@@ -69,11 +70,9 @@ public class PlayerScript : MonoBehaviour
 
         [Header("Projectile special stats")]
         public float homingStrength;
-        public float spinStrength;
         public float explosionSize;
         public float explosionDamage;
-        public float stunAmount;
-        public float trailLength;
+        public float damageDistance;
     }
 
     public UpgradableStats upgradableStats;
@@ -99,6 +98,8 @@ public class PlayerScript : MonoBehaviour
         explosion,
         spinningSaw,
         sentry,
+        jackOfAllTrades,
+        distanceDamage,
     };
 
     private void Start()
@@ -227,12 +228,14 @@ public class PlayerScript : MonoBehaviour
         if(other.CompareTag("xp"))
         {
             IncreaseXP(other.GetComponent<XPScript>().GetXPGain());
-            Destroy(other.gameObject);
+            poolingManager.DespawnObject(other.gameObject);
+            //Destroy(other.gameObject);
         }
         if(other.CompareTag("Coin"))
         {
             IncreaseCoins(1);
-            Destroy(other.gameObject);
+            poolingManager.DespawnObject(other.gameObject);
+            //Destroy(other.gameObject);
         }
     }
 
@@ -337,12 +340,13 @@ public class PlayerScript : MonoBehaviour
 
     void FireProjectile(Vector3 _direction, Vector3 _pos)
     {
-        GameObject projectileObj = Instantiate(projectile, _pos, Quaternion.identity);
+        //GameObject projectileObj = Instantiate(projectile, _pos, Quaternion.identity);
+        GameObject projectileObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.Bullet, _pos, Quaternion.identity);
         projectileObj.transform.localEulerAngles = _direction;
         projectileObj.GetComponent<ProjectileScript>().FireProjectile(
             upgradableStats.projectileSpeed,
             upgradableStats.bulletRange,
-            upgradableStats.bulletDamage,
+            upgradableStats.bulletDamage / upgradableStats.projectiles,
             upgradableStats.projectilePierce,
             upgradableStats.accuracy,
             upgradableStats.homingStrength,
@@ -357,7 +361,7 @@ public class PlayerScript : MonoBehaviour
 
     void UpdateMaxHealth()
     {
-        if(health > upgradableStats.maxHealth)
+        if(health >= upgradableStats.maxHealth)
         {
             health = upgradableStats.maxHealth;
         }
@@ -369,7 +373,7 @@ public class PlayerScript : MonoBehaviour
         sawObj.transform.parent = gameObject.transform;
         spinningSaws.Add(sawObj);
 
-        float angle = 360 / 5;
+        float angle = 360 / spinningSaws.Count;
 
         //reset all spinning saws 
         for(int i = 0; i < spinningSaws.Count; i++)
@@ -383,7 +387,7 @@ public class PlayerScript : MonoBehaviour
         sentryObj.transform.parent = gameObject.transform;
         sentries.Add(sentryObj);
 
-        float angle = 360 / 5;
+        float angle = 360 / sentries.Count;
 
         //reset all spinning saws 
         for(int i = 0; i < sentries.Count; i++)
@@ -400,7 +404,7 @@ public class PlayerScript : MonoBehaviour
         switch (_upgrade)
         {
             case UPGRADES.playerSpeed:
-                upgradableStats.playerSpeed         += _positiveUpgrade;
+                upgradableStats.playerSpeed     += _positiveUpgrade;
                 break;
 
             case UPGRADES.maxHealth:
@@ -453,7 +457,7 @@ public class PlayerScript : MonoBehaviour
 
             case UPGRADES.extraProjectile:
                 upgradableStats.projectiles     += (int)_positiveUpgrade;
-                upgradableStats.bulletDamage    /= _negativeUpgrade;
+                upgradableStats.bulletDamage    += _negativeUpgrade;
                 break;
 
             case UPGRADES.submachineGun:
@@ -478,11 +482,26 @@ public class PlayerScript : MonoBehaviour
                 upgradableStats.sentrySpinSpeed += _positiveUpgrade;
                 AddSentry();
                 break;
+
+            case UPGRADES.jackOfAllTrades:
+                upgradableStats.maxHealth       *= _positiveUpgrade;
+                upgradableStats.playerSpeed     *= _positiveUpgrade;
+                upgradableStats.bulletDamage    *= _positiveUpgrade;
+                break;
+
+            case UPGRADES.distanceDamage:
+                upgradableStats.damageDistance  += _positiveUpgrade;
+                break;
         }
 
         UpdateStats();
 
         uiManager.ShowUpgradeUI(upgradeManager.CheckQueue());
+    }
+
+    public PoolingManager GetPoolingManager()
+    {
+        return poolingManager;
     }
 
     void UpdateStats()

@@ -14,6 +14,7 @@ public class ProjectileScript : MonoBehaviour
     bool explosion = false;
     Transform closestEnemy;
     Rigidbody rb;
+    PlayerScript player;
 
     public GameObject explosionObj;
     public float explosionWait;
@@ -22,6 +23,7 @@ public class ProjectileScript : MonoBehaviour
     {
         homing = (homingStrength != 0);
         rb = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
     }
 
     public void FireProjectile(float _projectileSpeed, float _destroyTimer, float _damage, int _piercing, float _accuracy, float _homing, float _explosion)
@@ -99,6 +101,7 @@ public class ProjectileScript : MonoBehaviour
     private IEnumerator DestroyWait()
     {
         yield return new WaitForSeconds(destroyTimer);
-        Destroy(gameObject);
+        player.GetPoolingManager().DespawnObject(gameObject);
+        //Destroy(gameObject);
     }
 }

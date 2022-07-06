@@ -9,6 +9,7 @@ public class CoinSpawner : MonoBehaviour
     public int maxSpawn;
 
     public GameObject coinObj;
+    public PoolingManager poolingManager;
 
     GameObject player;
 
@@ -51,6 +52,8 @@ public class CoinSpawner : MonoBehaviour
             }
         } while (!foundSpot);
 
-        Instantiate(coinObj, pos, Quaternion.Euler(0, 45, 0));
+        GameObject coinObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.Coins, pos, Quaternion.Euler(0, 45, 0));
+        coinObj.GetComponent<CoinScript>().Init();
+        //Instantiate(coinObj, pos, Quaternion.Euler(0, 45, 0));
     }
 }
