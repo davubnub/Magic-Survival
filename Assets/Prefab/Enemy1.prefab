@@ -85,6 +85,7 @@ MonoBehaviour:
   xp: 1
   xpPellet: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
   criticalText: {fileID: 363805296615410397, guid: 8ba59f6d77ddbc3408106ff33991cd17, type: 3}
+  impactVFX: {fileID: 5481399442741325673, guid: 770a45e0ecbbff546a2dde9ade6a984b, type: 3}
 --- !u!1 &1878159798645061628
 GameObject:
   m_ObjectHideFlags: 0

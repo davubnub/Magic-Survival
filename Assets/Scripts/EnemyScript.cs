@@ -26,6 +26,7 @@ public class EnemyScript : MonoBehaviour
     Rigidbody rb;
     public GameObject xpPellet;
     public GameObject criticalText;
+    public GameObject impactVFX;
 
     private void Start()
     {
@@ -91,6 +92,9 @@ public class EnemyScript : MonoBehaviour
         projectile.StartExplosion(transform.position);
         DamageEnemy(projectile.GetDamage(), false);
         Knockback();
+
+        Vector3 direction = transform.position - _bullet.transform.position;
+        Destroy(Instantiate(impactVFX, _bullet.transform.position, Quaternion.LookRotation(-direction)), impactVFX.GetComponent<ParticleSystem>().main.duration);
 
         if (projectile.GetPiercing() <= 0)
         {

@@ -11,6 +11,8 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject playerModel;
 
+    public Transform muzzleVFX;
+
     public InGameUIManager inGameUI;
     public MenuUIManager menuUI;
     public UpgradeManager upgradeManager;
@@ -19,6 +21,7 @@ public class PlayerScript : MonoBehaviour
     public PlayerMovement playerMovement;
     public Joystick aimingJoystick;
     public PoolingManager poolingManager;
+
     public int xpToLevelUp;
     public float xpIncr;
     public float maxHealthLevelUp;
@@ -352,6 +355,13 @@ public class PlayerScript : MonoBehaviour
             upgradableStats.homingStrength,
             upgradableStats.explosionSize
             );
+
+        muzzleVFX.rotation = Quaternion.Euler(_direction);
+        muzzleVFX.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+
+        //GameObject muzzleObj = Instantiate(muzzleVFX, _pos, Quaternion.Euler(_direction));
+        //muzzleObj.transform.SetParent(transform);
+        //Destroy(muzzleObj, muzzleObj.transform.GetChild(0).GetComponent<ParticleSystem>().main.duration);
     }
 
     public UpgradableStats GetUpgradableStats()
