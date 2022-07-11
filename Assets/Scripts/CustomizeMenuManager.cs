@@ -28,7 +28,7 @@ public class CustomizeMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.GetInt("customization" + 0, 1);
+        PlayerPrefs.GetInt("customization" + 0, 0);
         selectedCharacter = PlayerPrefs.GetInt("PlayerSkin", 0);
         selectAmount = customizationSelections.Length;
         SetUpCustomization();
@@ -48,9 +48,11 @@ public class CustomizeMenuManager : MonoBehaviour
 
     void SetCustomizeUnlocked()
     {
-        for(int i = 0; i < selectAmount; i++)
+        customizationSelections[0].isUnlocked = true;
+
+        for (int i = 1; i < selectAmount; i++)
         {
-            customizationSelections[i].isUnlocked = (PlayerPrefs.GetInt("customization" + i, 0) == 0) ? false : true;
+            customizationSelections[i].isUnlocked = (PlayerPrefs.GetInt("customization" + i, 1) == 1) ? false : true;
         }
     }
 

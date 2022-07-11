@@ -129,13 +129,12 @@ public class EnemyScript : MonoBehaviour
 
         if(!_set && playerScript.GetUpgradableStats().damageDistance > 0)
         {
-            float newDamage = _damage * ((Vector3.Distance(player.transform.position, transform.position) * playerScript.GetUpgradableStats().damageDistance));
-            health -= newDamage;
+            //float newDamage = _damage * ((Vector3.Distance(player.transform.position, transform.position) * playerScript.GetUpgradableStats().damageDistance));
+            _damage += (Vector3.Distance(player.transform.position, transform.position) / 10) * playerScript.GetUpgradableStats().damageDistance;
+            print("_damage: " + _damage);
         }
-        else
-        {
-            health -= _damage;
-        }
+
+        health -= _damage;
 
         if(health <= 0)
         {
