@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class MenuUIManager : MonoBehaviour
@@ -23,6 +24,9 @@ public class MenuUIManager : MonoBehaviour
 
     [Header("Audio")]
     public GameObject BGM;
+    public bool hasSound = true;
+    public GameObject MusicButton;
+    public GameObject SoundButton;
 
     public void RestartPressed()
     {
@@ -99,10 +103,36 @@ public class MenuUIManager : MonoBehaviour
 
     public void ToggleMusic()
     {
-        BGM.SetActive(!BGM.activeSelf);
+        if (BGM.activeSelf)
+        {
+            Color Red = new Color(0.78f, 0.36f, 0.38f, 1.0f);
+            MusicButton.GetComponent<Image>().color = Red;
+
+            BGM.SetActive(false);
+        }
+        else
+        {
+            Color Green = new Color(0.56f, 0.74f, 0.45f, 1.0f);
+            MusicButton.GetComponent<Image>().color = Green;
+
+            BGM.SetActive(true);
+        }
     }
     public void ToggleSound()
     {
+        if (hasSound)
+        {
+            Color Red = new Color(0.78f, 0.36f, 0.38f, 1.0f);
+            SoundButton.GetComponent<Image>().color = Red;
 
+            hasSound = false;
+        }
+        else
+        {
+            Color Green = new Color(0.56f, 0.74f, 0.45f, 1.0f);
+            SoundButton.GetComponent<Image>().color = Green;
+
+            hasSound = true;
+        }
     }
 }

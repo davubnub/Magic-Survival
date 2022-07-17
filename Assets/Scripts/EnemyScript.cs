@@ -24,6 +24,7 @@ public class EnemyScript : MonoBehaviour
     float health;
 
     GameObject player;
+    MenuUIManager menuUI;
     PlayerScript playerScript;
     PoolingManager poolingManager;
     Rigidbody rb;
@@ -45,6 +46,7 @@ public class EnemyScript : MonoBehaviour
     private void Start()
     {
         player         = GameObject.FindGameObjectWithTag("Player");
+        menuUI         = GameObject.Find("MenuUI").GetComponent<MenuUIManager>();
         poolingManager = GameObject.Find("PoolingManager").GetComponent<PoolingManager>();
         playerScript   = player.GetComponent<PlayerScript>();
         rb             = GetComponent<Rigidbody>();
@@ -170,8 +172,11 @@ public class EnemyScript : MonoBehaviour
 
     void EnemyDied()
     {
-        AudioSource.PlayClipAtPoint(SFX_Destroy.clip, new Vector3(0, 0, 0), 1.0f);
-
+        if (menuUI.hasSound)
+        {
+            AudioSource.PlayClipAtPoint(SFX_Destroy.clip, new Vector3(0, 0, 0), 1.0f);
+        }
+        
         playerScript.IncreaseScore(scoreIncrease);
         GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
         xpObj.GetComponent<XPScript>().Init();

@@ -286,7 +286,10 @@ public class PlayerScript : MonoBehaviour
 
     void PlayerDied()
     {
-        AudioSource.PlayClipAtPoint(SFX_Death, new Vector3(0, 0, 0), 1.0f);
+        if (menuUI.hasSound)
+        {
+            AudioSource.PlayClipAtPoint(SFX_Death, new Vector3(0, 0, 0), 1.0f);
+        }
 
         if (score > PlayerPrefs.GetInt("HighScore"))
         {
@@ -305,7 +308,10 @@ public class PlayerScript : MonoBehaviour
 
     void IncreaseXP(int _xp)
     {
-        AudioSource.PlayClipAtPoint(SFX_Collect, new Vector3(0, 0, 0), 1.0f);
+        if (menuUI.hasSound)
+        {
+            AudioSource.PlayClipAtPoint(SFX_Collect, new Vector3(0, 0, 0), 1.0f);
+        }
 
         xp += _xp;
 
@@ -318,7 +324,10 @@ public class PlayerScript : MonoBehaviour
     }
     public void IncreaseCoins(int _coin)
     {
-        AudioSource.PlayClipAtPoint(SFX_Collect, new Vector3(0, 0, 0), 1.0f);
+        if (menuUI.hasSound)
+        {
+            AudioSource.PlayClipAtPoint(SFX_Collect, new Vector3(0, 0, 0), 1.0f);
+        }
 
         coins += _coin;
 
@@ -344,7 +353,10 @@ public class PlayerScript : MonoBehaviour
 
         xpToLevelUp = (int)Mathf.Ceil(xpToLevelUp * xpIncr);
 
-        AudioSource.PlayClipAtPoint(SFX_Menu_Pop_up, new Vector3(0, 0, 0), 1.0f);
+        if (menuUI.hasSound)
+        {
+            AudioSource.PlayClipAtPoint(SFX_Menu_Pop_up, new Vector3(0, 0, 0), 1.0f);
+        }
 
         uiManager.ShowUpgradeUI(true);
         upgradeManager.QueueUpgrades();
