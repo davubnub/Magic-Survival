@@ -9,10 +9,12 @@ public class EnemyScript : MonoBehaviour
     public float speed;
     public float range;
     public float attackWait;
+    public float deathWait;
     public int scoreIncrease;
     public int xp;
 
     bool paused = false;
+    bool isDead = false;
 
     const float critcalTimer = 1.5f;
 
@@ -24,12 +26,20 @@ public class EnemyScript : MonoBehaviour
     PlayerScript playerScript;
     PoolingManager poolingManager;
     Rigidbody rb;
+    public Animator enemyAnimator;
     public GameObject xpPellet;
     public GameObject criticalText;
     public GameObject impactVFX;
 
     [Header("Audio")]
     public AudioSource SFX_Destroy;
+
+    public enum ANIMATIONS
+    {
+        Walk,
+        Attack,
+        Die
+    }
 
     private void Start()
     {
@@ -42,7 +52,7 @@ public class EnemyScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!paused)
+        if (!paused && !isDead)
         {
             //rotate to look at player
             transform.LookAt(player.transform);
@@ -64,6 +74,7 @@ public class EnemyScript : MonoBehaviour
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
+                        PlayAnimation(ANIMATIONS.Attack);
                         playerScript.UpdateHealth(damage);
                     }
                 }
@@ -154,7 +165,29 @@ public class EnemyScript : MonoBehaviour
         GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
         xpObj.GetComponent<XPScript>().Init();
         xpObj.GetComponent<XPScript>().SetXPGain(xp);
+<<<<<<< Updated upstream
         //Destroy(gameObject);
         poolingManager.DespawnObject(this.gameObject);
+=======
+        PlayAnimation(ANIMATIONS.Die);
+        isDead = true;
+        Destroy(GetComponent<BoxCollider>());
+        GetComponent<Rigidbody>().isKinematic = true;
+        Destroy(gameObject, deathWait);
+    }
+
+    public void PlayAnimation(ANIMATIONS _animation)
+    {
+        switch (_animation)
+        {
+            case ANIMATIONS.Attack:
+                enemyAnimator.SetTrigger("Attack");
+                break;
+
+            case ANIMATIONS.Die:
+                enemyAnimator.SetBool("IsDead", true);
+                break;
+        }
+>>>>>>> Stashed changes
     }
 }

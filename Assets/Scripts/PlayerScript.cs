@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject sentryObject;
 
     public GameObject playerModel;
+    public Animator modelAnimator;
 
     public Transform muzzleVFX;
 
@@ -103,6 +104,12 @@ public class PlayerScript : MonoBehaviour
         sentry,
         jackOfAllTrades,
         distanceDamage,
+    };
+    public enum ANIMATIONS
+    {
+        Idle,
+        Walk,
+        Die,
     };
 
     [Header("Audio")]
@@ -284,7 +291,9 @@ public class PlayerScript : MonoBehaviour
         if (score > PlayerPrefs.GetInt("HighScore"))
         {
             PlayerPrefs.SetInt("HighScore", score);
-        }        
+        }
+
+        PlayAnimation(ANIMATIONS.Die);
 
         uiManager.ShowGameOverScreen(true);
         uiManager.ShowInGameUI(true);
@@ -521,6 +530,24 @@ public class PlayerScript : MonoBehaviour
         UpdateStats();
 
         uiManager.ShowUpgradeUI(upgradeManager.CheckQueue());
+    }
+
+    public void PlayAnimation(ANIMATIONS _animation)
+    {
+        switch(_animation)
+        {
+            case ANIMATIONS.Idle:
+                modelAnimator.SetBool("IsWalking", false);
+                break;
+
+            case ANIMATIONS.Walk:
+                modelAnimator.SetBool("IsWalking", true);
+                break;
+
+            case ANIMATIONS.Die:
+                modelAnimator.SetBool("IsDead", true);
+                break;
+        }
     }
 
     public PoolingManager GetPoolingManager()
