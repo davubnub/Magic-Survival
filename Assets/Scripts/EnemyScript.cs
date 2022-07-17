@@ -9,7 +9,7 @@ public class EnemyScript : MonoBehaviour
     public float speed;
     public float range;
     public float attackWait;
-    public float deathWait;
+    public float despawnWait;
     public int scoreIncrease;
     public int xp;
 
@@ -165,15 +165,17 @@ public class EnemyScript : MonoBehaviour
         GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
         xpObj.GetComponent<XPScript>().Init();
         xpObj.GetComponent<XPScript>().SetXPGain(xp);
-<<<<<<< Updated upstream
-        //Destroy(gameObject);
-        poolingManager.DespawnObject(this.gameObject);
-=======
         PlayAnimation(ANIMATIONS.Die);
         isDead = true;
         Destroy(GetComponent<BoxCollider>());
         GetComponent<Rigidbody>().isKinematic = true;
-        Destroy(gameObject, deathWait);
+        StartCoroutine(DepsawnWait(despawnWait));
+    }
+
+    IEnumerator DepsawnWait(float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        poolingManager.DespawnObject(this.gameObject);
     }
 
     public void PlayAnimation(ANIMATIONS _animation)
@@ -188,6 +190,5 @@ public class EnemyScript : MonoBehaviour
                 enemyAnimator.SetBool("IsDead", true);
                 break;
         }
->>>>>>> Stashed changes
     }
 }

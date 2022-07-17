@@ -10,7 +10,6 @@ public class EnemySpawner : MonoBehaviour
     float spawnTimer = 0;
     public int wave;
 
-    public GameObject[] enemies;
     public PoolingManager poolingManager;
 
     bool started = false;
@@ -25,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
         public float duration;
         public float spawnRate;
         public int amountToSpawn;
-        public GameObject[] enemiesToSpawn;
+        public PoolingManager.PoolingEnum[] enemiesToSpawn;
     }
 
     public EnemySpawnWaves[] enemySpawnWaves;
@@ -72,7 +71,7 @@ public class EnemySpawner : MonoBehaviour
             pos = new Vector3(pos.x, 0.5f, pos.z);
 
             //Instantiate(enemySpawnWaves[wave].enemiesToSpawn[Random.Range(0, enemySpawnWaves[wave].enemiesToSpawn.Length)], pos, Quaternion.identity);
-            poolingManager.SpawnObject(PoolingManager.PoolingEnum.Enemy, pos, Quaternion.identity);
+            poolingManager.SpawnObject(enemySpawnWaves[wave].enemiesToSpawn[Random.Range(0, enemySpawnWaves[wave].enemiesToSpawn.Length)], pos, Quaternion.identity);
         }
     }
 

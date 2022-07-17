@@ -20,7 +20,10 @@ public class PoolingManager : MonoBehaviour
         Coins,
         XP,
         Bullet,
-        Enemy,
+        Enemy1,
+        Enemy2,
+        Enemy3,
+        Enemy4,
     }
 
     public void SpawnIntialObjects()

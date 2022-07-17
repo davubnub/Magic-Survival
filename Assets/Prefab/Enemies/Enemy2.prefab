@@ -82,7 +82,7 @@ MonoBehaviour:
   speed: 1300
   range: 1.9
   attackWait: 0.5
-  deathWait: 0
+  despawnWait: 1
   scoreIncrease: 2
   xp: 1
   enemyAnimator: {fileID: 4696555237960149489}
