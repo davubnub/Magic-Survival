@@ -70,8 +70,8 @@ public class EnemySpawner : MonoBehaviour
             Vector3 pos = player.transform.position + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
             pos = new Vector3(pos.x, 0.5f, pos.z);
 
-            //Instantiate(enemySpawnWaves[wave].enemiesToSpawn[Random.Range(0, enemySpawnWaves[wave].enemiesToSpawn.Length)], pos, Quaternion.identity);
-            poolingManager.SpawnObject(enemySpawnWaves[wave].enemiesToSpawn[Random.Range(0, enemySpawnWaves[wave].enemiesToSpawn.Length)], pos, Quaternion.identity);
+            GameObject enemyObj = poolingManager.SpawnObject(enemySpawnWaves[wave].enemiesToSpawn[Random.Range(0, enemySpawnWaves[wave].enemiesToSpawn.Length)], pos, Quaternion.identity);
+            enemyObj.GetComponent<EnemyScript>().Init();
         }
     }
 

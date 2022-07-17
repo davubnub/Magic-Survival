@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-    public float health;
+    public float maxHealth;
     public float damage;
     public float speed;
     public float range;
@@ -21,6 +21,7 @@ public class EnemyScript : MonoBehaviour
     int layerMask = 1 << 8;
 
     float t;
+    float health;
 
     GameObject player;
     PlayerScript playerScript;
@@ -48,6 +49,17 @@ public class EnemyScript : MonoBehaviour
         playerScript   = player.GetComponent<PlayerScript>();
         rb             = GetComponent<Rigidbody>();
         t              = attackWait;
+        Init();
+    }
+
+    public void Init()
+    {
+        t      = attackWait;
+        health = maxHealth;
+        isDead = false;
+
+        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = false;
     }
 
     private void FixedUpdate()
@@ -161,14 +173,14 @@ public class EnemyScript : MonoBehaviour
         AudioSource.PlayClipAtPoint(SFX_Destroy.clip, new Vector3(0, 0, 0), 1.0f);
 
         playerScript.IncreaseScore(scoreIncrease);
-        //GameObject xpObj = Instantiate(xpPellet, transform.position, Quaternion.Euler(0, 45, 0));
         GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
         xpObj.GetComponent<XPScript>().Init();
         xpObj.GetComponent<XPScript>().SetXPGain(xp);
         PlayAnimation(ANIMATIONS.Die);
         isDead = true;
-        Destroy(GetComponent<BoxCollider>());
+        GetComponent<BoxCollider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
+
         StartCoroutine(DepsawnWait(despawnWait));
     }
 
