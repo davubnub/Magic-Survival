@@ -154,6 +154,7 @@ public class EnemyScript : MonoBehaviour
         GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
         xpObj.GetComponent<XPScript>().Init();
         xpObj.GetComponent<XPScript>().SetXPGain(xp);
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        poolingManager.DespawnObject(this.gameObject);
     }
 }

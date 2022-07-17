@@ -21,6 +21,9 @@ public class MenuUIManager : MonoBehaviour
 
     public int coinsToPurchase;
 
+    [Header("Audio")]
+    public GameObject BGM;
+
     public void RestartPressed()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -96,7 +99,7 @@ public class MenuUIManager : MonoBehaviour
 
     public void ToggleMusic()
     {
-
+        BGM.SetActive(!BGM.activeSelf);
     }
     public void ToggleSound()
     {
