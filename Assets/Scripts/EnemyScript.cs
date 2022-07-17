@@ -28,6 +28,9 @@ public class EnemyScript : MonoBehaviour
     public GameObject criticalText;
     public GameObject impactVFX;
 
+    [Header("Audio")]
+    public AudioSource SFX_Destroy;
+
     private void Start()
     {
         player         = GameObject.FindGameObjectWithTag("Player");
@@ -129,22 +132,23 @@ public class EnemyScript : MonoBehaviour
 
         if(!_set && playerScript.GetUpgradableStats().damageDistance > 0)
         {
-            float newDamage = _damage * ((Vector3.Distance(player.transform.position, transform.position) * playerScript.GetUpgradableStats().damageDistance));
-            health -= newDamage;
-        }
-        else
-        {
-            health -= _damage;
+            //float newDamage = _damage * ((Vector3.Distance(player.transform.position, transform.position) * playerScript.GetUpgradableStats().damageDistance));
+            _damage += (Vector3.Distance(player.transform.position, transform.position) / 10) * playerScript.GetUpgradableStats().damageDistance;
+            print("_damage: " + _damage);
         }
 
-        if(health <= 0)
+        health -= _damage;
+
+        if (health <= 0)
         {
-            EnemyDied();
+            EnemyDied();    
         }
     }
 
     void EnemyDied()
     {
+        AudioSource.PlayClipAtPoint(SFX_Destroy.clip, new Vector3(0, 0, 0), 1.0f);
+
         playerScript.IncreaseScore(scoreIncrease);
         //GameObject xpObj = Instantiate(xpPellet, transform.position, Quaternion.Euler(0, 45, 0));
         GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));

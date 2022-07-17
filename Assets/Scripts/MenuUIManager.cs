@@ -17,6 +17,7 @@ public class MenuUIManager : MonoBehaviour
     public PurchaseScript purchaseScript;
     public PrizeScript prizeScript;
     public PoolingManager poolingManager;
+    public TextMeshProUGUI[] coinTexts;
 
     public int coinsToPurchase;
 
@@ -68,6 +69,7 @@ public class MenuUIManager : MonoBehaviour
         PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - coinsToPurchase);
         purchasePrompt.SetActive(PlayerPrefs.GetInt("Coins") >= coinsToPurchase);
         purchaseScript.UnlockPrize();
+        UpdateCoinTexts();
     }
     public void PrizePressed()
     {
@@ -75,10 +77,29 @@ public class MenuUIManager : MonoBehaviour
         prizePrompt.SetActive(false);
         prizeScript.GivePrize();
         PlayerPrefs.SetInt("Day", System.DateTime.Today.Day);
+        UpdateCoinTexts();
     }
     public void GameOver(int _coins)
     {
         purchasePrompt.SetActive(_coins >= coinsToPurchase);
         prizePrompt.SetActive(PlayerPrefs.GetInt("Day", 0) != System.DateTime.Today.Day);
+        UpdateCoinTexts();
+    }
+
+    void UpdateCoinTexts()
+    {
+        for(int i = 0; i < coinTexts.Length; i++)
+        {
+            coinTexts[i].text = "Coins: " + PlayerPrefs.GetInt("Coins");
+        }
+    }
+
+    public void ToggleMusic()
+    {
+
+    }
+    public void ToggleSound()
+    {
+
     }
 }

@@ -6,45 +6,59 @@ public class EnemySpawner : MonoBehaviour
 {
     public float spawnRate;
     public float radius;
-    [Tooltip("Amount to spawn in a group")]
-    public int spawnGroupAmount;
-    [Tooltip("Wait this amount of spawns before increasing amount of enemies that spawn in a group")]
-    public int groupSpawnIncrModulus;
-    [Tooltip("Wait this amount of spawns before increases the addition of adding difficult enemies to the enemiesToSpawn list")]
-    public int addHarderEnemyAmountModulus;
-    [Tooltip("Wait this amount of spawns before adding enemies to list")]
-    public int harderEnemyAddModulus;
-    [Tooltip("Amount of items in enemiesToSpawn list that will be replaced")]
-    public int harderEnemyReplaceAmount;
-    [Tooltip("Length of enemiesToSpawn list")]
-    public int enemiesToSpawnLength;
 
-    int spawnTracker = 0;
-    int enemyToAdd = 1;
+    float spawnTimer = 0;
+    public int wave;
 
     public GameObject[] enemies;
     public PoolingManager poolingManager;
 
-    List<GameObject> enemiesToSpawn = new List<GameObject>();
+    bool started = false;
+
+    //List<GameObject> enemiesToSpawn = new List<GameObject>();
 
     GameObject player;
+
+    [System.Serializable]
+    public struct EnemySpawnWaves
+    {
+        public float duration;
+        public float spawnRate;
+        public int amountToSpawn;
+        public GameObject[] enemiesToSpawn;
+    }
+
+    public EnemySpawnWaves[] enemySpawnWaves;
+
+    public void Awake()
+    {
+        spawnTimer = enemySpawnWaves[wave].duration;
+    }
 
     public void StartPressed()
     {
         StartCoroutine(WaitToSpawn());
         player = GameObject.FindGameObjectWithTag("Player");
+        started = true;
+    }
 
-        for(int i = 0; i < enemiesToSpawnLength; i++)
+    private void Update()
+    {
+        if (started)
         {
-            //add first enemy type to the list
-            enemiesToSpawn.Add(enemies[0]);
+            spawnTimer -= Time.deltaTime;
+
+            if (spawnTimer <= 0)
+            {
+                NextWave();
+            }
         }
     }
 
     private IEnumerator WaitToSpawn()
     {
-        yield return new WaitForSeconds(spawnRate);
-        SpawnEnemy(spawnGroupAmount);
+        yield return new WaitForSeconds(enemySpawnWaves[wave].spawnRate);
+        SpawnEnemy(enemySpawnWaves[wave].amountToSpawn);
 
         StartCoroutine(WaitToSpawn());
     }
@@ -57,28 +71,15 @@ public class EnemySpawner : MonoBehaviour
             Vector3 pos = player.transform.position + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
             pos = new Vector3(pos.x, 0.5f, pos.z);
 
-            Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)], pos, Quaternion.identity);
+            Instantiate(enemySpawnWaves[wave].enemiesToSpawn[Random.Range(0, enemySpawnWaves[wave].enemiesToSpawn.Length)], pos, Quaternion.identity);
             //poolingManager.SpawnObject(PoolingManager.PoolingEnum.Enemy, pos, Quaternion.identity);
         }
+    }
 
-        spawnTracker++;
-
-        if(spawnTracker % groupSpawnIncrModulus == 0)
-        {
-            spawnGroupAmount++;
-        }
-        if (spawnTracker % harderEnemyAddModulus == 0 && enemyToAdd < enemies.Length)
-        {
-            for (int i = 0; i < harderEnemyReplaceAmount; i++)
-            {
-                //add first enemy type to the list
-                enemiesToSpawn.RemoveAt(0);
-                enemiesToSpawn.Add(enemies[enemyToAdd]);
-            }
-        }
-        if (spawnTracker % addHarderEnemyAmountModulus == 0)
-        {
-            enemyToAdd++;
-        }
+    void NextWave()
+    {
+        if (wave + 1 <= enemySpawnWaves.Length)
+            wave++;
+        spawnTimer = enemySpawnWaves[wave].duration;
     }
 }
