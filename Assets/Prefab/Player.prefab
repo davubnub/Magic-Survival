@@ -150,6 +150,7 @@ MonoBehaviour:
   projectile: {fileID: 7348414801056418857, guid: f48798acb8386364998655dfff172125, type: 3}
   spinningSawObject: {fileID: 7800288334459659184, guid: b1f9feab50d63294fa1917be906d6f40, type: 3}
   sentryObject: {fileID: 5185208191233231910, guid: 0f583d8d48e920a469e4880e2524714e, type: 3}
+  spikeObject: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
   playerModel: {fileID: 107954810302192360}
   modelAnimator: {fileID: 107954810353100169}
   muzzleVFX: {fileID: 1285584518804264680}
@@ -161,6 +162,7 @@ MonoBehaviour:
   playerMovement: {fileID: 107954809467561399}
   aimingJoystick: {fileID: 0}
   poolingManager: {fileID: 0}
+  enemySpawner: {fileID: 0}
   xpToLevelUp: 4
   xpIncr: 1.16
   maxHealthLevelUp: 2
@@ -168,9 +170,6 @@ MonoBehaviour:
   upgradableStats:
     playerSpeed: 3.5
     magnetStrength: 3.6
-    sawSpinSpeed: 40
-    sentrySpinSpeed: 30
-    sentryFireRate: 0.8
     maxHealth: 100
     regeneration: 0.25
     projectileSpeed: 10
@@ -187,6 +186,13 @@ MonoBehaviour:
     explosionSize: 0
     explosionDamage: 1
     damageDistance: 0
+    sawSpinSpeed: 40
+    sentrySpinSpeed: 30
+    sentryFireRate: 0.8
+    lightningRate: 0
+    lightningDamage: 8
+    spikeDestroyDuration: 0
+    spikeSpawnRate: 0
   SFX_Collect: {fileID: 8300000, guid: 9e3f8e6caa6387747b59e20a5526b07b, type: 3}
   SFX_Death: {fileID: 8300000, guid: 77cce344e3b9b25458ff662faabb3556, type: 3}
   SFX_Menu_Pop_up: {fileID: 8300000, guid: d341ff51a587f9242898d1e5a84dd9a5, type: 3}
@@ -333,6 +339,11 @@ MonoBehaviour:
     upgradeDescription: Damage is increased by distance
     positiveUpgrade: 2
     negativeUpgrade: 0.8
+  - upgradeName: Lightning Strike
+    upgrade: 21
+    upgradeDescription: Lightning strikes a random enemy
+    positiveUpgrade: 1.8
+    negativeUpgrade: 0
 --- !u!82 &107954809467561405
 AudioSource:
   m_ObjectHideFlags: 0

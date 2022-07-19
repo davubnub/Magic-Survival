@@ -8223,7 +8223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a82da492b80e87478623dbcc23884a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRate: 4
   radius: 18
   wave: 0
   poolingManager: {fileID: 1859885232}
@@ -9675,7 +9674,7 @@ MonoBehaviour:
   descriptionText: {fileID: 1672978575}
   skipCoin: 3
   chanceForLastReappear: 30
-  chanceForPrevReappear: 30
+  chanceForPrevReappear: 40
 --- !u!1 &1703993628
 GameObject:
   m_ObjectHideFlags: 0
@@ -11007,6 +11006,9 @@ MonoBehaviour:
   - {fileID: 1227339426}
   coinsToPurchase: 100
   BGM: {fileID: 0}
+  hasSound: 1
+  MusicButton: {fileID: 0}
+  SoundButton: {fileID: 0}
 --- !u!1001 &1899566697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13322,6 +13324,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 210998990}
     - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: enemySpawner
+      value: 
+      objectReference: {fileID: 1348700913}
+    - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
       propertyPath: aimingJoystick
       value: 
       objectReference: {fileID: 1110123490}
@@ -13333,6 +13339,14 @@ PrefabInstance:
       propertyPath: upgradeManager
       value: 
       objectReference: {fileID: 1696654000}
+    - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: upgradableStats.spikeSpawnRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: upgradableStats.spikeDestroyDuration
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 107954809467561403, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -13376,6 +13390,26 @@ PrefabInstance:
     - target: {fileID: 107954809467561403, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809467561404, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: upgradeStats.Array.size
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809467561404, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: upgradeStats.Array.data[21].upgrade
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809467561404, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: upgradeStats.Array.data[21].upgradeName
+      value: Spike
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809467561404, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: upgradeStats.Array.data[21].positiveUpgrade
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809467561404, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: upgradeStats.Array.data[21].upgradeDescription
+      value: Spawns a spike every so often
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}

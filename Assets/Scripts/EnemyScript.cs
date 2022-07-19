@@ -28,10 +28,12 @@ public class EnemyScript : MonoBehaviour
     PlayerScript playerScript;
     PoolingManager poolingManager;
     Rigidbody rb;
+    EnemySpawner enemySpawner;
     public Animator enemyAnimator;
     public GameObject xpPellet;
     public GameObject criticalText;
     public GameObject impactVFX;
+    public GameObject lightningVFX;
 
     [Header("Audio")]
     public AudioSource SFX_Destroy;
@@ -46,8 +48,9 @@ public class EnemyScript : MonoBehaviour
     private void Start()
     {
         player         = GameObject.FindGameObjectWithTag("Player");
-        menuUI         = GameObject.Find("MenuUI").GetComponent<MenuUIManager>();
-        poolingManager = GameObject.Find("PoolingManager").GetComponent<PoolingManager>();
+        menuUI         = FindObjectOfType<MenuUIManager>();
+        poolingManager = FindObjectOfType<PoolingManager>();
+        enemySpawner   = FindObjectOfType<EnemySpawner>();
         playerScript   = player.GetComponent<PlayerScript>();
         rb             = GetComponent<Rigidbody>();
         t              = attackWait;
@@ -59,6 +62,7 @@ public class EnemyScript : MonoBehaviour
         t      = attackWait;
         health = maxHealth;
         isDead = false;
+        lightningVFX.SetActive(false);
 
         GetComponent<BoxCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
@@ -112,6 +116,10 @@ public class EnemyScript : MonoBehaviour
         {
             DamageEnemy(playerScript.GetUpgradableStats().explosionDamage, true);
         }
+        if(other.CompareTag("Spike"))
+        {
+            DamageEnemy(playerScript.GetUpgradableStats().bulletDamage / 4, true);
+        }
     }
 
     void HitByBullet(GameObject _bullet)
@@ -145,7 +153,7 @@ public class EnemyScript : MonoBehaviour
         paused = _pause;
     }
 
-    public void DamageEnemy(float _damage, bool _set)
+    public void DamageEnemy(float _damage, bool _setDamage)
     {
         int rand = Random.Range(0, 100);
 
@@ -155,7 +163,7 @@ public class EnemyScript : MonoBehaviour
             Destroy(Instantiate(criticalText, transform.position, Quaternion.identity), critcalTimer);
         }
 
-        if(!_set && playerScript.GetUpgradableStats().damageDistance > 0)
+        if(!_setDamage && playerScript.GetUpgradableStats().damageDistance > 0)
         {
             //float newDamage = _damage * ((Vector3.Distance(player.transform.position, transform.position) * playerScript.GetUpgradableStats().damageDistance));
             _damage += (Vector3.Distance(player.transform.position, transform.position) / 10) * playerScript.GetUpgradableStats().damageDistance;
@@ -189,8 +197,17 @@ public class EnemyScript : MonoBehaviour
         StartCoroutine(DepsawnWait(despawnWait));
     }
 
+    public IEnumerator LightningStrike(float _damage)
+    {
+        lightningVFX.SetActive(true);
+        DamageEnemy(_damage, true);
+        yield return new WaitForSeconds(1);
+        lightningVFX.SetActive(false);
+    }
+
     IEnumerator DepsawnWait(float _delay)
     {
+        enemySpawner.RemoveEnemy(gameObject);
         yield return new WaitForSeconds(_delay);
         poolingManager.DespawnObject(this.gameObject);
     }

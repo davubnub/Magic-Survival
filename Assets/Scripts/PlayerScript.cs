@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject projectile;
     public GameObject spinningSawObject;
     public GameObject sentryObject;
+    public GameObject spikeObject;
 
     public GameObject playerModel;
     public Animator modelAnimator;
@@ -22,6 +23,7 @@ public class PlayerScript : MonoBehaviour
     public PlayerMovement playerMovement;
     public Joystick aimingJoystick;
     public PoolingManager poolingManager;
+    public EnemySpawner enemySpawner;
 
     public int xpToLevelUp;
     public float xpIncr;
@@ -33,8 +35,11 @@ public class PlayerScript : MonoBehaviour
     int coins;
     int score;
     float health;
+
     float fireRateTimer;
     float sentriesFireRateTimer;
+    float lightningTimer;
+    float spikeSpawnTimer;
     float regenerationTimer;
 
     bool paused = true;
@@ -51,9 +56,6 @@ public class PlayerScript : MonoBehaviour
         [Header("Player stats")]
         public float playerSpeed; 
         public float magnetStrength; 
-        public float sawSpinSpeed; 
-        public float sentrySpinSpeed;
-        public float sentryFireRate;
 
         [Header("Health stats")]
         public float maxHealth;
@@ -77,6 +79,15 @@ public class PlayerScript : MonoBehaviour
         public float explosionSize;
         public float explosionDamage;
         public float damageDistance;
+
+        [Header("Special stats")]
+        public float sawSpinSpeed;
+        public float sentrySpinSpeed;
+        public float sentryFireRate;
+        public float lightningRate;
+        public float lightningDamage;
+        public float spikeDestroyDuration;
+        public float spikeSpawnRate;
     }
 
     public UpgradableStats upgradableStats;
@@ -104,6 +115,8 @@ public class PlayerScript : MonoBehaviour
         sentry,
         jackOfAllTrades,
         distanceDamage,
+        lightningStrike,
+        spike,
     };
     public enum ANIMATIONS
     {
@@ -128,6 +141,8 @@ public class PlayerScript : MonoBehaviour
         coins = PlayerPrefs.GetInt("Coins", 0);
         fireRateTimer = upgradableStats.fireRate;
         sentriesFireRateTimer = upgradableStats.sentryFireRate;
+        lightningTimer = upgradableStats.lightningRate;
+        spikeSpawnTimer = upgradableStats.spikeSpawnRate;
 
         //update UI
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
@@ -159,6 +174,8 @@ public class PlayerScript : MonoBehaviour
         {
             fireRateTimer -= Time.deltaTime;
             sentriesFireRateTimer -= Time.deltaTime;
+            lightningTimer -= Time.deltaTime;
+            spikeSpawnTimer -= Time.deltaTime;
 
             if (playingOnComputer)
             {
@@ -219,6 +236,7 @@ public class PlayerScript : MonoBehaviour
                 if (sentriesFireRateTimer <= 0)
                 {
                     sentriesFireRateTimer = upgradableStats.sentryFireRate;
+
                     for (int i = 0; i < sentries.Count; i++)
                     {
                         Vector3 newAngle = new Vector3(
@@ -228,6 +246,24 @@ public class PlayerScript : MonoBehaviour
                         FireProjectile(newAngle, sentries[i].transform.GetChild(0).position);
                     }
                 }
+            }
+
+            if (upgradableStats.lightningRate > 0 && lightningTimer <= 0)
+            {
+                lightningTimer = 10 - upgradableStats.lightningRate;
+
+                List<GameObject> activeEnemies = enemySpawner.GetActiveEnemies();
+                if (activeEnemies.Count > 0)
+                {
+                    int randomEnemy = Random.Range(0, activeEnemies.Count);
+
+                    StartCoroutine(activeEnemies[randomEnemy].GetComponent<EnemyScript>().LightningStrike(upgradableStats.lightningDamage));
+                }
+            }
+            if (upgradableStats.spikeSpawnRate > 0 && spikeSpawnTimer <= 0)
+            {
+                spikeSpawnTimer = 5 - upgradableStats.spikeSpawnRate;
+                Destroy(Instantiate(spikeObject, transform.position, Quaternion.identity), upgradableStats.spikeDestroyDuration);
             }
 
             //DEBUG
@@ -536,6 +572,14 @@ public class PlayerScript : MonoBehaviour
 
             case UPGRADES.distanceDamage:
                 upgradableStats.damageDistance  += _positiveUpgrade;
+                break;
+
+            case UPGRADES.lightningStrike:
+                upgradableStats.lightningRate   += _positiveUpgrade;
+                break;
+
+            case UPGRADES.spike:
+                upgradableStats.spikeSpawnRate  += _positiveUpgrade;
                 break;
         }
 
