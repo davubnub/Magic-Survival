@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject spinningSawObject;
     public GameObject sentryObject;
     public GameObject spikeObject;
+    public GameObject heads;
 
     public GameObject playerModel;
     public Animator modelAnimator;
@@ -24,6 +25,8 @@ public class PlayerScript : MonoBehaviour
     public Joystick aimingJoystick;
     public PoolingManager poolingManager;
     public EnemySpawner enemySpawner;
+
+    public CustomizeMenuManager customizeMenuManager;
 
     public int xpToLevelUp;
     public float xpIncr;
@@ -154,6 +157,7 @@ public class PlayerScript : MonoBehaviour
         playerMovement.UpdateMovemnentSpeed(upgradableStats.playerSpeed);
 
         SetPaused(true);
+        SetHead();
 
         #if UNITY_STANDALONE_WIN
             playingOnComputer = true;
@@ -271,6 +275,13 @@ public class PlayerScript : MonoBehaviour
             {
                 IncreaseXP(xpToLevelUp - xp);
             }
+            if (Input.GetKey(KeyCode.E))
+            {
+                for(int i = 1; i < customizeMenuManager.GetCustomizationSelectionsArray().Length; i++)
+                {
+                    PlayerPrefs.SetInt("customization" + i, 1);
+                }
+            }
         }
     }
 
@@ -335,7 +346,8 @@ public class PlayerScript : MonoBehaviour
         PlayAnimation(ANIMATIONS.Die);
 
         uiManager.ShowGameOverScreen(true);
-        uiManager.ShowInGameUI(true);
+        uiManager.ShowInGameUI(false);
+        uiManager.ShowUpgradeUI(false);
         menuUI.UpdateScoreText(score);
         menuUI.UpdateHighScoreText(PlayerPrefs.GetInt("HighScore"));
         menuUI.GameOver(coins);
@@ -433,6 +445,16 @@ public class PlayerScript : MonoBehaviour
         //GameObject muzzleObj = Instantiate(muzzleVFX, _pos, Quaternion.Euler(_direction));
         //muzzleObj.transform.SetParent(transform);
         //Destroy(muzzleObj, muzzleObj.transform.GetChild(0).GetComponent<ParticleSystem>().main.duration);
+    }
+
+    public void SetHead()
+    {
+        foreach(Transform child in heads.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+        heads.transform.GetChild(PlayerPrefs.GetInt("PlayerSkin")).gameObject.SetActive(true);
     }
 
     public UpgradableStats GetUpgradableStats()
