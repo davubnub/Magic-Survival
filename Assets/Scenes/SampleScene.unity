@@ -2407,6 +2407,55 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &423949914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 423949916}
+  - component: {fileID: 423949915}
+  m_Layer: 0
+  m_Name: ObstacleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &423949915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423949914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7c85fe5f14c604a8bf748a70cafce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnRate: 0
+  radius: 20
+  maxSpawn: 10
+  spawnChance: 0.2
+  ObstacleObj: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
+  poolingManager: {fileID: 1859885232}
+--- !u!4 &423949916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423949914}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7430024, y: 1.2349132, z: 1.5307703}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &454892305
 GameObject:
   m_ObjectHideFlags: 0
@@ -6646,6 +6695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollbar: {fileID: 1177959900}
   characterSelect: {fileID: 6586234027863712516, guid: 17e40ef234a33db48ba2c918a2bfd443, type: 3}
+  player: {fileID: 753105177}
   content: {fileID: 1934320491}
   startingPos: {fileID: 1591278194}
   spacing: 280
@@ -6668,7 +6718,6 @@ MonoBehaviour:
   - name: Head Text
     image: {fileID: 0}
     isUnlocked: 0
-  player: {fileID: 753105177}
 --- !u!1 &1105867495
 GameObject:
   m_ObjectHideFlags: 0
@@ -7427,8 +7476,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1070646919}
   m_HandleRect: {fileID: 1070646918}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.64832914
+  m_Value: -0.00000010859075
+  m_Size: 0.6487088
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10928,6 +10977,9 @@ MonoBehaviour:
   - name: 6
     gameObjectToSpawn: {fileID: 1878159797469750284, guid: b8d949b17f54c424db4574b7e3d51966, type: 3}
     IntialToSpawn: 30
+  - name: 7
+    gameObjectToSpawn: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
+    IntialToSpawn: 30
 --- !u!4 &1859885233
 Transform:
   m_ObjectHideFlags: 0
@@ -10940,7 +10992,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1869701711
 GameObject:
@@ -11001,6 +11053,7 @@ MonoBehaviour:
   player: {fileID: 753105177}
   uiManager: {fileID: 210998990}
   enemySpawner: {fileID: 1348700913}
+  obstacleSpawner: {fileID: 423949915}
   coinSpawner: {fileID: 31842337}
   prizePrompt: {fileID: 1012706243}
   purchasePrompt: {fileID: 1941163780}
@@ -11394,7 +11447,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1934320490
 GameObject:
@@ -11793,7 +11846,7 @@ Transform:
   - {fileID: 2109130196}
   - {fileID: 275385845}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1968014233
 GameObject:
