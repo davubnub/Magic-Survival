@@ -14,6 +14,7 @@ public class MenuUIManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShow
     public PlayerScript player;
     public UIManager uiManager;
     public EnemySpawner enemySpawner;
+    public ObstacleSpawner obstacleSpawner;
     public CoinSpawner coinSpawner;
     public GameObject prizePrompt;
     public GameObject purchasePrompt;
@@ -95,6 +96,7 @@ public class MenuUIManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShow
         player.StartPressed();
         enemySpawner.StartPressed();
         coinSpawner.StartPressed();
+        obstacleSpawner.StartPressed();
         poolingManager.SpawnIntialObjects();
     }
     public void CustomizePressed()
