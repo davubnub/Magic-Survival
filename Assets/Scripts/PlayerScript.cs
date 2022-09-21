@@ -188,12 +188,10 @@ public class PlayerScript : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayerMask))
                 {
                     playerModel.transform.LookAt(hit.point);
                     playerModel.transform.localEulerAngles = new Vector3(0, playerModel.transform.localEulerAngles.y, 0);
-
-                    print("hit.point " + hit.point);
                 }
             }
             if (playingOnPhone && aimingJoystick.Direction.magnitude != 0)

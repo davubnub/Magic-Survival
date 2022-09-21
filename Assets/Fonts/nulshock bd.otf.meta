@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bba46ffb07c82a04fac8d9a497ee141e
+guid: db189e27eb07ec2408ddbef66dc5b5e0
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -10,7 +10,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Nulshock
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: bba46ffb07c82a04fac8d9a497ee141e, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

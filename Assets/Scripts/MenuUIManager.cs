@@ -271,7 +271,7 @@ public class MenuUIManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShow
     {
         for(int i = 0; i < coinTexts.Length; i++)
         {
-            coinTexts[i].text = "Coins: " + PlayerPrefs.GetInt("Coins");
+            coinTexts[i].text = "Volts: " + PlayerPrefs.GetInt("Coins");
         }
     }
 

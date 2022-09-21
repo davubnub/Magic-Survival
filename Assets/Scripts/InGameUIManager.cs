@@ -34,6 +34,6 @@ public class InGameUIManager : MonoBehaviour
 
     public void UpdateCoinText(int _coins)
     {
-        coinText.text = "Coins $" + _coins;
+        coinText.text = "Volts $" + _coins;
     }
 }
