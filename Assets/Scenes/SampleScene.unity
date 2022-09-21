@@ -4185,7 +4185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a45b715de74cd4e4bafa6f5559b8738a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.316606
+      value: -5.12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a45b715de74cd4e4bafa6f5559b8738a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4193,7 +4193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a45b715de74cd4e4bafa6f5559b8738a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.2300916
+      value: -10.16
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a45b715de74cd4e4bafa6f5559b8738a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7534,7 +7534,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1070646918}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.6483292
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11036,7 +11036,7 @@ MonoBehaviour:
     IntialToSpawn: 30
   - name: 7
     gameObjectToSpawn: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
-    IntialToSpawn: 30
+    IntialToSpawn: 100
 --- !u!4 &1859885233
 Transform:
   m_ObjectHideFlags: 0
