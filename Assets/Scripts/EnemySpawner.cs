@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     float spawnTimer = 0;
     public int wave;
+    public bool dontSpawn;
 
     public PoolingManager poolingManager;
 
@@ -36,9 +37,12 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartPressed()
     {
-        StartCoroutine(WaitToSpawn());
-        player = GameObject.FindGameObjectWithTag("Player");
-        started = true;
+        if (!dontSpawn)
+        {
+            StartCoroutine(WaitToSpawn());
+            player = GameObject.FindGameObjectWithTag("Player");
+            started = true;
+        }
     }
 
     private void Update()

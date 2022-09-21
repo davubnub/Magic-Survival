@@ -23,6 +23,7 @@ public class MenuUIManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShow
     public PrizeScript prizeScript;
     public PoolingManager poolingManager;
     public TextMeshProUGUI[] coinTexts;
+    public Animator cameraAnimator;
 
     public int coinsToPurchase;
 
@@ -93,11 +94,21 @@ public class MenuUIManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShow
     }
     public void StartPressed()
     {
+        StartCoroutine(StartDelay());
+    }
+    IEnumerator StartDelay()
+    {
+        cameraAnimator.SetTrigger("PlayPosition");
+        poolingManager.SpawnIntialObjects();
+        uiManager.ShowPlayScreen(false);
+
+        yield return new WaitForSeconds(1.5f);
+
+        uiManager.ShowInGameUI(true);
         player.StartPressed();
         enemySpawner.StartPressed();
         coinSpawner.StartPressed();
         obstacleSpawner.StartPressed();
-        poolingManager.SpawnIntialObjects();
     }
     public void CustomizePressed()
     {

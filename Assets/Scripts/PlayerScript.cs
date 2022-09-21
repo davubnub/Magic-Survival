@@ -50,6 +50,8 @@ public class PlayerScript : MonoBehaviour
     bool playingOnComputer = false;
     bool playingOnPhone = false;
 
+    int groundLayerMask = 1 << 0;
+
     List<GameObject> spinningSaws = new List<GameObject>();
     List<GameObject> sentries = new List<GameObject>();
 
@@ -190,6 +192,8 @@ public class PlayerScript : MonoBehaviour
                 {
                     playerModel.transform.LookAt(hit.point);
                     playerModel.transform.localEulerAngles = new Vector3(0, playerModel.transform.localEulerAngles.y, 0);
+
+                    print("hit.point " + hit.point);
                 }
             }
             if (playingOnPhone && aimingJoystick.Direction.magnitude != 0)
@@ -316,8 +320,6 @@ public class PlayerScript : MonoBehaviour
     public void StartPressed()
     {
         SetPaused(false);
-        uiManager.ShowPlayScreen(false);
-        uiManager.ShowInGameUI(true);
     }
 
     public void UpdateHealth(float _damage)
