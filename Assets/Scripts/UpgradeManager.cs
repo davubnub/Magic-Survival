@@ -112,7 +112,7 @@ public class UpgradeManager : MonoBehaviour
         UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[_i]];
 
         //upgradeNameText[_i].text = upgradeTier.upgradeName;
-        upgradeIconImage[_i].sprite = upgradeIcons[_i];
+        upgradeIconImage[_i].sprite = upgradeIcons[_num];
         tierText[_i].text = "" + Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
         //upgradeDescriptionText[i].text = upgradeTier.upgradeDescription;
     }
