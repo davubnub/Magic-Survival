@@ -10,10 +10,11 @@ public class UpgradeManager : MonoBehaviour
     public UpgradeStats upgradeStats;
 
     public GameObject[] optionButtons;
-    public TextMeshProUGUI[] upgradeNameText;
+    //public TextMeshProUGUI[] upgradeNameText;
+    public Image[] upgradeIconImage;
+    public Sprite[] upgradeIcons;
     public TextMeshProUGUI[] upgradeDescriptionText;
     public TextMeshProUGUI[] tierText;
-    public Image[] upgradeIcons;
     public TextMeshProUGUI skipText;
     public Animator descriptionBox;
     public TextMeshProUGUI descriptionText;
@@ -110,7 +111,8 @@ public class UpgradeManager : MonoBehaviour
 
         UpgradeStats.upgradeTiers upgradeTier = upgradeStats.GetUpgradeStats()[options[_i]];
 
-        upgradeNameText[_i].text = upgradeTier.upgradeName;
+        //upgradeNameText[_i].text = upgradeTier.upgradeName;
+        upgradeIconImage[_i].sprite = upgradeIcons[_i];
         tierText[_i].text = "" + Mathf.Clamp(upgradeTier.tierLevel + 1, 0, 5);
         //upgradeDescriptionText[i].text = upgradeTier.upgradeDescription;
     }
