@@ -8536,7 +8536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 18
   wave: 0
-  dontSpawn: 1
+  dontSpawn: 0
   poolingManager: {fileID: 1859885232}
   enemySpawnWaves:
   - duration: 30
@@ -13996,6 +13996,26 @@ PrefabInstance:
     - target: {fileID: 107954809467561403, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809693385171, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809693385171, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: field of view
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809693385172, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809693385172, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 107954809693385172, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 1574769044203690519, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
       propertyPath: WorldChunks.Array.data[0]
