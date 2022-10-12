@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
                 playerScript.PlayAnimation((movement.magnitude > 0)?PlayerScript.ANIMATIONS.Walk : PlayerScript.ANIMATIONS.Idle);
             #endif
 
-            transform.position += movement.normalized * Time.deltaTime * playerSpeed;
+            transform.position += movement * Time.deltaTime * playerSpeed;
         }
     }
 
