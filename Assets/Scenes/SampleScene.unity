@@ -8558,7 +8558,7 @@ MonoBehaviour:
   - duration: 30
     spawnRate: 5
     amountToSpawn: 2
-    enemiesToSpawn: 0600000005000000
+    enemiesToSpawn: 03000000
   - duration: 30
     spawnRate: 4.5
     amountToSpawn: 3
