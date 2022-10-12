@@ -29,7 +29,7 @@ Transform:
   m_Children:
   - {fileID: 7316667815184802159}
   m_Father: {fileID: 1878159797469750285}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1878159797469750284
 GameObject:
@@ -63,6 +63,7 @@ Transform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 1878159798645061629}
+  - {fileID: 8330798671045880149}
   - {fileID: 5010570219375340511}
   - {fileID: 6739085428279325894}
   m_Father: {fileID: 0}
@@ -111,13 +112,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1
   damage: -3
-  speed: 1800
+  speed: 1900
   range: 1.8
   attackWait: 0.25
   despawnWait: 1
   scoreIncrease: 1
   xp: 1
-  enemyAnimator: {fileID: 7143656909492832290}
+  enemyAnimator: {fileID: 5379611762234692088}
   xpPellet: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
   criticalText: {fileID: 363805296615410397, guid: 8ba59f6d77ddbc3408106ff33991cd17, type: 3}
   impactVFX: {fileID: 5481399442741325673, guid: 770a45e0ecbbff546a2dde9ade6a984b, type: 3}
@@ -319,6 +320,25 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!95 &5379611762234692088
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707465702582006767}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2b4d37ee854e9874ebeae037f63fb6a4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8828870535563845637
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +430,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0ccd0866b34132c489db16c049a11284, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0ccd0866b34132c489db16c049a11284, type: 3}
       propertyPath: m_LocalScale.x
@@ -472,6 +492,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: enemyRobotAnimation
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0ccd0866b34132c489db16c049a11284, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ccd0866b34132c489db16c049a11284, type: 3}
 --- !u!1 &5675326894765306213 stripped
@@ -483,4 +507,71 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0ccd0866b34132c489db16c049a11284, type: 3}
   m_PrefabInstance: {fileID: 4756828615272418356}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8364952788010077886
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1878159797469750285}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.444
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+      propertyPath: m_Name
+      value: Speed enemyRobot Animation
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+--- !u!1 &8707465702582006767 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+  m_PrefabInstance: {fileID: 8364952788010077886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8330798671045880149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bef1236c28b756c4cb4353d97f0b5fe3, type: 3}
+  m_PrefabInstance: {fileID: 8364952788010077886}
   m_PrefabAsset: {fileID: 0}

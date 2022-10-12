@@ -221,7 +221,7 @@ public class EnemyScript : MonoBehaviour
                 break;
 
             case ANIMATIONS.Die:
-                enemyAnimator.SetBool("IsDead", true);
+                enemyAnimator.SetBool("isDead", true);
                 break;
         }
     }
