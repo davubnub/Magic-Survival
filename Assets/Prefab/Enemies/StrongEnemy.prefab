@@ -163,7 +163,7 @@ MonoBehaviour:
   maxHealth: 20
   damage: -15
   speed: 1500
-  range: 2.2
+  range: 2.5
   attackWait: 0.5
   despawnWait: 1
   scoreIncrease: 2

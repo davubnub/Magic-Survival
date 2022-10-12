@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1
   damage: -3
-  speed: 1900
+  speed: 2200
   range: 1.8
   attackWait: 0.25
   despawnWait: 1

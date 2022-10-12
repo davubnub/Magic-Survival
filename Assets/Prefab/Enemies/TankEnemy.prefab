@@ -78,14 +78,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
-  damage: -15
-  speed: 1400
-  range: 2
-  attackWait: 0.7
+  damage: -25
+  speed: 1300
+  range: 2.5
+  attackWait: 0.5
   despawnWait: 1
   scoreIncrease: 3
   xp: 1
-  enemyAnimator: {fileID: 0}
+  enemyAnimator: {fileID: 643573840896091546}
   xpPellet: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
   criticalText: {fileID: 363805296615410397, guid: 8ba59f6d77ddbc3408106ff33991cd17, type: 3}
   impactVFX: {fileID: 5481399442741325673, guid: 770a45e0ecbbff546a2dde9ade6a984b, type: 3}

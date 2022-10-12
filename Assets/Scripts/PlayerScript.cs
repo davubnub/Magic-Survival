@@ -143,7 +143,7 @@ public class PlayerScript : MonoBehaviour
         xp = 0;
         level = 0;
         score = 0;
-        coins = PlayerPrefs.GetInt("Coins", 0);
+        coins = 250;// PlayerPrefs.GetInt("Coins", 0);
         fireRateTimer = upgradableStats.fireRate;
         sentriesFireRateTimer = upgradableStats.sentryFireRate;
         lightningTimer = upgradableStats.lightningRate;
