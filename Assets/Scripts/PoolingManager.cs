@@ -44,6 +44,11 @@ public class PoolingManager : MonoBehaviour
         }
     }
 
+    public bool CheckIfPoolFree(PoolingEnum _poolingEnum)
+    {
+        return (FindFreeObject(parentPools[(int)_poolingEnum].transform) != null);
+    }
+
     public GameObject SpawnObject(PoolingEnum _poolingEnum, Vector3 _position, Quaternion _rotation)
     {
         GameObject spawnObj = FindFreeObject(parentPools[(int)_poolingEnum].transform);
@@ -74,7 +79,7 @@ public class PoolingManager : MonoBehaviour
             }
         }
 
-        Debug.LogError($"Couldn't find a free object in {_parent.name} pool (try increasing the size)");
+        Debug.LogWarning($"Couldn't find a free object in {_parent.name} pool (try increasing the size)");
         return null;
     }
 
