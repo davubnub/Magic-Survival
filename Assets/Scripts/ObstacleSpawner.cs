@@ -19,7 +19,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     public void StartPressed()
     {
-        StartCoroutine(WaitToSpawn());
+        //StartCoroutine(WaitToSpawn());
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
