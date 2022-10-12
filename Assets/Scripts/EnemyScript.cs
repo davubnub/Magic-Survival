@@ -184,11 +184,14 @@ public class EnemyScript : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(SFX_Destroy.clip, new Vector3(0, 0, 0), 1.0f);
         }
-        
+
         playerScript.IncreaseScore(scoreIncrease);
-        GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
-        xpObj.GetComponent<XPScript>().Init();
-        xpObj.GetComponent<XPScript>().SetXPGain(xp);
+        if (poolingManager.CheckIfPoolFree(PoolingManager.PoolingEnum.XP))
+        {
+            GameObject xpObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.XP, transform.position, Quaternion.Euler(0, 45, 0));
+            xpObj.GetComponent<XPScript>().Init();
+            xpObj.GetComponent<XPScript>().SetXPGain(xp);
+        }
         PlayAnimation(ANIMATIONS.Die);
         isDead = true;
         GetComponent<BoxCollider>().enabled = false;

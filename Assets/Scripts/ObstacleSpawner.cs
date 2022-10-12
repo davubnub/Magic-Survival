@@ -61,7 +61,10 @@ public class ObstacleSpawner : MonoBehaviour
 
         } while (!foundSpot && tries < MaxTries);
 
-        GameObject ObstacleObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.Obstacles, pos, Quaternion.Euler(0, 45, 0));
+        if (poolingManager.CheckIfPoolFree(PoolingManager.PoolingEnum.Obstacles))
+        {
+            GameObject ObstacleObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.Obstacles, pos, Quaternion.Euler(0, 45, 0));
+        }
         //coinObj.GetComponent<CoinScript>().Init();
         //Instantiate(coinObj, pos, Quaternion.Euler(0, 45, 0));
     }
