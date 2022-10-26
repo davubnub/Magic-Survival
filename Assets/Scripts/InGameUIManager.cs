@@ -6,7 +6,7 @@ using TMPro;
 
 public class InGameUIManager : MonoBehaviour
 {
-    bool toggleFPS;
+    public bool toggleFPS;
     public Slider xpBar;
     public Slider healthBar;
     public TextMeshProUGUI levelText;
