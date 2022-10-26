@@ -25,13 +25,23 @@ public class PlayerMovement : MonoBehaviour
             #if UNITY_STANDALONE_WIN
                 movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
                 playerScript.PlayAnimation((movement.magnitude > 0)?PlayerScript.ANIMATIONS.Walk : PlayerScript.ANIMATIONS.Idle);
-            #endif
-            #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
+#endif
+#if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
                 movement = new Vector3(movementJoystick.Horizontal, 0, movementJoystick.Vertical);
                 playerScript.PlayAnimation((movement.magnitude > 0)?PlayerScript.ANIMATIONS.Walk : PlayerScript.ANIMATIONS.Idle);
-            #endif
-
+#endif
             transform.position += movement * Time.deltaTime * playerSpeed;
+        }
+    }
+    float Angle(Vector2 vector2)
+    {
+        if (vector2.x < 0)
+        {
+            return 360 - (Mathf.Atan2(vector2.x, vector2.y) * Mathf.Rad2Deg * -1);
+        }
+        else
+        {
+            return Mathf.Atan2(vector2.x, vector2.y) * Mathf.Rad2Deg;
         }
     }
 

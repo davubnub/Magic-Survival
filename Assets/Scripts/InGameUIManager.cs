@@ -6,11 +6,29 @@ using TMPro;
 
 public class InGameUIManager : MonoBehaviour
 {
+    bool toggleFPS;
     public Slider xpBar;
     public Slider healthBar;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI coinText;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI fpsCounter;
+    int avgFrameRate;
+
+    private void Update()
+    {
+        if (toggleFPS)
+        {
+            float current = 0;
+            current = Time.frameCount / Time.time;
+            avgFrameRate = (int)current;
+            fpsCounter.text = "FPS: " + avgFrameRate.ToString();
+        }
+        else
+        {
+            fpsCounter.text = "";
+        }
+    }
 
     public void UpdateLevelText(int _level)
     {
