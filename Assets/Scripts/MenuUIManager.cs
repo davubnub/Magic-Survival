@@ -24,6 +24,7 @@ public class MenuUIManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShow
     public PoolingManager poolingManager;
     public TextMeshProUGUI[] coinTexts;
     public Animator cameraAnimator;
+    public Animator fadeAnimator;
 
     public int coinsToPurchase;
 
@@ -260,8 +261,9 @@ public class MenuUIManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShow
         watchAdPrompt.SetActive(Random.Range(0, 100) < chanceToShowWatchAd);
         prizePrompt.SetActive(PlayerPrefs.GetInt("Day", 0) != System.DateTime.Today.Day);
         UpdateCoinTexts();
+        fadeAnimator.SetTrigger("Fade");
 
-        if(Random.Range(0, 100) < chanceForAd)
+        if (Random.Range(0, 100) < chanceForAd)
         {
             ShowAd();
         }

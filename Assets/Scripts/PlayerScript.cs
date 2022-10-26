@@ -351,7 +351,15 @@ public class PlayerScript : MonoBehaviour
         menuUI.UpdateScoreText(score);
         menuUI.UpdateHighScoreText(PlayerPrefs.GetInt("HighScore"));
         menuUI.GameOver(coins);
-        Time.timeScale = 0;
+
+        SetPaused(true);
+
+        /*GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }*/
+        //Time.timeScale = 0;
     }
 
     void IncreaseXP(int _xp)
