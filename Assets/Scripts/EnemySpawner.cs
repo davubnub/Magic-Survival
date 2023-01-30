@@ -37,25 +37,26 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartPressed()
     {
-        if (!dontSpawn)
-        {
-            StartCoroutine(WaitToSpawn());
-            player = GameObject.FindGameObjectWithTag("Player");
-            started = true;
-        }
+        //Matthew: returning the function if the enemy is not supposed to spawn
+        if (dontSpawn) return;
+
+        StartCoroutine(WaitToSpawn());
+        player = GameObject.FindGameObjectWithTag("Player");
+        started = true;
     }
 
     private void Update()
     {
-        if (started)
-        {
-            spawnTimer -= Time.deltaTime;
+        //Matthew: returning the function if the started bool has been disabled
+        if (!started) return;
 
-            if (spawnTimer <= 0)
-            {
-                NextWave();
-            }
+        spawnTimer -= Time.deltaTime;
+
+        if (spawnTimer <= 0)
+        {
+            NextWave();
         }
+
     }
 
     private IEnumerator WaitToSpawn()

@@ -12,26 +12,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        #if UNITY_STANDALONE_WIN
-            movementJoystick.gameObject.SetActive(false);
-        #endif
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+        movementJoystick.gameObject.SetActive(false);
+#endif
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!paused)
-        {
-            #if UNITY_STANDALONE_WIN
-                movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-                playerScript.PlayAnimation((movement.magnitude > 0)?PlayerScript.ANIMATIONS.Walk : PlayerScript.ANIMATIONS.Idle);
+        if (paused) return;
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+        movement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        playerScript.PlayAnimation((movement.magnitude > 0) ? PlayerScript.ANIMATIONS.Walk : PlayerScript.ANIMATIONS.Idle);
 #endif
 #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
-                movement = new Vector3(movementJoystick.Horizontal, 0, movementJoystick.Vertical);
-                playerScript.PlayAnimation((movement.magnitude > 0)?PlayerScript.ANIMATIONS.Walk : PlayerScript.ANIMATIONS.Idle);
-#endif
-            transform.position += movement * Time.deltaTime * playerSpeed;
+
+        //Matthew: Prioritising input manager axis instead of joystick so itd be easier 
+        //for testing
+        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        {
+            movement = new Vector3(movementJoystick.Horizontal, 0, movementJoystick.Vertical);
+            playerScript.PlayAnimation((movement.magnitude > 0) ? PlayerScript.ANIMATIONS.Walk : PlayerScript.ANIMATIONS.Idle);
         }
+#endif
+        transform.position += movement * Time.deltaTime * playerSpeed;
+
     }
     float Angle(Vector2 vector2)
     {

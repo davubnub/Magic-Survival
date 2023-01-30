@@ -59,8 +59,8 @@ public class PlayerScript : MonoBehaviour
     public struct UpgradableStats
     {
         [Header("Player stats")]
-        public float playerSpeed; 
-        public float magnetStrength; 
+        public float playerSpeed;
+        public float magnetStrength;
 
         [Header("Health stats")]
         public float maxHealth;
@@ -95,7 +95,7 @@ public class PlayerScript : MonoBehaviour
         public float spikeSpawnRate;
     }
 
-    public UpgradableStats upgradableStats;
+    [SerializeField] private UpgradableStats upgradableStats;
 
     public enum UPGRADES
     {
@@ -161,14 +161,14 @@ public class PlayerScript : MonoBehaviour
         SetPaused(true);
         SetHead();
 
-        #if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
             playingOnComputer = true;
-        #endif
-        #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
-            playingOnPhone = true;
-        #endif
+#endif
+#if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
+        playingOnPhone = true;
+#endif
 
-        if(playingOnComputer)
+        if (playingOnComputer)
         {
             aimingJoystick.gameObject.SetActive(false);
         }
@@ -176,126 +176,128 @@ public class PlayerScript : MonoBehaviour
 
     private void Update()
     {
-        if (!paused)
+        //Matthew: Returning the update function if the game is paused so that none of the other
+        //lines of code in this function will happen
+        if (paused) return;
+
+        fireRateTimer -= Time.deltaTime;
+        sentriesFireRateTimer -= Time.deltaTime;
+        lightningTimer -= Time.deltaTime;
+        spikeSpawnTimer -= Time.deltaTime;
+
+        if (playingOnComputer)
         {
-            fireRateTimer -= Time.deltaTime;
-            sentriesFireRateTimer -= Time.deltaTime;
-            lightningTimer -= Time.deltaTime;
-            spikeSpawnTimer -= Time.deltaTime;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (playingOnComputer)
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayerMask))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                playerModel.transform.LookAt(hit.point);
+                playerModel.transform.localEulerAngles = new Vector3(0, playerModel.transform.localEulerAngles.y, 0);
+            }
+        }
+        if (playingOnPhone && aimingJoystick.Direction.magnitude != 0)
+        {
+            playerModel.transform.localEulerAngles = new Vector3(0, Angle(aimingJoystick.Direction) - 45, 0);
+        }
 
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayerMask))
+        if ((aimingJoystick.Direction.magnitude != 0 && playingOnPhone) || (Input.GetMouseButton(0) && playingOnComputer))
+        {
+            if (fireRateTimer <= 0)
+            {
+                int amount = upgradableStats.projectiles;
+                int angleRange = 5 + ((amount - 1) * 20);
+                int newAngle = (amount == 1) ? 0 : angleRange / (amount - 1);
+                for (int i = 0; i < amount; i++)
                 {
-                    playerModel.transform.LookAt(hit.point);
-                    playerModel.transform.localEulerAngles = new Vector3(0, playerModel.transform.localEulerAngles.y, 0);
+                    Vector3 angle = playerModel.transform.rotation.eulerAngles;
+                    angle += new Vector3(0, (i * newAngle) + (-angleRange / 2), 0);
+                    FireProjectile(angle, transform.position);
                 }
-            }
-            if (playingOnPhone && aimingJoystick.Direction.magnitude != 0)
-            {
-                playerModel.transform.localEulerAngles = new Vector3(0, Angle(aimingJoystick.Direction) - 45, 0);
-            }
 
-            if ((aimingJoystick.Direction.magnitude != 0 && playingOnPhone) || (Input.GetMouseButton(0) && playingOnComputer))
-            {
-                if (fireRateTimer <= 0)
-                {
-                    int amount = upgradableStats.projectiles;
-                    int angleRange = 5 + ((amount - 1) * 20);
-                    int newAngle = (amount == 1) ? 0 : angleRange / (amount - 1);
-                    for(int i = 0; i < amount; i++)
-                    {
-                        Vector3 angle = playerModel.transform.rotation.eulerAngles;
-                        angle += new Vector3(0, (i * newAngle) + (-angleRange / 2), 0);
-                        FireProjectile(angle, transform.position);
-                    }
-
-                    fireRateTimer = upgradableStats.fireRate;
-                }
+                fireRateTimer = upgradableStats.fireRate;
             }
-            if (upgradableStats.regeneration > 0)
-            {
-                regenerationTimer -= Time.deltaTime;
+        }
+        if (upgradableStats.regeneration > 0)
+        {
+            regenerationTimer -= Time.deltaTime;
 
-                if(regenerationTimer <= 0)
-                {
-                    regenerationTimer = 1; //every 1 seconds
-                    UpdateHealth(upgradableStats.regeneration);
-                }
+            if (regenerationTimer <= 0)
+            {
+                regenerationTimer = 1; //every 1 seconds
+                UpdateHealth(upgradableStats.regeneration);
+            }
+        }
+
+        for (int i = 0; i < spinningSaws.Count; i++)
+        {
+            spinningSaws[i].transform.localEulerAngles += new Vector3(0, Time.deltaTime * upgradableStats.sawSpinSpeed, 0);
+        }
+
+        if (sentries.Count > 0)
+        {
+            for (int i = 0; i < sentries.Count; i++)
+            {
+                sentries[i].transform.localEulerAngles += new Vector3(0, Time.deltaTime * upgradableStats.sentrySpinSpeed, 0);
             }
 
-            for (int i = 0; i < spinningSaws.Count; i++)
+            if (sentriesFireRateTimer <= 0)
             {
-                spinningSaws[i].transform.localEulerAngles += new Vector3(0, Time.deltaTime * upgradableStats.sawSpinSpeed, 0);
-            }            
+                sentriesFireRateTimer = upgradableStats.sentryFireRate;
 
-            if(sentries.Count > 0)
-            {
                 for (int i = 0; i < sentries.Count; i++)
                 {
-                    sentries[i].transform.localEulerAngles += new Vector3(0, Time.deltaTime * upgradableStats.sentrySpinSpeed, 0);
-                }
-
-                if (sentriesFireRateTimer <= 0)
-                {
-                    sentriesFireRateTimer = upgradableStats.sentryFireRate;
-
-                    for (int i = 0; i < sentries.Count; i++)
-                    {
-                        Vector3 newAngle = new Vector3(
-                            sentries[i].transform.localEulerAngles.x,
-                            sentries[i].transform.localEulerAngles.y + 45,
-                            sentries[i].transform.localEulerAngles.z);
-                        FireProjectile(newAngle, sentries[i].transform.GetChild(0).position);
-                    }
-                }
-            }
-
-            if (upgradableStats.lightningRate > 0 && lightningTimer <= 0)
-            {
-                lightningTimer = 10 - upgradableStats.lightningRate;
-
-                List<GameObject> activeEnemies = enemySpawner.GetActiveEnemies();
-                if (activeEnemies.Count > 0)
-                {
-                    int randomEnemy = Random.Range(0, activeEnemies.Count);
-
-                    StartCoroutine(activeEnemies[randomEnemy].GetComponent<EnemyScript>().LightningStrike(upgradableStats.lightningDamage));
-                }
-            }
-            if (upgradableStats.spikeSpawnRate > 0 && spikeSpawnTimer <= 0)
-            {
-                spikeSpawnTimer = 5 - upgradableStats.spikeSpawnRate;
-                Destroy(Instantiate(spikeObject, transform.position, Quaternion.identity), upgradableStats.spikeDestroyDuration);
-            }
-
-            //DEBUG
-            if (Input.GetKey(KeyCode.Q))
-            {
-                IncreaseXP(xpToLevelUp - xp);
-            }
-            if (Input.GetKey(KeyCode.E))
-            {
-                for(int i = 1; i < customizeMenuManager.GetCustomizationSelectionsArray().Length; i++)
-                {
-                    PlayerPrefs.SetInt("customization" + i, 1);
+                    Vector3 newAngle = new Vector3(
+                        sentries[i].transform.localEulerAngles.x,
+                        sentries[i].transform.localEulerAngles.y + 45,
+                        sentries[i].transform.localEulerAngles.z);
+                    FireProjectile(newAngle, sentries[i].transform.GetChild(0).position);
                 }
             }
         }
+
+        if (upgradableStats.lightningRate > 0 && lightningTimer <= 0)
+        {
+            lightningTimer = 10 - upgradableStats.lightningRate;
+
+            List<GameObject> activeEnemies = enemySpawner.GetActiveEnemies();
+            if (activeEnemies.Count > 0)
+            {
+                int randomEnemy = Random.Range(0, activeEnemies.Count);
+
+                StartCoroutine(activeEnemies[randomEnemy].GetComponent<EnemyScript>().LightningStrike(upgradableStats.lightningDamage));
+            }
+        }
+        if (upgradableStats.spikeSpawnRate > 0 && spikeSpawnTimer <= 0)
+        {
+            spikeSpawnTimer = 5 - upgradableStats.spikeSpawnRate;
+            Destroy(Instantiate(spikeObject, transform.position, Quaternion.identity), upgradableStats.spikeDestroyDuration);
+        }
+
+        //DEBUG
+        if (Input.GetKey(KeyCode.Q))
+        {
+            IncreaseXP(xpToLevelUp - xp);
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            for (int i = 1; i < customizeMenuManager.GetCustomizationSelectionsArray().Length; i++)
+            {
+                PlayerPrefs.SetInt("customization" + i, 1);
+            }
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("xp"))
+        if (other.CompareTag("xp"))
         {
             IncreaseXP(other.GetComponent<XPScript>().GetXPGain());
             poolingManager.DespawnObject(other.gameObject);
             //Destroy(other.gameObject);
         }
-        if(other.CompareTag("Coin"))
+        if (other.CompareTag("Coin"))
         {
             IncreaseCoins(1);
             poolingManager.DespawnObject(other.gameObject);
@@ -325,7 +327,7 @@ public class PlayerScript : MonoBehaviour
         health += _damage;
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
 
-        if(health <= 0)
+        if (health <= 0)
         {
             PlayerDied();
         }
@@ -371,7 +373,7 @@ public class PlayerScript : MonoBehaviour
 
         xp += _xp;
 
-        if(xp >= xpToLevelUp)
+        if (xp >= xpToLevelUp)
         {
             LeveledUp();
         }
@@ -403,7 +405,7 @@ public class PlayerScript : MonoBehaviour
         xp = 0;
         level++;
 
-        upgradableStats.maxHealth   += maxHealthLevelUp;
+        upgradableStats.maxHealth += maxHealthLevelUp;
         upgradableStats.playerSpeed += speedLevelUp;
         UpdateStats();
 
@@ -457,7 +459,7 @@ public class PlayerScript : MonoBehaviour
 
     public void SetHead()
     {
-        foreach(Transform child in heads.transform)
+        foreach (Transform child in heads.transform)
         {
             child.gameObject.SetActive(false);
         }
@@ -472,7 +474,7 @@ public class PlayerScript : MonoBehaviour
 
     void UpdateMaxHealth()
     {
-        if(health >= upgradableStats.maxHealth)
+        if (health >= upgradableStats.maxHealth)
         {
             health = upgradableStats.maxHealth;
         }
@@ -487,7 +489,7 @@ public class PlayerScript : MonoBehaviour
         float angle = 360 / spinningSaws.Count;
 
         //reset all spinning saws 
-        for(int i = 0; i < spinningSaws.Count; i++)
+        for (int i = 0; i < spinningSaws.Count; i++)
         {
             spinningSaws[i].transform.localEulerAngles = new Vector3(0, angle * i, 0);
         }
@@ -501,7 +503,7 @@ public class PlayerScript : MonoBehaviour
         float angle = 360 / sentries.Count;
 
         //reset all spinning saws 
-        for(int i = 0; i < sentries.Count; i++)
+        for (int i = 0; i < sentries.Count; i++)
         {
             sentries[i].transform.localEulerAngles = new Vector3(0, angle * i, 0);
         }
@@ -515,12 +517,12 @@ public class PlayerScript : MonoBehaviour
         switch (_upgrade)
         {
             case UPGRADES.playerSpeed:
-                upgradableStats.playerSpeed     += _positiveUpgrade;
+                upgradableStats.playerSpeed += _positiveUpgrade;
                 break;
 
             case UPGRADES.maxHealth:
-                upgradableStats.maxHealth       += (int)_positiveUpgrade;
-                upgradableStats.playerSpeed     /= _negativeUpgrade;
+                upgradableStats.maxHealth += (int)_positiveUpgrade;
+                upgradableStats.playerSpeed /= _negativeUpgrade;
                 break;
 
             case UPGRADES.projectileSpeed:
@@ -528,7 +530,7 @@ public class PlayerScript : MonoBehaviour
                 break;
 
             case UPGRADES.fireRate:
-                upgradableStats.fireRate        += _positiveUpgrade;
+                upgradableStats.fireRate += _positiveUpgrade;
                 break;
 
             case UPGRADES.piercing:
@@ -536,12 +538,12 @@ public class PlayerScript : MonoBehaviour
                 break;
 
             case UPGRADES.spread:
-                upgradableStats.accuracy        += _positiveUpgrade;
-                upgradableStats.bulletDamage    *= _negativeUpgrade;
+                upgradableStats.accuracy += _positiveUpgrade;
+                upgradableStats.bulletDamage *= _negativeUpgrade;
                 break;
 
             case UPGRADES.magnet:
-                upgradableStats.magnetStrength  += _positiveUpgrade;
+                upgradableStats.magnetStrength += _positiveUpgrade;
                 break;
 
             case UPGRADES.knockback:
@@ -549,43 +551,43 @@ public class PlayerScript : MonoBehaviour
                 break;
 
             case UPGRADES.glassCannon:
-                upgradableStats.bulletDamage    *= _positiveUpgrade;
-                upgradableStats.maxHealth       /= _negativeUpgrade;
+                upgradableStats.bulletDamage *= _positiveUpgrade;
+                upgradableStats.maxHealth /= _negativeUpgrade;
                 break;
 
             case UPGRADES.homing:
-                upgradableStats.homingStrength  += _positiveUpgrade;
+                upgradableStats.homingStrength += _positiveUpgrade;
                 break;
 
             case UPGRADES.critical:
-                upgradableStats.criticalChance  += (int)_positiveUpgrade;
+                upgradableStats.criticalChance += (int)_positiveUpgrade;
                 break;
 
             case UPGRADES.sniper:
-                upgradableStats.bulletRange     += _positiveUpgrade;
-                upgradableStats.fireRate        += _negativeUpgrade;
+                upgradableStats.bulletRange += _positiveUpgrade;
+                upgradableStats.fireRate += _negativeUpgrade;
                 break;
 
             case UPGRADES.extraProjectile:
-                upgradableStats.projectiles     += (int)_positiveUpgrade;
-                upgradableStats.bulletDamage    += _negativeUpgrade;
+                upgradableStats.projectiles += (int)_positiveUpgrade;
+                upgradableStats.bulletDamage += _negativeUpgrade;
                 break;
 
             case UPGRADES.submachineGun:
-                upgradableStats.fireRate        /= _positiveUpgrade;
-                upgradableStats.bulletRange     *= _negativeUpgrade;
+                upgradableStats.fireRate /= _positiveUpgrade;
+                upgradableStats.bulletRange *= _negativeUpgrade;
                 break;
 
             case UPGRADES.regeneration:
-                upgradableStats.regeneration    += _positiveUpgrade;
+                upgradableStats.regeneration += _positiveUpgrade;
                 break;
 
             case UPGRADES.explosion:
-                upgradableStats.explosionSize   += 1 + (_positiveUpgrade * 0.5f);
+                upgradableStats.explosionSize += 1 + (_positiveUpgrade * 0.5f);
                 break;
 
             case UPGRADES.spinningSaw:
-                upgradableStats.sawSpinSpeed    += _positiveUpgrade;
+                upgradableStats.sawSpinSpeed += _positiveUpgrade;
                 AddSpinningSaw();
                 break;
 
@@ -595,21 +597,21 @@ public class PlayerScript : MonoBehaviour
                 break;
 
             case UPGRADES.jackOfAllTrades:
-                upgradableStats.maxHealth       *= _positiveUpgrade;
-                upgradableStats.playerSpeed     *= _positiveUpgrade;
-                upgradableStats.bulletDamage    *= _positiveUpgrade;
+                upgradableStats.maxHealth *= _positiveUpgrade;
+                upgradableStats.playerSpeed *= _positiveUpgrade;
+                upgradableStats.bulletDamage *= _positiveUpgrade;
                 break;
 
             case UPGRADES.distanceDamage:
-                upgradableStats.damageDistance  += _positiveUpgrade;
+                upgradableStats.damageDistance += _positiveUpgrade;
                 break;
 
             case UPGRADES.lightningStrike:
-                upgradableStats.lightningRate   += _positiveUpgrade;
+                upgradableStats.lightningRate += _positiveUpgrade;
                 break;
 
             case UPGRADES.spike:
-                upgradableStats.spikeSpawnRate  += _positiveUpgrade;
+                upgradableStats.spikeSpawnRate += _positiveUpgrade;
                 break;
         }
 
@@ -620,7 +622,7 @@ public class PlayerScript : MonoBehaviour
 
     public void PlayAnimation(ANIMATIONS _animation)
     {
-        switch(_animation)
+        switch (_animation)
         {
             case ANIMATIONS.Idle:
                 modelAnimator.SetBool("IsWalking", false);
