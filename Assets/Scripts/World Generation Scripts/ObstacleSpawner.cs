@@ -17,20 +17,33 @@ public class ObstacleSpawner : MonoBehaviour
 
     GameObject player;
 
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        poolingManager.SpawnIntialObjects();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartPressed();
+        }
+    }
+
     public void StartPressed()
     {
         //StartCoroutine(WaitToSpawn());
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
-
-    private IEnumerator WaitToSpawn()
-    {
-        yield return new WaitForSeconds(spawnRate);
-
         SpawnObstacle();
-
-        StartCoroutine(WaitToSpawn());
     }
+
+    //private IEnumerator WaitToSpawn()
+    //{
+    //    yield return new WaitForSeconds(spawnRate);
+    //    SpawnObstacle();
+
+    //    StartCoroutine(WaitToSpawn());
+    //}
 
     void SpawnObstacle()
     {
