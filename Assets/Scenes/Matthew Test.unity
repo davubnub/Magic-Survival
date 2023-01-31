@@ -1185,7 +1185,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -88.49921, y: 0}
+  m_AnchoredPosition: {x: -88.49927, y: 0}
   m_SizeDelta: {x: -269.0548, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &227807838
@@ -15349,7 +15349,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -88.49921, y: 0}
+  m_AnchoredPosition: {x: -88.49927, y: 0}
   m_SizeDelta: {x: -269.0548, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1596277344
@@ -17233,8 +17233,8 @@ MonoBehaviour:
     gameObjectToSpawn: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
     IntialToSpawn: 100
   - name: 2
-    gameObjectToSpawn: {fileID: 7348414801056418857, guid: f48798acb8386364998655dfff172125, type: 3}
-    IntialToSpawn: 30
+    gameObjectToSpawn: {fileID: 2930982446237058511, guid: 38e6e2a07efdc9f4ead83e004cd6a63b, type: 3}
+    IntialToSpawn: 1
   - name: 3
     gameObjectToSpawn: {fileID: 1878159797469750284, guid: bb497b53492b9dd499ab96c6358f547c, type: 3}
     IntialToSpawn: 30
@@ -24360,7 +24360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -79.6308, y: 0}
+  m_AnchoredPosition: {x: -79.63086, y: 0}
   m_SizeDelta: {x: -301.2179, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2121001187

@@ -15,6 +15,7 @@ public class ProjectileScript : MonoBehaviour
     Transform closestEnemy;
     Rigidbody rb;
     PlayerScript player;
+    private ParticleSystem particle;
 
     public GameObject explosionObj;
     public float explosionWait;
