@@ -3076,7 +3076,7 @@ GameObject:
   - component: {fileID: 458772494}
   - component: {fileID: 458772493}
   m_Layer: 5
-  m_Name: Upgrade3
+  m_Name: Upgrade3 OLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4066,7 +4066,7 @@ GameObject:
   - component: {fileID: 664634872}
   - component: {fileID: 664634871}
   m_Layer: 5
-  m_Name: Upgrade2
+  m_Name: Upgrade2 OLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5937,7 +5937,7 @@ GameObject:
   - component: {fileID: 931482051}
   - component: {fileID: 931482050}
   m_Layer: 5
-  m_Name: Upgrade1
+  m_Name: Upgrade1 OLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
