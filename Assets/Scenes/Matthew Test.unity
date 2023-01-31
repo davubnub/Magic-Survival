@@ -17234,7 +17234,7 @@ MonoBehaviour:
     IntialToSpawn: 100
   - name: 2
     gameObjectToSpawn: {fileID: 2930982446237058511, guid: 38e6e2a07efdc9f4ead83e004cd6a63b, type: 3}
-    IntialToSpawn: 1
+    IntialToSpawn: 30
   - name: 3
     gameObjectToSpawn: {fileID: 1878159797469750284, guid: bb497b53492b9dd499ab96c6358f547c, type: 3}
     IntialToSpawn: 30
@@ -24855,6 +24855,10 @@ PrefabInstance:
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 210998990}
+    - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 2930982446237058511, guid: 38e6e2a07efdc9f4ead83e004cd6a63b, type: 3}
     - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
       propertyPath: enemySpawner
       value: 

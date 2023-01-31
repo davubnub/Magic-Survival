@@ -203,7 +203,10 @@ public class PlayerScript : MonoBehaviour
 
         if ((aimingJoystick.Direction.magnitude != 0 && playingOnPhone) || (Input.GetMouseButton(0) && playingOnComputer))
         {
-            if (fireRateTimer <= 0)
+            //Matthew: Currently seperating the particle system bullets and placeholder bullets
+            //to test things
+            if ((fireRateTimer <= 0 && projectile.GetComponent<ParticleSystem>() == null) ||
+                (projectile.GetComponent<ParticleSystem>() != null && poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet) == 0))
             {
                 int amount = upgradableStats.projectiles;
                 int angleRange = 5 + ((amount - 1) * 20);
@@ -218,6 +221,14 @@ public class PlayerScript : MonoBehaviour
                 fireRateTimer = upgradableStats.fireRate;
             }
         }
+        else if ((aimingJoystick.Direction.magnitude == 0 && playingOnPhone) || (Input.GetMouseButtonUp(0) && playingOnComputer))
+        {
+            if (poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet) > 0)
+            {
+
+            }
+        }
+
         if (upgradableStats.regeneration > 0)
         {
             regenerationTimer -= Time.deltaTime;
@@ -439,6 +450,9 @@ public class PlayerScript : MonoBehaviour
         //GameObject projectileObj = Instantiate(projectile, _pos, Quaternion.identity);
         GameObject projectileObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.Bullet, _pos, Quaternion.identity);
         projectileObj.transform.localEulerAngles = _direction;
+
+        bool isParticle = (projectileObj.GetComponent<ParticleSystem>() != null) ? true : false;
+
         projectileObj.GetComponent<ProjectileScript>().FireProjectile(
             upgradableStats.projectileSpeed,
             upgradableStats.bulletRange,
@@ -446,8 +460,9 @@ public class PlayerScript : MonoBehaviour
             upgradableStats.projectilePierce,
             upgradableStats.accuracy,
             upgradableStats.homingStrength,
-            upgradableStats.explosionSize
-            );
+            upgradableStats.explosionSize,
+            upgradableStats.fireRate,
+            isParticle);
 
         muzzleVFX.rotation = Quaternion.Euler(_direction);
         muzzleVFX.transform.GetChild(0).GetComponent<ParticleSystem>().Play();

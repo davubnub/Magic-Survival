@@ -42,6 +42,12 @@ public class PoolingManager : MonoBehaviour
                 obj.SetActive(false);
             }
         }
+
+        //Setting the projectile object in the player script
+        //PlayerScript player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        //if (player.projectile != null) return;
+
+        //player.projectile = FindFreeObject(parentPools[(int)PoolingEnum.Bullet].transform, false);
     }
 
     public bool CheckIfPoolFree(PoolingEnum _poolingEnum)
@@ -65,22 +71,55 @@ public class PoolingManager : MonoBehaviour
 
     public void DespawnObject(GameObject _object)
     {
+        //Check if there's a particle system to disable
+        ParticleSystem particle = _object.GetComponent<ParticleSystem>();
+        if (particle != null)
+        {
+            ParticleSystem.MainModule main = particle.main;
+            main.loop = false;
+
+            particle.Stop();
+        }
+
         _object.SetActive(false);
         _object.transform.position = new Vector3(0, 0, 0);
     }
 
     GameObject FindFreeObject(Transform _parent)
     {
-        foreach(Transform child in _parent)
+        foreach (Transform child in _parent)
         {
-            if(!child.gameObject.activeSelf)
+            //Check if theres a particle system
+            ParticleSystem childParticles = child.gameObject.GetComponent<ParticleSystem>();
+            if (!child.gameObject.activeSelf && childParticles == null)
             {
+                return child.gameObject;
+            }
+            else if (childParticles != null && childParticles.main.loop == false)
+            {
+
                 return child.gameObject;
             }
         }
 
         Debug.LogWarning($"Couldn't find a free object in {_parent.name} pool (try increasing the size)");
         return null;
+    }
+
+    //Check how many items in the pool is currently active
+    public int GetPoolAmount(PoolingEnum _poolEnum)
+    {
+        int activeAmount = 0;
+
+        foreach (Transform child in parentPools[(int)_poolEnum].transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                activeAmount++;
+            }
+        }
+
+        return activeAmount;
     }
 
     /*PoolingSystems FindPoolingSystem(PoolingEnum _poolingEnum)
