@@ -604,7 +604,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278322392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 52.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 205710130}
@@ -650,12 +650,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1278322392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2749efb1ce925af42b9428ad2c9831bf, type: 3}
+  m_Script: {fileID: 11500000, guid: a1ec68ad8c1c9c842a963840f17c1810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjecttoSpawn: {fileID: 0}
-  SpawnSize: 100
-  SpawnChance: 1
+  ObjecttoSpawn: {fileID: 5938787088271644366, guid: 4e0498941fee46b48a722048605580c1, type: 3}
+  num_points: 100
+  radius: 1
   Seed: 0
 --- !u!1 &1322649205 stripped
 GameObject:

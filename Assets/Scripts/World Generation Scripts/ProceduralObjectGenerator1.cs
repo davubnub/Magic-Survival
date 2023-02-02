@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ProceduralObjectGenerator1 : MonoBehaviour
 {
+    public GameObject ObjecttoSpawn;
+    public int num_points;
+    public float radius;
+
     [Header("Debugging Purpose Only")]
     public int Seed = 0;
 
@@ -12,14 +16,11 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
     {
         Random.InitState(Seed);
 
-        List<List<float>> points = random_locations(5, 2, 100.0f);
+        List<Vector2> spawnlocations = Convert_float_to_Vector(num_points, radius);
 
-        for (int i = 0; i < points.Count; i++)
+        for (int i = 0; i < spawnlocations.Count; i++)
         {
-            for (int j = 0; j < points[i].Count; j++)
-            {
-                print(points[i][j]);
-            }
+            GameObject obj = GameObject.Instantiate(ObjecttoSpawn, new Vector3(spawnlocations[i].x, this.transform.position.y, spawnlocations[i].y), Quaternion.identity);
         }
     }
 
@@ -119,17 +120,37 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
 
     List<List<float>> transpose_points(List<List<float>> points)
     {
-        List<List<float>> results = new List<List<float>>();
+        float longest;
 
-        for (int i = 0; i < points.Count; i++)
+        if (points.Count != 0)
         {
-            for (int j = 0; j < points[i].Count; j++)
+            float max = 0;
+
+            for (int i = 0; i < points.Count; i++)
             {
-                points[i][j] = points[j][i];
+                for (int j = 0; j < points[i].Count; j++)
+                {
+                    if (max < points[i][j])
+                    {
+                        max = points[i][j];
+                    }
+                }
             }
+
+            longest = max;
+        }
+        else
+        {
+            longest = 0;
         }
 
-        return results;
+        List<List<float>> outer = new List<List<float>>();
+        for (int i = 0; i < longest; i++)
+            outer.Add(new List<float>(points.Count));
+        for (int j = 0; j < points.Count; j++)
+            for (int i = 0; i < longest; i++)
+                outer[i].Add(points[j].Count > i ? points[j][i] : default(float));
+        return outer;
     }
 
     List<List<float>> points_on_radius(List<List<float>> points, float radius)
@@ -156,25 +177,21 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
 
         return final_points;
     }
+
+    List<Vector2> Convert_float_to_Vector(int num_points, float radius)
+    {
+        // 2 because the game is 2-dimensional (I may need to rework the math if we change the no. dimensions)
+        List<List<float>> points = random_locations(num_points, 2, radius);
+
+        List<Vector2> spawnpoints = new List<Vector2>();
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            Vector2 spawnlocation = new Vector2(points[i][0], points[i][1]);
+
+            spawnpoints.Add(spawnlocation);
+        }
+
+        return spawnpoints;
+    }
 }
-
-//# Generate "num_points" random points in "dimension" that have uniform
-//# probability over the unit ball scaled by "radius" (length of points
-//# are in range [0, "radius"]).
-
-//def random_ball(num_points, dimension, radius= 1):
-
-//    from numpy import random, linalg
-
-//# First generate random directions by normalizing the length of a
-//# vector of random-normal values (these distribute evenly on ball).
-
-//    random_directions = random.normal(size = (dimension, num_points))
-
-//    random_directions /= linalg.norm(random_directions, axis = 0)
-
-//    # Second generate a random radius with probability proportional to
-//    # the surface area of a ball with a given radius.
-//    random_radii = random.random(num_points) * *(1 / dimension)
-//    # Return the list of random (direction & length) points.
-//    return radius * (random_directions * random_radii).T

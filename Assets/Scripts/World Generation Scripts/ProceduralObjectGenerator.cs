@@ -12,37 +12,67 @@ public class ProceduralObjectGenerator : MonoBehaviour
     public int Seed = 0;
 
     private List<Vector2> ObjectLocations = new List<Vector2>();
+    private List<GameObject> Objects = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
         Random.InitState(Seed);
 
+        SpawnObjects();
+    }
+
+    void SpawnObjects()
+    {
         ObjectLocations = GenerateObjectLocations();
 
         for (int i = 0; i < ObjectLocations.Count; i++)
         {
-            GameObject Object = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject Object = GameObject.Instantiate(ObjecttoSpawn, new Vector3(ObjectLocations[i].x, this.transform.position.y, ObjectLocations[i].y), Quaternion.identity);
 
-            Object.transform.position = new Vector3(ObjectLocations[i].x, this.transform.position.y, ObjectLocations[i].y);
+            Objects.Add(Object);
         }
+    }
+
+    Vector2 CalculateSpawnArea(string _identifier)
+    {
+        Vector2 Result = new Vector2();
+
+        Vector2 PlayerLocation = new Vector2(this.transform.position.x, this.transform.position.y);
+
+        float Xmin = PlayerLocation.x - (SpawnSize / 2);
+        float Xmax = PlayerLocation.x + (SpawnSize / 2);
+
+        float Ymin = PlayerLocation.y - (SpawnSize / 2);
+        float Ymax = PlayerLocation.y + (SpawnSize / 2);
+
+        if (_identifier == "min")
+        {
+            Result = new Vector2(Xmin, Ymin);
+        }
+        else if (_identifier == "max")
+        {
+            Result = new Vector2(Xmax, Ymax);
+        }
+
+        return Result;
     }
 
     List<Vector2> GenerateObjectLocations()
     {
         List<Vector2> Result1 = new List<Vector2>();
-        List<Vector2> Result2 = new List<Vector2>();
-
-        // In a cube of size x, we generate every integer coordinate
-        // and we only accept numbers if they are less than a random number
+        List<Vector2> FinalResult = new List<Vector2>();
 
         List<Vector2> PossibleSpawnLocations = new List<Vector2>();
         List<Vector2> PossibleSpawnLocations2 = new List<Vector2>();
-        List<Vector2> PossibleSpawnLocations3 = new List<Vector2>();
 
-        for (int x = 1; x < SpawnSize; x++)
+        Vector2 MinSpawnLocation = CalculateSpawnArea("min");
+        Vector2 MaxSpawnLocation = CalculateSpawnArea("max");
+
+        // Get a Random Set of Coordinates within the Spawn Size (Results Skewed to Bottom Left Side)
+        for (float x = MinSpawnLocation.x; x < MaxSpawnLocation.x; x++)
         {
-            for (int y = 1; y < SpawnSize; y++)
+            for (float y = MinSpawnLocation.y; y < MaxSpawnLocation.y; y++)
             {
                 if (Random.Range(1, (SpawnSize*2) + 1) % (x + y) < Random.Range(0, SpawnSize))
                 {
@@ -51,9 +81,10 @@ public class ProceduralObjectGenerator : MonoBehaviour
             }
         }
 
-        for (int x = 1; x < SpawnSize; x++)
+        // Get a Random Set of Coordinates within the Spawn Size (Results Skewed to Bottom Right Side)
+        for (float x = MinSpawnLocation.x; x < MaxSpawnLocation.x; x++)
         {
-            for (int y = 1; y < SpawnSize; y++)
+            for (float y = MinSpawnLocation.y; y < MaxSpawnLocation.y; y++)
             {
                 if (Random.Range(1, (SpawnSize * 2) + 1) % (x + y) > Random.Range(0, SpawnSize))
                 {
@@ -62,6 +93,7 @@ public class ProceduralObjectGenerator : MonoBehaviour
             }
         }
 
+        // Using the 2 Skewed Results and Perlin Noise Get a List of coordinates to use
         int CountSize = 0;
 
         if (PossibleSpawnLocations.Count > PossibleSpawnLocations2.Count)
@@ -90,19 +122,17 @@ public class ProceduralObjectGenerator : MonoBehaviour
             }
         }
 
-        //Run through List of Possible Spawn Locations and if
-
-        //The value of the Perlin Noise is less than the chance value
-        //that will be our list of locations we can use
-
+        // Run through List of Possible Spawn Locations and if
+        // a random number from 0 to the total of x, y is less than the spawn chance 
+        // that's the location we'll use to spawn the objects
         for (int i = 0; i < Result1.Count; i++)
         {
             if (Random.Range(0, Result1[i].x + Result1[i].y + 1) < SpawnChance)
             {
-                Result2.Add(Result1[i]);
+                FinalResult.Add(Result1[i]);
             }
         }
 
-        return Result2;
+        return FinalResult;
     }
 }
