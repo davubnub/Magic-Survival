@@ -162,7 +162,7 @@ public class PlayerScript : MonoBehaviour
         SetHead();
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR
-            playingOnComputer = true;
+        playingOnComputer = true;
 #endif
 #if UNITY_IOS || UNITY_ANDROID || UNITY_IPHONE
         playingOnPhone = true;
@@ -205,18 +205,28 @@ public class PlayerScript : MonoBehaviour
         {
             //Matthew: Currently seperating the particle system bullets and placeholder bullets
             //to test things
-            if ((fireRateTimer <= 0 && projectile.GetComponent<ParticleSystem>() == null) ||
-                (projectile.GetComponent<ParticleSystem>() != null && poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet) == 0))
+            ParticleSystem tempBullet = projectile.GetComponent<ParticleSystem>();
+            if (fireRateTimer <= 0)
             {
                 int amount = upgradableStats.projectiles;
                 int angleRange = 5 + ((amount - 1) * 20);
                 int newAngle = (amount == 1) ? 0 : angleRange / (amount - 1);
-                for (int i = 0; i < amount; i++)
+                Vector3 angle = playerModel.transform.rotation.eulerAngles;
+                if (tempBullet == null)
                 {
-                    Vector3 angle = playerModel.transform.rotation.eulerAngles;
-                    angle += new Vector3(0, (i * newAngle) + (-angleRange / 2), 0);
-                    FireProjectile(angle, transform.position);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        angle += new Vector3(0, (i * newAngle) + (-angleRange / 2), 0);
+                        FireProjectile(angle, transform.position);
+                    }
                 }
+                else if (tempBullet != null)
+                {
+                    FireProjectile(angle, transform.position);
+
+                }
+
+                Debug.Log("Pool amount: " + poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet));
 
                 fireRateTimer = upgradableStats.fireRate;
             }
@@ -225,7 +235,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet) > 0)
             {
-
+                //poolingManager.DespawnObject(projectile);
             }
         }
 

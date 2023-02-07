@@ -15,7 +15,7 @@ public class ProjectileScript : MonoBehaviour
     Transform closestEnemy;
     Rigidbody rb;
     PlayerScript player;
-    private ParticleSystem particle;
+    [SerializeField]private ParticleSystem particle;
 
     public GameObject explosionObj;
     public float explosionWait;
@@ -24,9 +24,9 @@ public class ProjectileScript : MonoBehaviour
     private void Start()
     {
         homing = (homingStrength != 0);
-        if (gameObject.GetComponent<Rigidbody>() != null) rb = GetComponent<Rigidbody>();
+        if (gameObject.GetComponent<Rigidbody>() != null) rb = gameObject.GetComponent<Rigidbody>();
 
-        if (gameObject.GetComponent<ParticleSystem>() != null) particle = GetComponent<ParticleSystem>();
+        if (gameObject.GetComponent<ParticleSystem>() != null) particle = gameObject.GetComponent<ParticleSystem>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
     }
 
@@ -47,13 +47,15 @@ public class ProjectileScript : MonoBehaviour
         }
         else
         {
-            particle.Play();
+            //Debug.Log("Particle state: " + ((particle != null) ? true : false));
             ParticleSystem.MainModule main = particle.main;
-            main.startSpeed = projectileSpeed;
+            main.startSpeed = _projectileSpeed;
+            //main.duration = _fireRate;
             main.loop = true;
+            particle.Play();
 
-            ParticleSystem.EmissionModule emission = particle.emission;
-            emission.rateOverTime = _fireRate;
+            //ParticleSystem.EmissionModule emission = particle.emission;
+            //emission.rateOverTime = _fireRate;
         }
         //if (particle != null)
         //{

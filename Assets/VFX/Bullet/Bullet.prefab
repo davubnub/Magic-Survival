@@ -49,7 +49,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -4877,6 +4877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c26e5a44f3d5944ae474c5b3d6acca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particle: {fileID: 3106625413963446283}
   explosionObj: {fileID: 3679010409709877342, guid: 703de4b8f10c68242a5ef08721ded28d, type: 3}
   explosionWait: 0.5
   isParticle: 1
