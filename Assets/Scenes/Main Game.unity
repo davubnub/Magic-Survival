@@ -6535,7 +6535,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 67.7
   m_fontSizeBase: 65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7050,7 +7050,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1070646918}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.64822096
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13942,7 +13942,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 22.95
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15249,10 +15249,10 @@ MonoBehaviour:
     gameObjectToSpawn: {fileID: 7348414801056418857, guid: f48798acb8386364998655dfff172125, type: 3}
     IntialToSpawn: 30
   - name: 3
-    gameObjectToSpawn: {fileID: 1878159797469750284, guid: bb497b53492b9dd499ab96c6358f547c, type: 3}
+    gameObjectToSpawn: {fileID: 3695207320916402668, guid: 246596bd2a14ea34f943f08f5b8d96e5, type: 3}
     IntialToSpawn: 30
   - name: 4
-    gameObjectToSpawn: {fileID: 1878159797469750284, guid: 00b969c6557f6ba4f81a9250252be3c6, type: 3}
+    gameObjectToSpawn: {fileID: 3142985646036551723, guid: 89928a7169e8bc44aaa6f567e720d151, type: 3}
     IntialToSpawn: 30
   - name: 5
     gameObjectToSpawn: {fileID: 1878159797469750284, guid: a06d4d6059c7e394183da0c8f5472347, type: 3}
