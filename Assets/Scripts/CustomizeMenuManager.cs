@@ -68,7 +68,9 @@ public class CustomizeMenuManager : MonoBehaviour
         {
             GameObject selectObj = Instantiate(characterSelect, Vector3.zero, Quaternion.identity);
             selectObj.transform.SetParent(startingPos);
-            selectObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(i * spacing, 0);
+            //selectObj.GetComponent<RectTransform>().anchoredPosition = new Vector3(i * spacing, 0, 0);
+            selectObj.GetComponent<RectTransform>().localScale = new Vector3(0.85f, 0.85f, 1);
+            selectObj.GetComponent<RectTransform>().localPosition = new Vector3(i * spacing, 0, 0);
 
             CharacterSelectScript characterSelectScript = selectObj.GetComponent<CharacterSelectScript>();
 

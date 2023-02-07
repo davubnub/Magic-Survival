@@ -28,6 +28,9 @@ public class PlayerScript : MonoBehaviour
 
     public CustomizeMenuManager customizeMenuManager;
 
+    public ParticleSystem playerHurtVFX;
+    public ParticleSystem absorbVFX;
+
     public int xpToLevelUp;
     public float xpIncr;
     public float maxHealthLevelUp;
@@ -315,6 +318,7 @@ public class PlayerScript : MonoBehaviour
         if (other.CompareTag("xp"))
         {
             IncreaseXP(other.GetComponent<XPScript>().GetXPGain());
+            absorbVFX.Play();
             poolingManager.DespawnObject(other.gameObject);
             //Destroy(other.gameObject);
         }
@@ -322,6 +326,7 @@ public class PlayerScript : MonoBehaviour
         {
             IncreaseCoins(1);
             poolingManager.DespawnObject(other.gameObject);
+            absorbVFX.Play();
             //Destroy(other.gameObject);
         }
     }
@@ -347,6 +352,11 @@ public class PlayerScript : MonoBehaviour
     {
         health += _damage;
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
+
+        if(_damage < 0)
+        {
+            playerHurtVFX.Play();
+        }
 
         if (health <= 0)
         {
