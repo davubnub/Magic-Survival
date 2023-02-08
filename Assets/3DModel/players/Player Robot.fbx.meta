@@ -1,23 +1,26 @@
 fileFormatVersion: 2
-guid: b01529dfc0aa14644992d26844c891b2
+guid: fb6b2079de458ee46a0b6c15d795e345
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: 3482728859474259419
-    second: Death
-  - first:
-      74: -3100369314251171874
+      74: -7129066257621459294
     second: Idle
   - first:
-      74: 2667949614841947897
-    second: Walk
+      74: 8809242542045977424
+    second: Walking Forward
   - first:
-      74: 6720303635017113406
-    second: Attack
+      74: -3595264896573347989
+    second: Walking Backward
+  - first:
+      74: 9128691595806605642
+    second: Walking Side
   - first:
       74: 8017390324079358001
     second: Hurt
+  - first:
+      74: 4348485665485846014
+    second: Death
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -47,40 +50,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Death
-      takeName: Enemy Robot|ArmatureAction
-      internalID: 0
-      firstFrame: 150
-      lastFrame: 240
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
       name: Idle
-      takeName: Enemy Robot|ArmatureAction
+      takeName: Player Robot|ArmatureAction
       internalID: 0
       firstFrame: 5
-      lastFrame: 34
+      lastFrame: 64
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -105,11 +79,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Walk
-      takeName: Enemy Robot|ArmatureAction
+      name: Walking Forward
+      takeName: Player Robot|ArmatureAction
       internalID: 0
-      firstFrame: 40
-      lastFrame: 69
+      firstFrame: 70
+      lastFrame: 99
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -134,19 +108,48 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Attack
-      takeName: Enemy Robot|ArmatureAction
+      name: Walking Backward
+      takeName: Player Robot|ArmatureAction
       internalID: 0
-      firstFrame: 100
-      lastFrame: 140
+      firstFrame: 105
+      lastFrame: 134
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Walking Side
+      takeName: Player Robot|ArmatureAction
+      internalID: 0
+      firstFrame: 140
+      lastFrame: 169
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -164,10 +167,10 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Hurt
-      takeName: Enemy Robot|ArmatureAction
+      takeName: Player Robot|ArmatureAction
       internalID: 0
-      firstFrame: 250
-      lastFrame: 279
+      firstFrame: 175
+      lastFrame: 185
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -175,7 +178,36 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Death
+      takeName: Player Robot|ArmatureAction
+      internalID: 0
+      firstFrame: 175
+      lastFrame: 205
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
