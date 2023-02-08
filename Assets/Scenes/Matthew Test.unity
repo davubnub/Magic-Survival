@@ -9361,7 +9361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1348700913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17233,8 +17233,8 @@ MonoBehaviour:
     gameObjectToSpawn: {fileID: 2274703710575224948, guid: ed3741fae5aa7c64ab1f96d545359f2d, type: 3}
     IntialToSpawn: 100
   - name: 2
-    gameObjectToSpawn: {fileID: 2930982446237058511, guid: 38e6e2a07efdc9f4ead83e004cd6a63b, type: 3}
-    IntialToSpawn: 1
+    gameObjectToSpawn: {fileID: 5517728910252801568, guid: 38e6e2a07efdc9f4ead83e004cd6a63b, type: 3}
+    IntialToSpawn: 5
   - name: 3
     gameObjectToSpawn: {fileID: 1878159797469750284, guid: bb497b53492b9dd499ab96c6358f547c, type: 3}
     IntialToSpawn: 30

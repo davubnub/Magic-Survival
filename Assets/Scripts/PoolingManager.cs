@@ -92,11 +92,6 @@ public class PoolingManager : MonoBehaviour
             {
                 return child.gameObject;
             }
-            else if (childParticles != null && childParticles.main.loop == false)
-            {
-
-                return child.gameObject;
-            }
         }
 
         Debug.LogWarning($"Couldn't find a free object in {_parent.name} pool (try increasing the size)");
