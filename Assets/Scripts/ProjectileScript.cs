@@ -47,6 +47,8 @@ public class ProjectileScript : MonoBehaviour
         }
         else
         {
+            if (gameObject.GetComponent<ParticleSystem>() != null &&
+                particle == null) particle = gameObject.GetComponent<ParticleSystem>();
             //Debug.Log("Particle state: " + ((particle != null) ? true : false));
             ParticleSystem.MainModule main = particle.main;
             main.startSpeed = _projectileSpeed;

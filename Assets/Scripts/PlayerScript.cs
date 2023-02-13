@@ -209,6 +209,7 @@ public class PlayerScript : MonoBehaviour
             //Matthew: Currently seperating the particle system bullets and placeholder bullets
             //to test things
             ParticleSystem tempBullet = projectile.GetComponent<ParticleSystem>();
+
             if (fireRateTimer <= 0)
             {
                 int amount = upgradableStats.projectiles;
@@ -229,16 +230,26 @@ public class PlayerScript : MonoBehaviour
 
                 }
 
-                Debug.Log("Pool amount: " + poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet));
+                //Debug.Log("Pool amount: " + poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet));
 
                 fireRateTimer = upgradableStats.fireRate;
+            }
+
+            if (tempBullet != null)
+            {
+                projectile.SetActive(true);
+                projectile.transform.position = transform.position;
+                Vector3 angle = playerModel.transform.rotation.eulerAngles;
+                angle.x = 90.0f;
+                projectile.transform.rotation = Quaternion.Euler(angle);
+                //projectileObj.transform.rotation = Quaternion.identity;
             }
         }
         else if ((aimingJoystick.Direction.magnitude == 0 && playingOnPhone) || (Input.GetMouseButtonUp(0) && playingOnComputer))
         {
             if (poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet) > 0)
             {
-                //poolingManager.DespawnObject(projectile);
+                poolingManager.DespawnObject(projectile);
             }
         }
 
@@ -468,10 +479,12 @@ public class PlayerScript : MonoBehaviour
     void FireProjectile(Vector3 _direction, Vector3 _pos)
     {
         //GameObject projectileObj = Instantiate(projectile, _pos, Quaternion.identity);
-        GameObject projectileObj = poolingManager.SpawnObject(PoolingManager.PoolingEnum.Bullet, _pos, Quaternion.identity);
+        GameObject projectileObj = (projectile == null) ? poolingManager.SpawnObject(PoolingManager.PoolingEnum.Bullet, _pos, Quaternion.identity) : projectile;
+        bool isParticle = (projectileObj.GetComponent<ParticleSystem>() != null) ? true : false;
+        
+
         projectileObj.transform.localEulerAngles = _direction;
 
-        bool isParticle = (projectileObj.GetComponent<ParticleSystem>() != null) ? true : false;
 
         projectileObj.GetComponent<ProjectileScript>().FireProjectile(
             upgradableStats.projectileSpeed,

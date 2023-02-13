@@ -47,6 +47,8 @@ public class PoolingManager : MonoBehaviour
         PlayerScript player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
         if (player.projectile != null) return;
 
+        Debug.Log("Name: " + parentPools[(int)PoolingEnum.Bullet].transform.name);
+
         player.projectile = FindFreeObject(parentPools[(int)PoolingEnum.Bullet].transform).gameObject;
     }
 
@@ -78,7 +80,11 @@ public class PoolingManager : MonoBehaviour
             ParticleSystem.MainModule main = particle.main;
             main.loop = false;
         }
-        _object.SetActive(false);
+        else
+        {
+            _object.SetActive(false);
+
+        }
         _object.transform.position = new Vector3(0, 0, 0);
     }
 
@@ -86,9 +92,7 @@ public class PoolingManager : MonoBehaviour
     {
         foreach (Transform child in _parent)
         {
-            //Check if theres a particle system
-            ParticleSystem childParticles = child.gameObject.GetComponent<ParticleSystem>();
-            if (!child.gameObject.activeSelf && childParticles == null)
+            if (!child.gameObject.activeSelf)
             {
                 return child.gameObject;
             }
