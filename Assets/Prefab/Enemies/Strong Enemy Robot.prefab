@@ -405,9 +405,9 @@ GameObject:
   - component: {fileID: 3142985646036551716}
   - component: {fileID: 3142985646036551717}
   - component: {fileID: 3142985646036551722}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Strong Enemy Robot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1022,7 +1022,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: b01529dfc0aa14644992d26844c891b2, type: 3}
+  - {fileID: 2100000, guid: bd72cade835ddd7499078f2575857189, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
