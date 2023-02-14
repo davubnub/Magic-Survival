@@ -18,7 +18,12 @@ ModelImporter:
   - first:
       74: 8017390324079358001
     second: Hurt
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: bd72cade835ddd7499078f2575857189, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
