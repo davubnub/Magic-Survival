@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour
 {
+    public struct ProjectileStats
+    {
+        public float speed;
+        public float range;
+        public float damage;
+        public float homingStrength;
+        public float explosionSize;
+        public int piercing;
+        public float fireRate;
+        public float accuracy;
+    }
+
     float projectileSpeed;
     float destroyTimer;
     float damage;
@@ -26,36 +38,66 @@ public class ProjectileScript : MonoBehaviour
         homing = (homingStrength != 0);
         if (gameObject.GetComponent<Rigidbody>() != null) rb = gameObject.GetComponent<Rigidbody>();
 
-        if (gameObject.GetComponent<ParticleSystem>() != null) particle = gameObject.GetComponent<ParticleSystem>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        if (gameObject.GetComponent<ParticleSystem>() != null)
+        {
+            particle = gameObject.GetComponent<ParticleSystem>();
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            ParticleSystem.TriggerModule trigger;
+
+            foreach (GameObject enemy in enemies)
+            {
+                trigger.AddCollider(enemy.GetComponent<Collider>());
+            }
+        }
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
     }
 
-    public void FireProjectile(float _projectileSpeed, float _destroyTimer, float _damage, int _piercing, float _accuracy, 
-        float _homing, float _explosion, float _fireRate = 0.0f, bool _isParticle = false)
+    public void FireProjectile(ProjectileStats _projectileStats, bool _isParticle = false)
     {
-        damage = _damage;
-        homingStrength = _homing;
+        damage = _projectileStats.damage;
+        homingStrength = _projectileStats.homingStrength;
         homing = (homingStrength != 0);
-        explosionSize = _explosion;
+        explosionSize = _projectileStats.explosionSize;
         explosion = (explosionSize != 0);
 
         if (!isParticle)
         {
-            projectileSpeed = _projectileSpeed;
-            piercing = _piercing;
-            destroyTimer = _destroyTimer;
+            projectileSpeed = _projectileStats.speed;
+            piercing = _projectileStats.piercing;
+            destroyTimer = _projectileStats.range;
         }
         else
         {
-            if (gameObject.GetComponent<ParticleSystem>() != null &&
-                particle == null) particle = gameObject.GetComponent<ParticleSystem>();
-            //Debug.Log("Particle state: " + ((particle != null) ? true : false));
-            ParticleSystem.MainModule main = particle.main;
-            main.startSpeed = _projectileSpeed;
-            //main.duration = _fireRate;
-            main.loop = true;
-            particle.Play();
+            if (gameObject.GetComponent<ParticleSystem>() != null && particle == null)
+            {
+                particle = gameObject.GetComponent<ParticleSystem>();
+                //ParticleSystem.TriggerModule trigger;
 
+                //GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+                //foreach(GameObject enemy in enemies)
+                //{
+                //    trigger.AddCollider(enemy.GetComponent<Collider>());
+                //}
+            }
+                //Debug.Log("Particle state: " + ((particle != null) ? true : false));
+            ParticleSystem.MainModule main = particle.main;
+            ParticleSystem.EmissionModule emission = particle.emission;
+
+            //Setting the fire rate
+            ParticleSystem.Burst burst = emission.GetBurst(0);
+            burst.repeatInterval = _projectileStats.fireRate;
+            emission.SetBurst(0, burst);
+
+            //Setting the speed
+            main.startSpeed = _projectileStats.speed;
+
+            //Setting the range
+            main.startLifetime = _projectileStats.range;
+
+            main.loop = true;
+
+            particle.Play();
             //ParticleSystem.EmissionModule emission = particle.emission;
             //emission.rateOverTime = _fireRate;
         }
@@ -84,7 +126,7 @@ public class ProjectileScript : MonoBehaviour
         //    }
         //}
 
-        transform.forward += new Vector3(Random.Range(-_accuracy, _accuracy), 0, 0);
+        transform.forward += new Vector3(Random.Range(-_projectileStats.accuracy, _projectileStats.accuracy), 0, 0);
         if (!isParticle) StartCoroutine(DestroyWait());
     }
 

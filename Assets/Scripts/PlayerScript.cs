@@ -485,17 +485,18 @@ public class PlayerScript : MonoBehaviour
 
         projectileObj.transform.localEulerAngles = _direction;
 
+        ProjectileScript.ProjectileStats stats;
+        stats.speed = upgradableStats.projectileSpeed;
+        stats.range = upgradableStats.bulletRange;
+        stats.damage = upgradableStats.bulletDamage / upgradableStats.projectiles;
+        stats.piercing = upgradableStats.projectilePierce;
+        stats.accuracy = upgradableStats.accuracy;
+        stats.homingStrength = upgradableStats.homingStrength;
+        stats.explosionSize = upgradableStats.explosionSize;
+        stats.fireRate = upgradableStats.fireRate;
 
-        projectileObj.GetComponent<ProjectileScript>().FireProjectile(
-            upgradableStats.projectileSpeed,
-            upgradableStats.bulletRange,
-            upgradableStats.bulletDamage / upgradableStats.projectiles,
-            upgradableStats.projectilePierce,
-            upgradableStats.accuracy,
-            upgradableStats.homingStrength,
-            upgradableStats.explosionSize,
-            upgradableStats.fireRate,
-            isParticle);
+
+        projectileObj.GetComponent<ProjectileScript>().FireProjectile(stats, isParticle);
 
         muzzleVFX.rotation = Quaternion.Euler(_direction);
         muzzleVFX.transform.GetChild(0).GetComponent<ParticleSystem>().Play();

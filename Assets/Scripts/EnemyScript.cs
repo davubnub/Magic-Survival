@@ -106,7 +106,8 @@ public class EnemyScript : MonoBehaviour
     {
         if(other.CompareTag("Projectile"))
         {
-            HitByBullet(other.gameObject);
+            Debug.Log("Collision works");
+            //HitByBullet(other.gameObject);
         }
         if(other.CompareTag("Saw"))
         {
