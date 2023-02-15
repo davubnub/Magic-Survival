@@ -106,8 +106,9 @@ public class EnemyScript : MonoBehaviour
     {
         if(other.CompareTag("Projectile"))
         {
-            Debug.Log("Collision works");
-            //HitByBullet(other.gameObject);
+            //For particle system related collisions, check projectile script OnParticleCollision
+            //Debug.Log("Collision works");
+            HitByBullet(other.gameObject, other.transform.position);
         }
         if(other.CompareTag("Saw"))
         {
@@ -123,15 +124,15 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    void HitByBullet(GameObject _bullet)
+    public void HitByBullet(GameObject _bullet, Vector3 _pos)
     {
         ProjectileScript projectile = _bullet.GetComponent<ProjectileScript>();
         projectile.StartExplosion(transform.position);
         DamageEnemy(projectile.GetDamage(), false);
         Knockback();
 
-        Vector3 direction = transform.position - _bullet.transform.position;
-        Destroy(Instantiate(impactVFX, _bullet.transform.position, Quaternion.LookRotation(-direction)), impactVFX.GetComponent<ParticleSystem>().main.duration);
+        Vector3 direction = transform.position - _pos;
+        Destroy(Instantiate(impactVFX, _pos, Quaternion.LookRotation(-direction)), impactVFX.GetComponent<ParticleSystem>().main.duration);
 
         if (projectile.GetPiercing() <= 0)
         {

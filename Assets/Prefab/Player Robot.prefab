@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23772b76d853430469907fd55c1128bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 7348414801056418857, guid: f48798acb8386364998655dfff172125, type: 3}
+  projectile: {fileID: 0}
   spinningSawObject: {fileID: 7800288334459659184, guid: b1f9feab50d63294fa1917be906d6f40, type: 3}
   sentryObject: {fileID: 5185208191233231910, guid: 0f583d8d48e920a469e4880e2524714e, type: 3}
   spikeObject: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}

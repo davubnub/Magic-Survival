@@ -27,7 +27,11 @@ public class ProjectileScript : MonoBehaviour
     Transform closestEnemy;
     Rigidbody rb;
     PlayerScript player;
+
+    //Particle system
     [SerializeField]private ParticleSystem particle;
+    private List<ParticleCollisionEvent> collisionEvents;
+
 
     public GameObject explosionObj;
     public float explosionWait;
@@ -41,13 +45,7 @@ public class ProjectileScript : MonoBehaviour
         if (gameObject.GetComponent<ParticleSystem>() != null)
         {
             particle = gameObject.GetComponent<ParticleSystem>();
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            ParticleSystem.TriggerModule trigger;
-
-            foreach (GameObject enemy in enemies)
-            {
-                trigger.AddCollider(enemy.GetComponent<Collider>());
-            }
+            collisionEvents = new List<ParticleCollisionEvent>();
         }
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
     }
@@ -147,7 +145,8 @@ public class ProjectileScript : MonoBehaviour
     {
         if (explosion)
         {
-            GameObject obj = Instantiate(explosionObj, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(explosionObj, _pos, Quaternion.identity);
+
             obj.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
             Destroy(obj, explosionWait);
             Destroy(obj.GetComponent<SphereCollider>(), 0.1f);
@@ -174,5 +173,18 @@ public class ProjectileScript : MonoBehaviour
         yield return new WaitForSeconds(destroyTimer);
         player.GetPoolingManager().DespawnObject(gameObject);
         //Destroy(gameObject);
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.transform.tag == "Enemy")
+        {
+            EnemyScript enemy = other.GetComponent<EnemyScript>();
+
+            //Get particle collision location
+            int eventNum = particle.GetCollisionEvents(other, collisionEvents);
+
+            enemy.HitByBullet(gameObject, collisionEvents[0].intersection);
+        }
     }
 }

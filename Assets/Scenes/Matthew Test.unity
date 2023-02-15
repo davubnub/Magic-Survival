@@ -17258,7 +17258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859885231}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 254.5, y: 452.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -24855,10 +24855,6 @@ PrefabInstance:
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 210998990}
-    - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
-      propertyPath: projectile
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 107954809467561401, guid: 1563edbd207c73940b3a92a1f9a4c323, type: 3}
       propertyPath: enemySpawner
       value: 
