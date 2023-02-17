@@ -36,7 +36,7 @@ public class InGameUIManager : MonoBehaviour
     }
     public void UpdateScoreText(int _score)
     {
-        scoreText.text = "Score: " + _score;
+        scoreText.text = "" + _score;
     }
     public void UpdateXPBar(int _xp, int _maxXp)
     {
@@ -52,6 +52,6 @@ public class InGameUIManager : MonoBehaviour
 
     public void UpdateCoinText(int _coins)
     {
-        coinText.text = "Volts $" + _coins;
+        coinText.text = "$" + _coins;
     }
 }
