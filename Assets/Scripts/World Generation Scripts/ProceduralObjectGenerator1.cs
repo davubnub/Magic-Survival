@@ -43,15 +43,14 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
             {
                 playerspawn.Add(pointzero);
 
-                float Xmin = pointzero.x - radius;
-                float Xmax = pointzero.x + radius;
-
-                float Ymin = pointzero.z - radius;
-                float Ymax = pointzero.z + radius;
+                float Xmin = (pointzero.x - radius);
+                float Xmax = (pointzero.x + radius);
+                                                      
+                float Ymin = (pointzero.z - radius);
+                float Ymax = (pointzero.z + radius);
 
                 //Just a linear Function
-                int customseed = (int)((Seed * (Xmin + Xmax)) + (Ymin + Ymax));
-                print(customseed + " = " + Seed + " * " + (Xmin + Xmax) + " + " + (Ymin + Ymax));
+                int customseed = (int)((Seed * (Xmin + Xmax)) + (Seed * (Ymin + Ymax)) + Mathf.Pow(Seed, 2.0f));
                 System.Random _rnd = new System.Random(customseed);
 
                 for (int i = 0; i < num_points; i++)
@@ -63,11 +62,11 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
             }
             else
             {
-                float Xmin = closestpointtoplayer.x - radius;
-                float Xmax = closestpointtoplayer.x + radius;
-
-                float Ymin = closestpointtoplayer.z - radius;
-                float Ymax = closestpointtoplayer.z + radius;
+                float Xmin = (closestpointtoplayer.x - radius);
+                float Xmax = (closestpointtoplayer.x + radius);
+                                                                 
+                float Ymin = (closestpointtoplayer.z - radius);
+                float Ymax = (closestpointtoplayer.z + radius);
 
                 //Just a linear Function
                 int customseed = (int)((Seed * (Xmin + Xmax)) + (Seed * (Ymin + Ymax)) + Mathf.Pow(Seed, 2.0f));
