@@ -2771,7 +2771,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 388118435640875308, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
   m_PrefabInstance: {fileID: 2052016867398748487}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2053473479}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7045e5beac082e04fa5baea2a2f2b7c6, type: 3}
@@ -2782,7 +2782,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
   m_PrefabInstance: {fileID: 2052016867398748487}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2053473479}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23772b76d853430469907fd55c1128bc, type: 3}
@@ -14012,7 +14012,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.25
+  m_fontSize: 16.25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -16931,6 +16931,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045256529}
   m_CullTransparentMesh: 1
+--- !u!1 &2053473479 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9738705223228784, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+  m_PrefabInstance: {fileID: 2052016867398748487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2053473482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053473479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ec68ad8c1c9c842a963840f17c1810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjecttoSpawn: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
+  num_points: 10
+  radius: 100
+  Seed: 2
+--- !u!114 &2053473483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053473479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ec68ad8c1c9c842a963840f17c1810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjecttoSpawn: {fileID: 7800288334459659184, guid: b1f9feab50d63294fa1917be906d6f40, type: 3}
+  num_points: 10
+  radius: 100
+  Seed: 0
 --- !u!1 &2070086572
 GameObject:
   m_ObjectHideFlags: 0

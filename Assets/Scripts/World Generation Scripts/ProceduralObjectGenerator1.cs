@@ -7,6 +7,7 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
     public GameObject ObjecttoSpawn;
     public int num_points;
     public float radius;
+    public float DistancetoSpawn;
 
     [Header("Debugging Purpose Only")]
     public int Seed;
@@ -17,7 +18,7 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
     private void Update()
     {
         //Is the player x distance away from old position
-        if (Vector3.Distance(pointzero, this.transform.position) > 100)
+        if (Vector3.Distance(pointzero, this.transform.position) > DistancetoSpawn)
         {
             //Current point
             pointzero = this.transform.position;
@@ -38,7 +39,7 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
             //Is that point greater than x
             //If it is we are going to spawn new objects
             //Otherwise we will spawn objects at old locations
-            if (leastdistancetoplayer > 100)
+            if (leastdistancetoplayer > DistancetoSpawn)
             {
                 playerspawn.Add(pointzero);
 
@@ -69,7 +70,7 @@ public class ProceduralObjectGenerator1 : MonoBehaviour
                 float Ymax = closestpointtoplayer.z + radius;
 
                 //Just a linear Function
-                int customseed = (int)((Seed * (Xmin + Xmax)) + (Ymin + Ymax));
+                int customseed = (int)((Seed * (Xmin + Xmax)) + (Seed * (Ymin + Ymax)) + Mathf.Pow(Seed, 2.0f));
                 System.Random _rnd = new System.Random(customseed);
 
                 for (int i = 0; i < num_points; i++)
