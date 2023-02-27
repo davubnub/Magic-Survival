@@ -15,11 +15,11 @@ public class ObstacleSpawner : MonoBehaviour
     private int MaxTries = 100;
     private int tries = 0;
 
-    GameObject player;
+    public GameObject player;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        //player = GameObject.FindGameObjectWithTag("Player");
         poolingManager.SpawnIntialObjects();
     }
 

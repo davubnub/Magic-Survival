@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 3662795765554354179}
   - component: {fileID: 388118435640875308}
   - component: {fileID: 4255277103545298072}
+  - component: {fileID: 2053473482}
+  - component: {fileID: 2053473483}
   m_Layer: 8
   m_Name: Player Robot
   m_TagString: Player
@@ -175,7 +177,7 @@ MonoBehaviour:
   - upgradeName: Player Speed
     upgrade: 1
     upgradeDescription: Increase players movement speed
-    positiveUpgrade: 1.1
+    positiveUpgrade: 1.15
     negativeUpgrade: 0
   - upgradeName: Bullet Speed
     upgrade: 3
@@ -368,6 +370,40 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2053473482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9738705223228784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ec68ad8c1c9c842a963840f17c1810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjecttoSpawn: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
+  num_points: 10
+  radius: 100
+  DistancetoSpawn: 0
+  Seed: 2
+--- !u!114 &2053473483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9738705223228784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ec68ad8c1c9c842a963840f17c1810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjecttoSpawn: {fileID: 7800288334459659184, guid: b1f9feab50d63294fa1917be906d6f40, type: 3}
+  num_points: 10
+  radius: 100
+  DistancetoSpawn: 0
+  Seed: 0
 --- !u!1 &41763596465489499
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,13 +2764,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
---- !u!198 &183710196359591340 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5776936259354108155, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
-  m_PrefabInstance: {fileID: 5955842938499061079}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &762913821711189385 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6354875448271671518, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
+  m_PrefabInstance: {fileID: 5955842938499061079}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &183710196359591340 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5776936259354108155, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
   m_PrefabInstance: {fileID: 5955842938499061079}
   m_PrefabAsset: {fileID: 0}

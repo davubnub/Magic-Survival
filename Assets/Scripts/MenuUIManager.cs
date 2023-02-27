@@ -9,18 +9,23 @@ public class MenuUIManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText; 
     public TextMeshProUGUI highScoreText;
+
     public PlayerScript player;
     public UIManager uiManager;
     public EnemySpawner enemySpawner;
     public ObstacleSpawner obstacleSpawner;
     public CoinSpawner coinSpawner;
+
     public GameObject prizePrompt;
     public GameObject purchasePrompt;
     public GameObject watchAdPrompt;
+    public GameObject background;
+
     public PurchaseScript purchaseScript;
     public PrizeScript prizeScript;
     public PoolingManager poolingManager;
     public TextMeshProUGUI[] coinTexts;
+
     public Animator cameraAnimator;
     public Animator fadeAnimator;
     public AdvertisingScript advertisingScript;
@@ -58,6 +63,7 @@ public class MenuUIManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
+        background.SetActive(false);
         uiManager.ShowInGameUI(true);
         player.StartPressed();
         enemySpawner.StartPressed();
@@ -106,7 +112,7 @@ public class MenuUIManager : MonoBehaviour
     public void GameOver(int _coins)
     {
         purchasePrompt.SetActive(_coins >= coinsToPurchase);
-        watchAdPrompt.SetActive(Random.Range(0, 100) < advertisingScript.chanceForAd);
+        watchAdPrompt.SetActive(Random.Range(0, 100) < advertisingScript.chanceToShowWatchAd);
         prizePrompt.SetActive(PlayerPrefs.GetInt("Day", 0) != System.DateTime.Today.Day);
         UpdateCoinTexts();
         fadeAnimator.SetTrigger("Fade");
@@ -129,15 +135,15 @@ public class MenuUIManager : MonoBehaviour
     {
         if (BGM.activeSelf)
         {
-            Color Red = new Color(0.78f, 0.36f, 0.38f, 1.0f);
+            Color32 Red = new Color32(236, 61, 86, 255);
             MusicButton.GetComponent<Image>().color = Red;
 
             BGM.SetActive(false);
         }
         else
         {
-            Color Green = new Color(0.56f, 0.74f, 0.45f, 1.0f);
-            MusicButton.GetComponent<Image>().color = Green;
+            Color32 Cyan = new Color32(68, 229, 227, 255);
+            MusicButton.GetComponent<Image>().color = Cyan;
 
             BGM.SetActive(true);
         }
@@ -146,15 +152,15 @@ public class MenuUIManager : MonoBehaviour
     {
         if (hasSound)
         {
-            Color Red = new Color(0.78f, 0.36f, 0.38f, 1.0f);
+            Color32 Red = new Color32(236, 61, 86, 255);
             SoundButton.GetComponent<Image>().color = Red;
 
             hasSound = false;
         }
         else
         {
-            Color Green = new Color(0.56f, 0.74f, 0.45f, 1.0f);
-            SoundButton.GetComponent<Image>().color = Green;
+            Color32 Cyan = new Color32(68, 229, 227, 255);
+            SoundButton.GetComponent<Image>().color = Cyan;
 
             hasSound = true;
         }
