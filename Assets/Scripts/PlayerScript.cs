@@ -96,6 +96,7 @@ public class PlayerScript : MonoBehaviour
         public float lightningDamage;
         public float spikeDestroyDuration;
         public float spikeSpawnRate;
+        public float lazerRate;
     }
 
     [SerializeField] private UpgradableStats upgradableStats;
@@ -662,6 +663,9 @@ public class PlayerScript : MonoBehaviour
 
             case UPGRADES.spike:
                 upgradableStats.spikeSpawnRate += _positiveUpgrade;
+                break;
+            case UPGRADES.lazerStrike:
+                upgradableStats.lazerRate += _positiveUpgrade;
                 break;
         }
 
