@@ -125,6 +125,7 @@ public class PlayerScript : MonoBehaviour
         distanceDamage,
         lightningStrike,
         spike,
+        lazerStrike,
     };
     public enum ANIMATIONS
     {
