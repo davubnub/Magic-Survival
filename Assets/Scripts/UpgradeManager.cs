@@ -15,7 +15,7 @@ public class UpgradeManager : MonoBehaviour
     public Sprite[] upgradeIcons;
     public TextMeshProUGUI[] upgradeDescriptionText;
     public TextMeshProUGUI[] tierText;
-    public TextMeshProUGUI skipText;
+    //public TextMeshProUGUI skipText;
     public Animator descriptionBox;
     public TextMeshProUGUI descriptionText;
 
@@ -53,7 +53,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void SelectOptions()
     {
-        skipText.text = "Skip +$" + skipCoin;
+        //skipText.text = "Skip +$" + skipCoin;
 
         List<int> listOfUpgrades = new List<int>();
         List<int> previousUpgrades = new List<int>();
