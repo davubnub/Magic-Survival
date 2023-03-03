@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 37.6
+  m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4732,7 +4732,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -29.389954}
+  m_AnchoredPosition: {x: 0.000030517578, y: -29.389893}
   m_SizeDelta: {x: 425.1343, y: 58.588623}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &879093446
@@ -13750,7 +13750,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39
+  m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14018,7 +14018,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.7
+  m_fontSize: 25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14293,7 +14293,6 @@ MonoBehaviour:
   - {fileID: 2045256531}
   - {fileID: 1744726297}
   - {fileID: 1409444544}
-  skipText: {fileID: 0}
   descriptionBox: {fileID: 969354096}
   descriptionText: {fileID: 1672978575}
   skipCoin: 3
@@ -15339,6 +15338,9 @@ MonoBehaviour:
   - name: 7
     gameObjectToSpawn: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
     IntialToSpawn: 1000
+  - name: 8
+    gameObjectToSpawn: {fileID: 4715960414991196246, guid: d23744ed28308974cbcee63586c0cfd3, type: 3}
+    IntialToSpawn: 30
 --- !u!4 &1859885233
 Transform:
   m_ObjectHideFlags: 0
@@ -22960,6 +22962,14 @@ PrefabInstance:
       propertyPath: customizeMenuManager
       value: 
       objectReference: {fileID: 1103714597}
+    - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: upgradableStats.lazerDMG
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: upgradableStats.lazerRate
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: upgradableStats.playerSpeed
       value: 5

@@ -25,6 +25,7 @@ public class PoolingManager : MonoBehaviour
         Enemy3,
         Enemy4,
         Obstacles,
+        LazerStrike,
     }
 
     public void SpawnIntialObjects()
@@ -47,7 +48,7 @@ public class PoolingManager : MonoBehaviour
         PlayerScript player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
         if (player.projectile != null) return;
 
-        Debug.Log("Name: " + parentPools[(int)PoolingEnum.Bullet].transform.name);
+        //Debug.Log("Name: " + parentPools[(int)PoolingEnum.Bullet].transform.name);
 
         player.projectile = FindFreeObject(parentPools[(int)PoolingEnum.Bullet].transform).gameObject;
     }
@@ -73,19 +74,10 @@ public class PoolingManager : MonoBehaviour
 
     public void DespawnObject(GameObject _object)
     {
-        //Check if there's a particle system to disable
-        ParticleSystem particle = _object.GetComponent<ParticleSystem>();
-        if (particle != null)
-        {
-            ParticleSystem.MainModule main = particle.main;
-            main.loop = false;
-        }
-        else
-        {
-            _object.SetActive(false);
-
-        }
+        _object.SetActive(false);
         _object.transform.position = new Vector3(0, 0, 0);
+
+
     }
 
     GameObject FindFreeObject(Transform _parent)

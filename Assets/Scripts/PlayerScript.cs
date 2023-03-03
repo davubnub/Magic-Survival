@@ -47,6 +47,7 @@ public class PlayerScript : MonoBehaviour
     float lightningTimer;
     float spikeSpawnTimer;
     float regenerationTimer;
+    float lazerStrikeTimer;
 
     bool paused = true;
 
@@ -97,6 +98,7 @@ public class PlayerScript : MonoBehaviour
         public float spikeDestroyDuration;
         public float spikeSpawnRate;
         public float lazerRate;
+        public float lazerDMG;
     }
 
     [SerializeField] private UpgradableStats upgradableStats;
@@ -153,6 +155,7 @@ public class PlayerScript : MonoBehaviour
         sentriesFireRateTimer = upgradableStats.sentryFireRate;
         lightningTimer = upgradableStats.lightningRate;
         spikeSpawnTimer = upgradableStats.spikeSpawnRate;
+        lazerStrikeTimer = upgradableStats.lazerRate;
 
         //update UI
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
@@ -189,6 +192,7 @@ public class PlayerScript : MonoBehaviour
         sentriesFireRateTimer -= Time.deltaTime;
         lightningTimer -= Time.deltaTime;
         spikeSpawnTimer -= Time.deltaTime;
+        lazerStrikeTimer -= Time.deltaTime;
 
         if (playingOnComputer)
         {
@@ -206,11 +210,11 @@ public class PlayerScript : MonoBehaviour
             playerModel.transform.localEulerAngles = new Vector3(0, Angle(aimingJoystick.Direction) - 45, 0);
         }
 
+        ParticleSystem tempBullet = projectile.GetComponent<ParticleSystem>();
         if ((aimingJoystick.Direction.magnitude != 0 && playingOnPhone) || (Input.GetMouseButton(0) && playingOnComputer))
         {
             //Matthew: Currently seperating the particle system bullets and placeholder bullets
             //to test things
-            ParticleSystem tempBullet = projectile.GetComponent<ParticleSystem>();
 
             if (fireRateTimer <= 0)
             {
@@ -251,7 +255,8 @@ public class PlayerScript : MonoBehaviour
         {
             if (poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet) > 0)
             {
-                poolingManager.DespawnObject(projectile);
+                ParticleSystem.MainModule main = tempBullet.main;
+                main.loop = false;
             }
         }
 
@@ -309,6 +314,20 @@ public class PlayerScript : MonoBehaviour
         {
             spikeSpawnTimer = 5 - upgradableStats.spikeSpawnRate;
             Destroy(Instantiate(spikeObject, transform.position, Quaternion.identity), upgradableStats.spikeDestroyDuration);
+        }
+
+        //Spawning Lazer Strikes
+        if (upgradableStats.lazerRate > 0 && lazerStrikeTimer <= 0)
+        {
+            lazerStrikeTimer = 18 - upgradableStats.lazerRate;
+
+            //Spawn a lazer near the player
+            Vector3 spawnPos = transform.position;
+
+            spawnPos.x += Random.Range(-6.0f, 6.0f);
+            spawnPos.z += Random.Range(-6.0f, 6.0f);
+
+            poolingManager.SpawnObject(PoolingManager.PoolingEnum.LazerStrike, spawnPos, Quaternion.identity);
         }
 
         //DEBUG

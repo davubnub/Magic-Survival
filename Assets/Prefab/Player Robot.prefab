@@ -118,6 +118,8 @@ MonoBehaviour:
     lightningDamage: 8
     spikeDestroyDuration: 6
     spikeSpawnRate: 0
+    lazerRate: 0
+    lazerDMG: 0
   SFX_Collect: {fileID: 8300000, guid: 9e3f8e6caa6387747b59e20a5526b07b, type: 3}
   SFX_Death: {fileID: 8300000, guid: 77cce344e3b9b25458ff662faabb3556, type: 3}
   SFX_Menu_Pop_up: {fileID: 8300000, guid: d341ff51a587f9242898d1e5a84dd9a5, type: 3}
@@ -273,6 +275,11 @@ MonoBehaviour:
     upgrade: 22
     upgradeDescription: Spawns a spike every so often
     positiveUpgrade: 0.9
+    negativeUpgrade: 0
+  - upgradeName: Lazer Strike
+    upgrade: 23
+    upgradeDescription: Spawns an Orbital Lazer Strike
+    positiveUpgrade: 3
     negativeUpgrade: 0
 --- !u!82 &4255277103545298072
 AudioSource:

@@ -12,6 +12,7 @@ TagManager:
   - Explosion
   - Saw
   - Spike
+  - LazerStrike
   layers:
   - Default
   - TransparentFX

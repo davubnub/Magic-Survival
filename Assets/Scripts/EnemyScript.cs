@@ -122,6 +122,12 @@ public class EnemyScript : MonoBehaviour
         {
             DamageEnemy(playerScript.GetUpgradableStats().bulletDamage / 4, true);
         }
+        
+        if (other.CompareTag("LazerStrike"))
+        {
+            DamageEnemy(playerScript.GetUpgradableStats().lazerDMG, true);
+            Debug.Log("Lazer strike works");
+        }
     }
 
     public void HitByBullet(GameObject _bullet, Vector3 _pos)
