@@ -604,7 +604,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278322392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 52.4, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 205710130}
@@ -654,8 +654,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjecttoSpawn: {fileID: 5938787088271644366, guid: 4e0498941fee46b48a722048605580c1, type: 3}
-  num_points: 100
-  radius: 1
+  num_points: 10
+  radius: 100
   Seed: 0
 --- !u!1 &1322649205 stripped
 GameObject:
