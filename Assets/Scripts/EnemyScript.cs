@@ -104,6 +104,8 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Matthew: Grenade throw collision is handled at Grenade script since particle system collisions work differently
+
         if(other.CompareTag("Projectile"))
         {
             //For particle system related collisions, check projectile script OnParticleCollision

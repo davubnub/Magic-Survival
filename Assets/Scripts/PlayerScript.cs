@@ -99,6 +99,8 @@ public class PlayerScript : MonoBehaviour
         public float spikeSpawnRate;
         public float lazerRate;
         public float lazerDMG;
+        public float grenadeRate;
+        public float grenadeDMG;
     }
 
     [SerializeField] private UpgradableStats upgradableStats;
@@ -129,6 +131,7 @@ public class PlayerScript : MonoBehaviour
         lightningStrike,
         spike,
         lazerStrike,
+        grenadeThrow,
     };
     public enum ANIMATIONS
     {
