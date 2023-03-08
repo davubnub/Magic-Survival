@@ -1491,7 +1491,7 @@
     },
     "m_Name": "Rotation",
     "m_DefaultReferenceName": "Vector1_366c18e9e543462a8b0f670322fe2ca3",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "Rotation",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,

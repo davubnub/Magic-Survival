@@ -299,6 +299,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4816788032498307082, guid: 46b64070c3b4ab3468375748ee6c4924, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 193f1304d79b2ca4aa05ad692e24f924, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b64070c3b4ab3468375748ee6c4924, type: 3}
 --- !u!1 &737915454 stripped
@@ -425,6 +429,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
+      propertyPath: TileChangeDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
+      propertyPath: TileChangeDistance.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
+      propertyPath: TileChangeDistance.z
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
       propertyPath: WorldChunks.Array.data[0]
       value: 
       objectReference: {fileID: 1322649205}
@@ -460,6 +476,22 @@ PrefabInstance:
       propertyPath: WorldChunks.Array.data[8]
       value: 
       objectReference: {fileID: 153526205}
+    - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
+      propertyPath: WorldMaterials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
+      propertyPath: WorldMaterials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c6e696c55cab6924dacf087f527997f1, type: 2}
+    - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
+      propertyPath: WorldMaterials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ec478678fe9d3346997d672df916278, type: 2}
+    - target: {fileID: 1574782612325584316, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
+      propertyPath: WorldMaterials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 193f1304d79b2ca4aa05ad692e24f924, type: 2}
     - target: {fileID: 1574782612325584317, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -624,7 +656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c245587209287c047b702707333396f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
 --- !u!54 &1278322398
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -648,7 +680,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278322392}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1ec68ad8c1c9c842a963840f17c1810, type: 3}
   m_Name: 
@@ -656,6 +688,7 @@ MonoBehaviour:
   ObjecttoSpawn: {fileID: 5938787088271644366, guid: 4e0498941fee46b48a722048605580c1, type: 3}
   num_points: 10
   radius: 100
+  DistancetoSpawn: 0
   Seed: 0
 --- !u!1 &1322649205 stripped
 GameObject:

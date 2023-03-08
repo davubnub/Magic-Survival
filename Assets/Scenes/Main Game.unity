@@ -14022,7 +14022,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.25
+  m_fontSize: 16.25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -23014,11 +23014,24 @@ PrefabInstance:
       propertyPath: WorldChunks.Array.data[8]
       value: 
       objectReference: {fileID: 771325746}
+    - target: {fileID: 4422367855720157847, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: WorldMaterials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422367855720157847, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: WorldMaterials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c6e696c55cab6924dacf087f527997f1, type: 2}
+    - target: {fileID: 4422367855720157847, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: WorldMaterials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ec478678fe9d3346997d672df916278, type: 2}
     - target: {fileID: 6060433278780801593, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: movementJoystick
       value: 
       objectReference: {fileID: 1408427784}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2053473483, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
 --- !u!1001 &6586234026024672734
 PrefabInstance:
