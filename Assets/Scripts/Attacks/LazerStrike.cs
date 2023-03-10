@@ -11,12 +11,14 @@ public class LazerStrike : MonoBehaviour
     public float minAttackTime = 0.0f, maxAttackTime = 3.0f;
 
     [Header("Other stuff")]
-    [SerializeField] private Collider collider;
+    [SerializeField] private GameObject collider;
+    public bool ObjectInPool = true;
     private PoolingManager pool;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (ps == null) ps = GetComponent<ParticleSystem>();
 
     }
 
@@ -27,16 +29,23 @@ public class LazerStrike : MonoBehaviour
 
         if (ps.time >= minAttackTime && ps.time < maxAttackTime)
         {
-            collider.enabled = true;
+            collider.SetActive(true);
         }
-        else if (collider.enabled == true && ps.time >= maxAttackTime)
+        else if (collider.activeSelf == true && ps.time >= maxAttackTime)
         {
-            collider.enabled = false;
+            collider.SetActive(false);
         }
 
         if (!ps.isPlaying)
         {
-            pool.DespawnObject(gameObject);
+            if (ObjectInPool)
+            {
+                pool.DespawnObject(gameObject);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 

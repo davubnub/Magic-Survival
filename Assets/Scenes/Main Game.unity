@@ -14291,6 +14291,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 197a7a2c70120884e8e16e86a166080b, type: 3}
   - {fileID: 21300000, guid: d19a9cb676490aa40bd1446de7c27d7c, type: 3}
   - {fileID: 21300000, guid: 98eeea92907ba9b4a89523e4a9949d10, type: 3}
+  - {fileID: 21300000, guid: 67d9834ba93c0ee43a80ebd4a3c028f3, type: 3}
+  - {fileID: 21300000, guid: 77c615ab000887542b66a11d8e853d55, type: 3}
   upgradeDescriptionText:
   - {fileID: 0}
   - {fileID: 0}
@@ -22980,20 +22982,20 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
-      propertyPath: upgradableStats.grenadeRate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: upgradableStats.playerSpeed
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
-      propertyPath: upgradableStats.chainLightningDMG
-      value: 5
+      propertyPath: upgradableStats.electricFieldDMG
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
-      propertyPath: upgradableStats.chainLightningRate
-      value: 3
+      propertyPath: upgradableStats.electricPulseDMG
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: upgradableStats.chainLightningDMG
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4422367855720157847, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: WorldChunks.Array.data[0]

@@ -11,6 +11,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject spikeObject;
     public GameObject heads;
     public GameObject grenadeThrow;
+    public GameObject electricPulse;
+    public GameObject electricField;
 
     public GameObject playerModel;
     public Animator modelAnimator;
@@ -50,6 +52,7 @@ public class PlayerScript : MonoBehaviour
     float regenerationTimer;
     float lazerStrikeTimer;
     float chainLightningTimer;
+    float electricPulseTimer;
 
     bool paused = true;
 
@@ -105,6 +108,11 @@ public class PlayerScript : MonoBehaviour
         public float grenadeDMG;
         public float chainLightningDMG;
         public float chainLightningRate;
+        public float electricPulseRate;
+        public float electricPulseDMG;
+        public float electricFieldRate;
+        public float electricFieldDMG;
+
     }
 
     [SerializeField] private UpgradableStats upgradableStats;
@@ -136,7 +144,9 @@ public class PlayerScript : MonoBehaviour
         spike,
         lazerStrike,
         grenadeThrow,
-        chainLightning
+        chainLightning,
+        electricPulse,
+        electricField,
     };
     public enum ANIMATIONS
     {
@@ -165,6 +175,7 @@ public class PlayerScript : MonoBehaviour
         spikeSpawnTimer = upgradableStats.spikeSpawnRate;
         lazerStrikeTimer = upgradableStats.lazerRate;
         chainLightningTimer = upgradableStats.chainLightningRate;
+        electricPulseTimer = upgradableStats.electricPulseRate;
 
         //update UI
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
@@ -203,6 +214,7 @@ public class PlayerScript : MonoBehaviour
         spikeSpawnTimer -= Time.deltaTime;
         lazerStrikeTimer -= Time.deltaTime;
         chainLightningTimer -= Time.deltaTime;
+        electricPulseTimer -= Time.deltaTime;
 
         if (playingOnComputer)
         {
@@ -327,6 +339,23 @@ public class PlayerScript : MonoBehaviour
             chainLightningTimer = 10 - upgradableStats.chainLightningRate;
 
             poolingManager.SpawnObject(PoolingManager.PoolingEnum.ChainLightning, transform.position, Quaternion.identity);
+        }
+
+        //Spawning pulse lightning
+        if (upgradableStats.electricPulseRate > 0 && electricPulseTimer <= 0)
+        {
+            electricPulseTimer = 8 - upgradableStats.electricPulseRate;
+
+            if (!electricPulse.activeSelf)
+            {
+                electricPulse.SetActive(true);
+            }
+        }
+
+        //Spawning electric field
+        if (upgradableStats.electricFieldRate > 0 && !electricField.activeSelf)
+        {
+            electricField.SetActive(true);
         }
 
         if (upgradableStats.spikeSpawnRate > 0 && spikeSpawnTimer <= 0)
@@ -721,6 +750,9 @@ public class PlayerScript : MonoBehaviour
                 break;
             case UPGRADES.chainLightning:
                 upgradableStats.lightningRate += _positiveUpgrade;
+                break;
+            case UPGRADES.electricPulse:
+                upgradableStats.electricPulseRate += _positiveUpgrade;
                 break;
         }
 

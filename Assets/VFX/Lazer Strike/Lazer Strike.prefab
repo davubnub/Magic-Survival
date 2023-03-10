@@ -29286,7 +29286,8 @@ MonoBehaviour:
   ps: {fileID: 7199636506920004024}
   minAttackTime: 1
   maxAttackTime: 2
-  collider: {fileID: 6209416581519362594}
+  collider: {fileID: 6383428918530641940}
+  ObjectInPool: 1
 --- !u!1 &6383428918530641940
 GameObject:
   m_ObjectHideFlags: 0

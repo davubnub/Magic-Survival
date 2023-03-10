@@ -74,6 +74,8 @@ MonoBehaviour:
   spikeObject: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
   heads: {fileID: 2349693163625792075}
   grenadeThrow: {fileID: 6002326170444047012}
+  electricPulse: {fileID: 7837859766623739802}
+  electricField: {fileID: 684880086372776187}
   playerModel: {fileID: 4698574669199465887}
   modelAnimator: {fileID: 3933913892452487149}
   muzzleVFX: {fileID: 1058998457830983819}
@@ -125,6 +127,10 @@ MonoBehaviour:
     grenadeDMG: 0
     chainLightningDMG: 0
     chainLightningRate: 0
+    electricPulseRate: 0
+    electricPulseDMG: 0
+    electricFieldRate: 0
+    electricFieldDMG: 0
   SFX_Collect: {fileID: 8300000, guid: 9e3f8e6caa6387747b59e20a5526b07b, type: 3}
   SFX_Death: {fileID: 8300000, guid: 77cce344e3b9b25458ff662faabb3556, type: 3}
   SFX_Menu_Pop_up: {fileID: 8300000, guid: d341ff51a587f9242898d1e5a84dd9a5, type: 3}
@@ -295,6 +301,16 @@ MonoBehaviour:
     upgrade: 25
     upgradeDescription: Creates a lightning orb that zaps nearby enemies
     positiveUpgrade: 3
+    negativeUpgrade: 0
+  - upgradeName: Electric Pulse
+    upgrade: 26
+    upgradeDescription: Periodically send out a burst of lightning
+    positiveUpgrade: 3
+    negativeUpgrade: 0
+  - upgradeName: Electric Field
+    upgrade: 27
+    upgradeDescription: Create a ring of electricity around you
+    positiveUpgrade: 1
     negativeUpgrade: 0
 --- !u!82 &4255277103545298072
 AudioSource:
@@ -2448,6 +2464,8 @@ Transform:
   - {fileID: 7666153381437085536}
   - {fileID: 762913821711189385}
   - {fileID: 6002326170444047015}
+  - {fileID: 5950315256263752804}
+  - {fileID: 4023756337881275141}
   m_Father: {fileID: 9738705223228751}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2718,6 +2736,148 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1574782612325584317, guid: 18ae25bcde5393f46bc3aaefce50b345, type: 3}
   m_PrefabInstance: {fileID: 2919925009674575659}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3032143082970727435
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2020516808283076937}
+    m_Modifications:
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564088461986118896, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_Name
+      value: Electric Field
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564088461986118896, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+--- !u!1 &684880086372776187 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2564088461986118896, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+  m_PrefabInstance: {fileID: 3032143082970727435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4023756337881275141 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2144583152004439822, guid: 770cb3a215c2cda4d8d1d6df90e769f1, type: 3}
+  m_PrefabInstance: {fileID: 3032143082970727435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4981626142282222418
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2020516808283076937}
+    m_Modifications:
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3019629995491792072, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_Name
+      value: Electric Pulse
+      objectReference: {fileID: 0}
+    - target: {fileID: 3019629995491792072, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+--- !u!1 &7837859766623739802 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3019629995491792072, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+  m_PrefabInstance: {fileID: 4981626142282222418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5950315256263752804 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1707302578065782582, guid: 35c4e0059296267458740e7a8b3f8615, type: 3}
+  m_PrefabInstance: {fileID: 4981626142282222418}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5955842938499061079
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2787,14 +2947,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
---- !u!4 &762913821711189385 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6354875448271671518, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
-  m_PrefabInstance: {fileID: 5955842938499061079}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &183710196359591340 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5776936259354108155, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
+  m_PrefabInstance: {fileID: 5955842938499061079}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &762913821711189385 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6354875448271671518, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
   m_PrefabInstance: {fileID: 5955842938499061079}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7007812916291112903

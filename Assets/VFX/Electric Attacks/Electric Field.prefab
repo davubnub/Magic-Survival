@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2144583152004439822}
   - component: {fileID: 3868731608273145119}
   - component: {fileID: 7270103045596558029}
+  - component: {fileID: 2893673861668322510}
   m_Layer: 0
   m_Name: Electric Field
-  m_TagString: Untagged
+  m_TagString: ElectricField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4873,6 +4874,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!135 &2893673861668322510
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2564088461986118896}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7224615746998764189
 GameObject:
   m_ObjectHideFlags: 0

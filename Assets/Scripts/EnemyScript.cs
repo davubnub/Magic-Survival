@@ -130,13 +130,26 @@ public class EnemyScript : MonoBehaviour
             DamageEnemy(playerScript.GetUpgradableStats().lazerDMG, true);
         }
 
+        if (other.CompareTag("ElectricPulse"))
+        {
+            //Matthew: If anyone is curious, the electric pulse VFX prefab is using the lazer strike script
+            //because they are similar to each other so it didn't take much for me to tweak the code for this
+            DamageEnemy(playerScript.GetUpgradableStats().electricPulseDMG, true);
+
+        }
+
+        if (other.CompareTag("ElectricField"))
+        {
+            DamageEnemy(playerScript.GetUpgradableStats().electricFieldDMG, true);
+            Debug.Log("electric field works");
+        }
+
         if (other.CompareTag("ChainLightning"))
         {
             LightningChain lightning = other.GetComponent<LightningChain>();
             if (lightning.CurrentState != LightningChain.chainLightningState.ATTACK)
             {
                 lightning.CurrentState = LightningChain.chainLightningState.ATTACK;
-                //Debug.Log("Lightning chain works");
 
             }
         }
