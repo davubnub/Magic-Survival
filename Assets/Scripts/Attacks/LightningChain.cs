@@ -16,7 +16,7 @@ public class LightningChain : MonoBehaviour
     [Header("Current state values")]
     public float timeTillCheck = 2.0f;
     public float searchRadius = 5.0f;
-    private chainLightningState currentState = chainLightningState.SEARCH;
+    [SerializeField] private chainLightningState currentState = chainLightningState.SEARCH;
     private float timer = 0.0f;
     private PlayerScript player;
 
@@ -26,8 +26,8 @@ public class LightningChain : MonoBehaviour
     private bool targetFound = false;
 
     [Header("Attack values")]
-    public int hitsTillDestroy = 5;
-    public int hitEnemies = 3;
+    public int enemyAmount = 5;
+    public int hitChange = 3;
     private int hitNum = 0;
     public float attackRate = 0.6f;
     private float attkTimer = 0.0f;
@@ -36,21 +36,15 @@ public class LightningChain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
     }
-
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    timer += Time.deltaTime
-    //}
 
     //This update function has a timer. As the timer is going, it will search, chase and attack a target.
     //Once the timer goes past a limit, it will reset the timer and search for a new target and if no target 
     //has been found then it despawns
-    private void FixedUpdate()
+    void Update()
     {
-        timer += Time.fixedDeltaTime;
+        timer += Time.deltaTime;
 
         if (timer >= timeTillCheck)
         {
@@ -67,50 +61,91 @@ public class LightningChain : MonoBehaviour
                     break;
             }
 
-            timer -= timeTillCheck;
+            timer = 0;
         }
         else
         {
-            switch(currentState)
+            switch (currentState)
             {
                 case chainLightningState.SEARCH:
                     SearchForEnemies();
                     break;
-                case chainLightningState.CHASE:
-                    Vector3 direction = (target.transform.position - transform.position).normalized;
-                    direction.y = transform.position.y;
-
-                    transform.position += (direction * moveSpeed) * Time.fixedDeltaTime;
-                    break;
                 case chainLightningState.ATTACK:
+                    //Search for a new target if current target is dead due to other causes
+                    if (!target.gameObject.activeSelf)
+                    {
+                        currentState = chainLightningState.SEARCH;
+
+                        //Reset the timer so that it is given enough time for a search
+                        timer = 0;
+                        targetFound = false;
+                    }
+
+
                     //Stay with the target
                     transform.position = target.transform.position;
 
                     attkTimer += Time.deltaTime;
                     if (attkTimer >= attackRate)
                     {
+                        //Debug.Log(attkTimer);
                         target.DamageEnemy(player.GetUpgradableStats().chainLightningDMG, true);
-
+                        
                         hitNum++;
-                        attkTimer -= attackRate;
+                        attkTimer = 0;
 
-                        //Search for a new target if current target is dead or num of hits is a multiple of 
-                        //allowed hits on an enemy
-                        if (target.IsDead || hitNum % hitEnemies == 0)
+                        if (hitNum % hitChange == 0)
                         {
                             currentState = chainLightningState.SEARCH;
+
                             //Reset the timer so that it is given enough time for a search
                             timer = 0;
+                            targetFound = false;
+
                         }
 
-                        if (hitNum >= hitsTillDestroy)
+
+                        if (hitNum >= (hitChange * enemyAmount))
                         {
                             player.poolingManager.DespawnObject(gameObject);
                         }
                     }
+
+                    
+                    break;
+                case chainLightningState.CHASE:
+                    //There's a weird error that seems to occur when there is no target so this is a workaround 
+                    //solution
+                    if (target == null || !targetFound)
+                    {
+                        currentState = chainLightningState.SEARCH;
+                        return;
+                    }
+                    //Creating another if statement in case the nearest target was already within the target's 
+                    //collider (It causes the object to stay in the chase state)
+                    else if (Vector3.Distance(target.transform.position, transform.position) <= 0.5f)
+                    {
+                        currentState = chainLightningState.ATTACK;
+                        timer = 0;
+                        return;
+                    }
                     break;
             }
         }
+    }
+
+    //Handling the movement of the lightning chain if it is chasing
+    private void FixedUpdate()
+    {
+        if (currentState == chainLightningState.CHASE)
+        {
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            direction.y = transform.position.y;
+
+            transform.position += (direction * moveSpeed) * Time.fixedDeltaTime;
+        }
+
+
     }
 
     public void SearchForEnemies()
@@ -122,12 +157,12 @@ public class LightningChain : MonoBehaviour
         //Don't bother continuing this function if there aren't any enemies nearby
         if (colliders.Length == 0) return;
 
-        foreach(Collider nearbyEnemy in colliders)
+        foreach (Collider nearbyEnemy in colliders)
         {
             EnemyScript currentEnemy = nearbyEnemy.GetComponent<EnemyScript>();
             //Trying to find the nearest enemy
             float currentDistance = Vector3.Distance(transform.position, nearbyEnemy.transform.position);
-            if (currentDistance < closestDistance && nearbyEnemy != target)
+            if (currentDistance < closestDistance && (nearbyEnemy != target && nearbyEnemy.gameObject.activeSelf))
             {
                 targetFound = true;
                 closestDistance = currentDistance;
@@ -136,17 +171,28 @@ public class LightningChain : MonoBehaviour
         }
 
         CurrentState = chainLightningState.CHASE;
+        timer = 0;
     }
 
     //Set/get the current lightning state
     public chainLightningState CurrentState
     {
-        set { currentState = value; }
+        set
+        {
+            currentState = value;
+
+            //Resetting the timer so it doesnt go on search mode immediately
+            if (currentState == chainLightningState.ATTACK)
+            {
+                timer = 0;
+            }
+        }
         get { return currentState; }
     }
 
     private void OnEnable()
     {
+        if (player == null) player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
         if (currentState != chainLightningState.SEARCH) currentState = chainLightningState.SEARCH;
         hitNum = 0;
         timer = 0.0f;

@@ -13,6 +13,7 @@ TagManager:
   - Saw
   - Spike
   - LazerStrike
+  - ChainLightning
   layers:
   - Default
   - TransparentFX

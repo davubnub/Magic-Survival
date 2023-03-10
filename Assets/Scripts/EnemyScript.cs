@@ -47,19 +47,19 @@ public class EnemyScript : MonoBehaviour
 
     private void Start()
     {
-        player         = GameObject.FindGameObjectWithTag("Player");
-        menuUI         = FindObjectOfType<MenuUIManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        menuUI = FindObjectOfType<MenuUIManager>();
         poolingManager = FindObjectOfType<PoolingManager>();
-        enemySpawner   = FindObjectOfType<EnemySpawner>();
-        playerScript   = player.GetComponent<PlayerScript>();
-        rb             = GetComponent<Rigidbody>();
-        t              = attackWait;
+        enemySpawner = FindObjectOfType<EnemySpawner>();
+        playerScript = player.GetComponent<PlayerScript>();
+        rb = GetComponent<Rigidbody>();
+        t = attackWait;
         Init();
     }
 
     public void Init()
     {
-        t      = attackWait;
+        t = attackWait;
         health = maxHealth;
         isDead = false;
         lightningVFX.SetActive(false);
@@ -104,31 +104,41 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Matthew: Grenade throw collision is handled at Grenade script since particle system collisions work differently
+        //Matthew: Grenade throw collision is at Grenade script since particle system collisions work differently
 
-        if(other.CompareTag("Projectile"))
+        if (other.CompareTag("Projectile"))
         {
             //For particle system related collisions, check projectile script OnParticleCollision
             //Debug.Log("Collision works");
             HitByBullet(other.gameObject, other.transform.position);
         }
-        if(other.CompareTag("Saw"))
+        if (other.CompareTag("Saw"))
         {
             DamageEnemy(playerScript.GetUpgradableStats().bulletDamage, true);
         }
-        if(other.CompareTag("Explosion"))
+        if (other.CompareTag("Explosion"))
         {
             DamageEnemy(playerScript.GetUpgradableStats().explosionDamage, true);
         }
-        if(other.CompareTag("Spike"))
+        if (other.CompareTag("Spike"))
         {
             DamageEnemy(playerScript.GetUpgradableStats().bulletDamage / 4, true);
         }
-        
+
         if (other.CompareTag("LazerStrike"))
         {
             DamageEnemy(playerScript.GetUpgradableStats().lazerDMG, true);
-            Debug.Log("Lazer strike works");
+        }
+
+        if (other.CompareTag("ChainLightning"))
+        {
+            LightningChain lightning = other.GetComponent<LightningChain>();
+            if (lightning.CurrentState != LightningChain.chainLightningState.ATTACK)
+            {
+                lightning.CurrentState = LightningChain.chainLightningState.ATTACK;
+                //Debug.Log("Lightning chain works");
+
+            }
         }
     }
 
@@ -167,13 +177,13 @@ public class EnemyScript : MonoBehaviour
     {
         int rand = Random.Range(0, 100);
 
-        if(rand < playerScript.GetUpgradableStats().criticalChance)
+        if (rand < playerScript.GetUpgradableStats().criticalChance)
         {
             _damage *= 2;
             Destroy(Instantiate(criticalText, transform.position, Quaternion.identity), critcalTimer);
         }
 
-        if(!_setDamage && playerScript.GetUpgradableStats().damageDistance > 0)
+        if (!_setDamage && playerScript.GetUpgradableStats().damageDistance > 0)
         {
             //float newDamage = _damage * ((Vector3.Distance(player.transform.position, transform.position) * playerScript.GetUpgradableStats().damageDistance));
             _damage += (Vector3.Distance(player.transform.position, transform.position) / 10) * playerScript.GetUpgradableStats().damageDistance;
@@ -184,7 +194,7 @@ public class EnemyScript : MonoBehaviour
 
         if (health <= 0)
         {
-            EnemyDied();    
+            EnemyDied();
         }
     }
 
@@ -237,10 +247,5 @@ public class EnemyScript : MonoBehaviour
                 enemyAnimator.SetBool("isDead", true);
                 break;
         }
-    }
-
-    public bool IsDead
-    {
-        get { return isDead; }
     }
 }

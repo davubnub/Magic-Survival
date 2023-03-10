@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2830313572306467358}
   - component: {fileID: 2502628437851493377}
   - component: {fileID: 1741527065920999111}
+  - component: {fileID: -3772317080769876667}
   m_Layer: 0
   m_Name: Chain Lightning
-  m_TagString: Untagged
+  m_TagString: ChainLightning
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4884,6 +4885,25 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.39202207
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3772317080769876667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2663678420200409050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527714f4591a7854e8ea0c80f64dc2f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeTillCheck: 2
+  searchRadius: 5
+  moveSpeed: 20
+  target: {fileID: 0}
+  hitsTillDestroy: 5
+  hitEnemies: 3
+  attackRate: 0.6
 --- !u!1 &5348439554225812484
 GameObject:
   m_ObjectHideFlags: 0

@@ -202,6 +202,7 @@ public class PlayerScript : MonoBehaviour
         lightningTimer -= Time.deltaTime;
         spikeSpawnTimer -= Time.deltaTime;
         lazerStrikeTimer -= Time.deltaTime;
+        chainLightningTimer -= Time.deltaTime;
 
         if (playingOnComputer)
         {
