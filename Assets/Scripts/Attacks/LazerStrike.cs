@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//The lazer strike script plays a particle system that shoots a beam to the ground. Once the playback reaches
+//a certain time, it will damage enemies surrounding the beam
 public class LazerStrike : MonoBehaviour
 {
     [Header("Particle stuff")]

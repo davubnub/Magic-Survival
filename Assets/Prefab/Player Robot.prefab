@@ -73,6 +73,7 @@ MonoBehaviour:
   sentryObject: {fileID: 5185208191233231910, guid: 0f583d8d48e920a469e4880e2524714e, type: 3}
   spikeObject: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
   heads: {fileID: 2349693163625792075}
+  grenadeThrow: {fileID: 6002326170444047012}
   playerModel: {fileID: 4698574669199465887}
   modelAnimator: {fileID: 3933913892452487149}
   muzzleVFX: {fileID: 1058998457830983819}
@@ -120,6 +121,10 @@ MonoBehaviour:
     spikeSpawnRate: 0
     lazerRate: 0
     lazerDMG: 0
+    grenadeRate: 0
+    grenadeDMG: 0
+    chainLightningDMG: 0
+    chainLightningRate: 0
   SFX_Collect: {fileID: 8300000, guid: 9e3f8e6caa6387747b59e20a5526b07b, type: 3}
   SFX_Death: {fileID: 8300000, guid: 77cce344e3b9b25458ff662faabb3556, type: 3}
   SFX_Menu_Pop_up: {fileID: 8300000, guid: d341ff51a587f9242898d1e5a84dd9a5, type: 3}
@@ -279,6 +284,16 @@ MonoBehaviour:
   - upgradeName: Lazer Strike
     upgrade: 23
     upgradeDescription: Spawns an Orbital Lazer Strike
+    positiveUpgrade: 3
+    negativeUpgrade: 0
+  - upgradeName: Grenade Throw
+    upgrade: 24
+    upgradeDescription: Throws a Grenade around the Player
+    positiveUpgrade: 3
+    negativeUpgrade: 0
+  - upgradeName: Chain Lightning
+    upgrade: 25
+    upgradeDescription: Creates a lightning orb that zaps nearby enemies
     positiveUpgrade: 3
     negativeUpgrade: 0
 --- !u!82 &4255277103545298072
@@ -2432,6 +2447,7 @@ Transform:
   - {fileID: 1058998457830983819}
   - {fileID: 7666153381437085536}
   - {fileID: 762913821711189385}
+  - {fileID: 6002326170444047015}
   m_Father: {fileID: 9738705223228751}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2780,4 +2796,75 @@ Transform:
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5776936259354108155, guid: 6ddf3082fb7bbd6439c739370be827e6, type: 3}
   m_PrefabInstance: {fileID: 5955842938499061079}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7007812916291112903
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2020516808283076937}
+    m_Modifications:
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7933534
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.60876137
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178083, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_Name
+      value: Grenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606340338655178083, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+--- !u!1 &6002326170444047012 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3606340338655178083, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+  m_PrefabInstance: {fileID: 7007812916291112903}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6002326170444047015 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3606340338655178080, guid: f69dfe4cefd579b45b884377641321ba, type: 3}
+  m_PrefabInstance: {fileID: 7007812916291112903}
   m_PrefabAsset: {fileID: 0}

@@ -24,7 +24,7 @@ public class Grenade : MonoBehaviour
         if (other.transform.tag == "Enemy")
         {
             EnemyScript enemy = other.GetComponent<EnemyScript>();
-
+            //Debug.Log("Grenade works");
             enemy.DamageEnemy(player.GetUpgradableStats().grenadeDMG, true);
         }
     }

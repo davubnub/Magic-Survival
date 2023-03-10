@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Chain lightning is an attack that zips to a target, damages it multiple times and searches for nearby enemies to
+//zap again
 public class LightningChain : MonoBehaviour
 {
     public enum chainLightningState
     {
-        STAY,
         SEARCH,
         CHASE,
         ATTACK,
-        DESPAWN
     }
 
     [Header("Current state values")]
     public float timeTillCheck = 2.0f;
-    public float attackRate = 0.6f;
     public float searchRadius = 5.0f;
     private chainLightningState currentState = chainLightningState.SEARCH;
     private float timer = 0.0f;
@@ -24,6 +23,14 @@ public class LightningChain : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 20.0f;
     public EnemyScript target;
+    private bool targetFound = false;
+
+    [Header("Attack values")]
+    public int hitsTillDestroy = 5;
+    public int hitEnemies = 3;
+    private int hitNum = 0;
+    public float attackRate = 0.6f;
+    private float attkTimer = 0.0f;
 
 
     // Start is called before the first frame update
@@ -38,6 +45,9 @@ public class LightningChain : MonoBehaviour
     //    timer += Time.deltaTime
     //}
 
+    //This update function has a timer. As the timer is going, it will search, chase and attack a target.
+    //Once the timer goes past a limit, it will reset the timer and search for a new target and if no target 
+    //has been found then it despawns
     private void FixedUpdate()
     {
         timer += Time.fixedDeltaTime;
@@ -46,28 +56,59 @@ public class LightningChain : MonoBehaviour
         {
             switch (currentState)
             {
+                //Despawn the object if it hasn't been able to search for any new enemy for awhile
                 case chainLightningState.SEARCH:
-                    SearchForEnemies();
+                    player.poolingManager.DespawnObject(gameObject);
                     break;
-                case chainLightningState.STAY:
+                //Find a new target
+                case chainLightningState.ATTACK:
                     currentState = chainLightningState.SEARCH;
+                    targetFound = false;
                     break;
             }
 
-            timer = 0;
+            timer -= timeTillCheck;
         }
         else
         {
             switch(currentState)
             {
+                case chainLightningState.SEARCH:
+                    SearchForEnemies();
+                    break;
                 case chainLightningState.CHASE:
                     Vector3 direction = (target.transform.position - transform.position).normalized;
                     direction.y = transform.position.y;
 
                     transform.position += (direction * moveSpeed) * Time.fixedDeltaTime;
                     break;
-                //case chainLightningState.ATTACK:
-                    //target.DamageEnemy()
+                case chainLightningState.ATTACK:
+                    //Stay with the target
+                    transform.position = target.transform.position;
+
+                    attkTimer += Time.deltaTime;
+                    if (attkTimer >= attackRate)
+                    {
+                        target.DamageEnemy(player.GetUpgradableStats().chainLightningDMG, true);
+
+                        hitNum++;
+                        attkTimer -= attackRate;
+
+                        //Search for a new target if current target is dead or num of hits is a multiple of 
+                        //allowed hits on an enemy
+                        if (target.IsDead || hitNum % hitEnemies == 0)
+                        {
+                            currentState = chainLightningState.SEARCH;
+                            //Reset the timer so that it is given enough time for a search
+                            timer = 0;
+                        }
+
+                        if (hitNum >= hitsTillDestroy)
+                        {
+                            player.poolingManager.DespawnObject(gameObject);
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -83,12 +124,14 @@ public class LightningChain : MonoBehaviour
 
         foreach(Collider nearbyEnemy in colliders)
         {
+            EnemyScript currentEnemy = nearbyEnemy.GetComponent<EnemyScript>();
             //Trying to find the nearest enemy
             float currentDistance = Vector3.Distance(transform.position, nearbyEnemy.transform.position);
-            if (currentDistance < closestDistance)
+            if (currentDistance < closestDistance && nearbyEnemy != target)
             {
+                targetFound = true;
                 closestDistance = currentDistance;
-                target = nearbyEnemy.GetComponent<EnemyScript>();
+                target = currentEnemy;
             }
         }
 
@@ -100,5 +143,13 @@ public class LightningChain : MonoBehaviour
     {
         set { currentState = value; }
         get { return currentState; }
+    }
+
+    private void OnEnable()
+    {
+        if (currentState != chainLightningState.SEARCH) currentState = chainLightningState.SEARCH;
+        hitNum = 0;
+        timer = 0.0f;
+        attkTimer = 0.0f;
     }
 }

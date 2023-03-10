@@ -238,4 +238,9 @@ public class EnemyScript : MonoBehaviour
                 break;
         }
     }
+
+    public bool IsDead
+    {
+        get { return isDead; }
+    }
 }

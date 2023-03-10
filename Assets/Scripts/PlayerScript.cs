@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject sentryObject;
     public GameObject spikeObject;
     public GameObject heads;
+    public GameObject grenadeThrow;
 
     public GameObject playerModel;
     public Animator modelAnimator;
@@ -48,6 +49,7 @@ public class PlayerScript : MonoBehaviour
     float spikeSpawnTimer;
     float regenerationTimer;
     float lazerStrikeTimer;
+    float chainLightningTimer;
 
     bool paused = true;
 
@@ -102,6 +104,7 @@ public class PlayerScript : MonoBehaviour
         public float grenadeRate;
         public float grenadeDMG;
         public float chainLightningDMG;
+        public float chainLightningRate;
     }
 
     [SerializeField] private UpgradableStats upgradableStats;
@@ -161,6 +164,7 @@ public class PlayerScript : MonoBehaviour
         lightningTimer = upgradableStats.lightningRate;
         spikeSpawnTimer = upgradableStats.spikeSpawnRate;
         lazerStrikeTimer = upgradableStats.lazerRate;
+        chainLightningTimer = upgradableStats.chainLightningRate;
 
         //update UI
         inGameUI.UpdateHealthBar(health, upgradableStats.maxHealth);
@@ -315,11 +319,31 @@ public class PlayerScript : MonoBehaviour
                 StartCoroutine(activeEnemies[randomEnemy].GetComponent<EnemyScript>().LightningStrike(upgradableStats.lightningDamage));
             }
         }
+
+        //Spawning chain lightning
+        if (upgradableStats.chainLightningRate > 0 && chainLightningTimer <= 0)
+        {
+            chainLightningTimer = 10 - upgradableStats.chainLightningRate;
+
+            poolingManager.SpawnObject(PoolingManager.PoolingEnum.ChainLightning, transform.position, Quaternion.identity);
+        }
+
         if (upgradableStats.spikeSpawnRate > 0 && spikeSpawnTimer <= 0)
         {
             spikeSpawnTimer = 5 - upgradableStats.spikeSpawnRate;
             Destroy(Instantiate(spikeObject, transform.position, Quaternion.identity), upgradableStats.spikeDestroyDuration);
         }
+
+        //Spawning grenades
+        if (upgradableStats.grenadeRate > 0)
+        {
+            if (!grenadeThrow.activeSelf)
+            {
+                grenadeThrow.SetActive(true);
+                
+            }
+        }
+
 
         //Spawning Lazer Strikes
         if (upgradableStats.lazerRate > 0 && lazerStrikeTimer <= 0)
@@ -690,6 +714,12 @@ public class PlayerScript : MonoBehaviour
                 break;
             case UPGRADES.lazerStrike:
                 upgradableStats.lazerRate += _positiveUpgrade;
+                break;
+            case UPGRADES.grenadeThrow:
+                upgradableStats.lazerRate += _positiveUpgrade;
+                break;
+            case UPGRADES.chainLightning:
+                upgradableStats.lightningRate += _positiveUpgrade;
                 break;
         }
 

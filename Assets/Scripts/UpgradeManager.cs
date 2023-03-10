@@ -76,7 +76,9 @@ public class UpgradeManager : MonoBehaviour
         for (int i = 0; i < amountOfOptions; i++)
         {
             //pick random upgrade
-            int num = arrayOfUpgrades[Random.Range(0, arrayOfUpgrades.Length)];
+            //Matthew: I think length isn't zero based as got an error about an out of bounds index so i did a lil
+            // - 1 to the length
+            int num = arrayOfUpgrades[Random.Range(0, arrayOfUpgrades.Length - 1)];
 
             PickOption(i, num);
         }
