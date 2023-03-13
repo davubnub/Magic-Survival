@@ -140,7 +140,7 @@ public class LightningChain : MonoBehaviour
         if (currentState == chainLightningState.CHASE)
         {
             Vector3 direction = (target.transform.position - transform.position).normalized;
-            direction.y = transform.position.y;
+            direction.y = 0.5f;
 
             transform.position += (direction * moveSpeed) * Time.fixedDeltaTime;
         }

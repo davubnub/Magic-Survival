@@ -66,6 +66,9 @@ public class PoolingManager : MonoBehaviour
         if (spawnObj != null)
         {
             spawnObj.SetActive(true);
+            //Sergio has had issues with how his particles are spawning through the ground so im doing this to lift them 
+            Vector3 pos = _position;
+            pos.y = 0.5f;
             spawnObj.transform.position = _position;
             spawnObj.transform.rotation = _rotation;
         }

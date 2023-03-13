@@ -141,7 +141,7 @@ public class EnemyScript : MonoBehaviour
         if (other.CompareTag("ElectricField"))
         {
             DamageEnemy(playerScript.GetUpgradableStats().electricFieldDMG, true);
-            Debug.Log("electric field works");
+            //Debug.Log("electric field works");
         }
 
         if (other.CompareTag("ChainLightning"))

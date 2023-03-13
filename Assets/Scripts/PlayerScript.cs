@@ -255,7 +255,6 @@ public class PlayerScript : MonoBehaviour
                 else if (tempBullet != null)
                 {
                     FireProjectile(angle, transform.position);
-
                 }
 
                 //Debug.Log("Pool amount: " + poolingManager.GetPoolAmount(PoolingManager.PoolingEnum.Bullet));
@@ -266,7 +265,13 @@ public class PlayerScript : MonoBehaviour
             if (tempBullet != null)
             {
                 projectile.SetActive(true);
-                projectile.transform.position = transform.position;
+
+                //Slighyly shifting the projectile upwards
+                Vector3 pos = transform.position;
+                pos.y = 0.5f;
+                projectile.transform.position = pos;
+                //projectile.transform.position = transform.position;
+
                 Vector3 angle = playerModel.transform.rotation.eulerAngles;
                 angle.x = 90.0f;
                 projectile.transform.rotation = Quaternion.Euler(angle);
