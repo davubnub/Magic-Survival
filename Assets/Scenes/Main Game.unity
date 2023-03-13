@@ -14022,7 +14022,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.25
+  m_fontSize: 22.95
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15725,7 +15725,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 949cacd14c2337c4e914644e106f80bc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 0.1
   m_Pitch: 1.5
   Loop: 1
   Mute: 0
@@ -22954,9 +22954,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 210998990}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: spikeObject
+      value: 
+      objectReference: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
+    - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: enemySpawner
       value: 
       objectReference: {fileID: 1348700913}
+    - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: sentryObject
+      value: 
+      objectReference: {fileID: 1019463685838589183, guid: 72c3d1601bea2bb4ba4fe4da4fa7d909, type: 3}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: aimingJoystick
       value: 
@@ -22996,6 +23004,10 @@ PrefabInstance:
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: upgradableStats.chainLightningDMG
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: upgradableStats.spikeDestroyDuration
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4422367855720157847, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: WorldChunks.Array.data[0]

@@ -70,7 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 0}
   spinningSawObject: {fileID: 7800288334459659184, guid: b1f9feab50d63294fa1917be906d6f40, type: 3}
-  sentryObject: {fileID: 5577180175436673161, guid: 85a3dd945b7bff74e80601506047c546, type: 3}
+  sentryObject: {fileID: 1019463685838589183, guid: 72c3d1601bea2bb4ba4fe4da4fa7d909, type: 3}
   spikeObject: {fileID: 6958959889192200106, guid: 1c6f8dd09a3c15b4ab12260f9d7c6c44, type: 3}
   heads: {fileID: 2349693163625792075}
   grenadeThrow: {fileID: 6002326170444047012}
