@@ -376,7 +376,7 @@ public class PlayerScript : MonoBehaviour
 
 
         //Spawning Lazer Strikes
-        if (upgradableStats.lazerRate > 0 && lazerStrikeTimer <= 0)
+        /*if (upgradableStats.lazerRate > 0 && lazerStrikeTimer <= 0)
         {
             lazerStrikeTimer = 18 - upgradableStats.lazerRate;
 
@@ -387,7 +387,7 @@ public class PlayerScript : MonoBehaviour
             spawnPos.z += Random.Range(-6.0f, 6.0f);
 
             poolingManager.SpawnObject(PoolingManager.PoolingEnum.LazerStrike, spawnPos, Quaternion.identity);
-        }
+        }*/
 
         //DEBUG
         if (Input.GetKey(KeyCode.Q))
