@@ -14022,7 +14022,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 22.95
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15725,7 +15725,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 949cacd14c2337c4e914644e106f80bc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.1
   m_Pitch: 1.5
   Loop: 1
   Mute: 0
@@ -23011,7 +23011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: upgradableStats.chainLightningRate
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1276238983344249789, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: upgradableStats.spikeDestroyDuration

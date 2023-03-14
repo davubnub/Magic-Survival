@@ -2359,6 +2359,8 @@ MonoBehaviour:
   - {fileID: 4816788030908730136}
   - {fileID: 4816788032323521451}
   - {fileID: 4816788032603300135}
+  WorldMaterials: []
+  TileChangeDistance: {x: 100, y: 0, z: 100}
 --- !u!4 &1541893418600087128
 Transform:
   m_ObjectHideFlags: 0
