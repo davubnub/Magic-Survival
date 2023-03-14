@@ -23017,6 +23017,10 @@ PrefabInstance:
       propertyPath: upgradableStats.spikeDestroyDuration
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3240559170149232621, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ee394fe6c59b5204fb4d52ec229a88f1, type: 2}
     - target: {fileID: 4422367855720157847, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
       propertyPath: WorldChunks.Array.data[0]
       value: 
@@ -23069,6 +23073,10 @@ PrefabInstance:
       propertyPath: movementJoystick
       value: 
       objectReference: {fileID: 1408427784}
+    - target: {fileID: 8414480809465318227, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 25634feb01858a6459d8b64a144f8de3, type: 2}
     m_RemovedComponents:
     - {fileID: 2053473483, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b1c4f12948353fd489f8eaa741c23f13, type: 3}
